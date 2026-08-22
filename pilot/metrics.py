@@ -455,7 +455,7 @@ def audit_corrections(scores: pd.DataFrame) -> list[str]:
     """
     from scipy.stats import binomtest
 
-    out: list[str] = ["", "## Denetim düzeltmeleri (üçüncü-göz, 2026-08-16)", "",
+    out: list[str] = ["", "## Denetim düzeltmeleri (üçüncü-göz)", "",
                       "Bağımsız metodolojik denetim yedi kritik bulgu getirdi; "
                       "hepsi bu veride doğrulandı. Aşağıdakiler koddan üretilir."]
 
@@ -608,7 +608,7 @@ def corpus_integrity(scores: pd.DataFrame) -> list[str]:
         except Exception:
             pass
     # Eşik: kalite ölçümünü anlamsız kılacak kirlenme düzeyi. Koşudan önce sabit.
-    _kirli_esik = 0.05
+    _kirli_esik = C.KORPUS_KIRLENME_ESIGI
     _kusurlu = _oran > _kirli_esik
     out = ["", ("## Korpus bütünlüğü — KALİTE KATMANI GERİ ÇEKİLDİ" if _kusurlu
                 else "## Korpus bütünlüğü"), "",
@@ -1015,7 +1015,7 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
                     _kl = not _FOREIGN.search(_r["text"])
                 _kir_n += (not _kl)
         _kir_o = _kir_n / _kir_t if _kir_t else 0.0
-        if _kir_o > 0.05:
+        if _kir_o > C.KORPUS_KIRLENME_ESIGI:
             lines += ["", "## Kalite (e5 kosinüs) — ⚠️ GERİ ÇEKİLDİ", "",
                       f"> Tablo YALNIZCA tekrarlanabilirlik için bırakılmıştır; "
                       f"**bulgu olarak kullanılamaz.** Korpusun %{100*_kir_o:.1f}'i "
@@ -1024,7 +1024,8 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
                       "", _md_table(qual.round(3))]
         else:
             lines += ["", "## Kalite (e5 kosinüs)", "",
-                      f"> Korpus kirlenme oranı %{100*_kir_o:.1f} (eşik %5) — kalite "
+                      f"> Korpus kirlenme oranı %{100*_kir_o:.1f} "
+                      f"(eşik %{100*C.KORPUS_KIRLENME_ESIGI:.0f}) — kalite "
                       f"ölçümü GEÇERLİ. Değerler orijinal ve saldırılmış metin "
                       f"arasındaki çok dilli e5 kosinüs benzerliğidir; **1'e yakın = "
                       f"anlam korunmuş**. Saldırının 'başarılı' sayılması için hem "

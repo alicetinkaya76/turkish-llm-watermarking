@@ -176,6 +176,25 @@ model 9B'dir.
 | T6'nın tespit metriklerine etkisi | aynı metinler üzerinde fp16 ve fp32 tespit istatistikleri karşılaştırılacak |
 | `qwen3_5` + MarkLLM uyumu | model yüklenip ön-kapı ve filigran yolu fiilen koşturulacak |
 
+### ÖN-KAYIT — korpus kabul eşikleri
+
+Bu üç eşik `pilot/config.py`'de tanımlı ve **Faz 1 başlamadan önce**, denetimin
+bulduğu bloke edici kusurlar giderilirken sabitlendi — yani korpus verisi
+görülmeden. Raporun "korpus geçerli mi", "kalite ölçülebilir mi" hükümlerini
+bunlar belirler.
+
+| sabit | değer | ne bağlar | gerekçe |
+|---|---|---|---|
+| `KAPI_HEDEF_KELIME` | **300** | kabul ölçütü | İstemler 500 ister (model istenenin %72-80'ini teslim ediyor, ölçüldü). Kalibre edilen istemdir, eşik değil. |
+| `KORPUS_UYUM_ESIGI` | **0,75** | hedefe ulaşan metin oranı | Ön-kapıdaki `KAPI ≥ 12/16` ile aynı oran. |
+| `KORPUS_SONLANDIRMA_ESIGI` | **0,90** | düzgün biten metin oranı | Pilotun düştüğü yer (%4,2). EXP muaf: EOS'ta durmaz, paydadan düşer. |
+| `KORPUS_KIRLENME_ESIGI` | **0,05** | kalite katmanının geçerliliği | Üstündeyse e5/LLM-yargıç ölçümleri geri çekilir — kirli metinde "anlam korunuyor" demek bulamacın korunduğunu ölçer. |
+
+**Dürüstlük notu:** 0,75 ön-kapı ölçütünden türetildi; 0,90 ve 0,05 bu çalışmaya
+özgü ve literatürden gelmiyor. İkisi de veri görülmeden sabitlendi ama
+**dışsal olarak gerekçelendirilmiş değildir**; farklı bir eşik farklı hüküm
+verebilirdi. Duyarlılık analizi yapılmadı.
+
 ### ÖN-KAPI KOŞU KAYDI
 
 **Koşu 1 — ön-kayıtlı, KALDI.** İstemler "en az 300 kelime". Qwen3-14B:

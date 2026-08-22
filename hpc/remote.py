@@ -21,6 +21,7 @@ import argparse
 import base64
 import io
 import json
+import pathlib
 import ssl
 import sys
 import tarfile
@@ -238,6 +239,28 @@ class HPC:
             f"tar xzf /workspace/{tmp} -C {dest_parent}; rm -f /workspace/{tmp}")
         if rc != 0:
             raise SystemExit(f"HATA: açma başarısız (rc={rc})\n{out}\n{err}")
+
+        # BAYAT DOSYA TEMİZLİĞİ. tar ÜZERİNE açılır; uzakta duran ama artık
+        # gönderilmeyen dosyaları KALDIRMAZ. Ölçüldü: pilot/dev_hpc.py,
+        # hpc/remote.py'ye taşındıktan sonra HPC'de KALMIŞTI -> kaynak içerik
+        # özeti iki tarafta tutmuyordu (yerel 30 dosya / uzak 31), yani
+        # "iki ortam aynı kodu koşuyor" kanıtı bozuluyordu.
+        # Karşılaştırma PYTHON tarafında; uzak kabukta liste kurmak kırılgan.
+        uzak_out, _, _ = self.sh(
+            f"cd {dest_parent} && find {name} -type f "
+            f"\\( -name '*.py' -o -name '*.json' -o -name '*.sh' \\) "
+            f"! -path '*__pycache__*' | sort")
+        uzak = {x.strip() for x in uzak_out.splitlines() if x.strip()}
+        yerel = {f"{name}/" + f.relative_to(local).as_posix()
+                 for f in local.rglob("*")
+                 if f.is_file() and f.suffix in (".py", ".json", ".sh")
+                 and "__pycache__" not in str(f)}
+        bayat = sorted(uzak - yerel)
+        if bayat:
+            print(f"  bayat dosya siliniyor ({len(bayat)}): "
+                  f"{', '.join(b.split('/')[-1] for b in bayat[:4])}")
+            self.sh(f"cd {dest_parent} && rm -f "
+                    + " ".join(f"'{b}'" for b in bayat))
         return len(blob)
 
 

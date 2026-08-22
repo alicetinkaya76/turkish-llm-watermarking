@@ -38,6 +38,30 @@ def write_env(device: str, model_name: str, ram: float,
             return "unknown"
 
     commit = _git("rev-parse", "HEAD")
+
+    # ⛔ GIT PROVENANSI HPC'DE ISE YARAMAZ. deploy.py pilot/ ve hpc/ dizinlerini
+    # DOSYA olarak kopyalar, git gecmisini DEGIL; HPC'deki MarkLLM klonu
+    # upstream c45ddc40'ta duruyor. Yani orada `git rev-parse HEAD` DAIMA
+    # upstream commit'ini verir ve bu kodun hangi halinin kostugu KAYDEDILMEZ.
+    # Cozum: kaynak dosyalarin ICERIK OZETI -- git'ten bagimsiz, her iki
+    # ortamda AYNI degeri verir ve iki tarafin ayni kodu kostugunu KANITLAR.
+    def _kaynak_ozeti() -> dict:
+        h = hashlib.sha256()
+        dosyalar = []
+        for d in ("pilot", "hpc"):
+            kok = _ROOT / d
+            if not kok.exists():
+                continue
+            for f in sorted(kok.rglob("*")):
+                if (f.is_file() and f.suffix in (".py", ".json", ".sh")
+                        and "__pycache__" not in str(f)):
+                    rel = str(f.relative_to(_ROOT))
+                    b = f.read_bytes()
+                    h.update(rel.encode() + b)
+                    dosyalar.append(rel)
+        return {"kaynak_sha256": h.hexdigest()[:16], "n_dosya": len(dosyalar)}
+
+    kaynak = _kaynak_ozeti()
     # PILOT KODUNUN SÜRÜMÜ. Önceki sürüm YALNIZ upstream MarkLLM commit'ini
     # kaydediyordu (repo ayrık HEAD'de c45ddc4'teydi) -> bu kodun hangi hâliyle
     # üretildiği HİÇ kayıtlı değildi.
@@ -47,7 +71,10 @@ def write_env(device: str, model_name: str, ram: float,
         torch=torch.__version__,
         transformers=transformers.__version__,
         python=sys.version.split()[0],
+        # DIKKAT: HPC'de bu DAIMA upstream commit'idir (klon oradan yapiliyor),
+        # pilot kodunun surumu DEGILDIR. Onun icin kaynak_sha256'ya bak.
         markllm_commit=commit,
+        **kaynak,
         # Çalışma dalı + kirlilik. Kirli ağaçtan üretilen çıktı TAM olarak
         # yeniden üretilemez; bunu gizlemek yerine kayda geçiriyoruz.
         dal=_git("rev-parse", "--abbrev-ref", "HEAD"),

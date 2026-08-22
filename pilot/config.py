@@ -65,6 +65,11 @@ KAPI_HEDEF_KELIME = 300
 # ALTINDA kalırsa ⛔ hükmü basar, ÜSTÜNDE kalırsa basmaz. Koşudan önce sabit.
 KORPUS_UYUM_ESIGI = 0.75          # hedef kelimeye ulaşan metin oranı
 KORPUS_SONLANDIRMA_ESIGI = 0.90   # sonlandırıcı noktalama ile biten oran
+# Kalite katmanının (e5 kosinüsü, LLM-yargıç) ANLAMLI sayılabilmesi için azami
+# Latin-dışı kirlenme oranı. Bu değer İKİ ayrı yerde sabit yazılıydı
+# (corpus_integrity ve Kalite bölümü); biri değişirse rapor kendi içinde
+# çelişirdi ("korpus temiz" + "kalite geri çekildi"). Tek kaynağa alındı.
+KORPUS_KIRLENME_ESIGI = 0.05
 
 # Şema-özel gen_kwargs ezmeleri (yalnız filigranlı üretim yolunu etkiler).
 # SynthID'nin logits işlemcisi scores'u KENDİSİ config.temperature'a bölüyor
