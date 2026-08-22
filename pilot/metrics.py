@@ -26,17 +26,70 @@ def auroc(pos: np.ndarray, neg: np.ndarray) -> float:
 
 
 def auroc_ci(pos: np.ndarray, neg: np.ndarray,
+             pos_pid: np.ndarray | None = None,
+             neg_pid: np.ndarray | None = None,
              n_boot: int = C.BOOTSTRAP_N, seed: int = 0) -> tuple[float, float]:
+    """AUROC guven araligi. Istem kimlikleri verilirse ISTEM-KUMELI bootstrap.
+
+    NEDEN KUMELI: satir-duzeyi bootstrap satirlarin BAGIMSIZ oldugunu varsayar.
+    Raporun kendi D1 bulgusu bunun yanlis oldugunu gosterdi: EXP'in dort tohumu
+    deterministik kosullarda AYNI sonucu veriyor (264 hucrenin 175'i ozdes),
+    cunku EXP'in RNG'si istemin son tokenlarindan tureniyor ve torch RNG'sini
+    kullanmiyor. O sema icin etkin bagimsiz kaynak 96 satir DEGIL 24 ISTEM.
+    Satir-duzeyi bootstrap o durumda araligi YAPAY OLARAK DARALTIR.
+
+    Kumeleme UC SEMADA DA uygulanir. Gerekce: cikarim hedefi "yeni istemlere
+    genelleme"dir, "ayni istemlerden yeni uretimler" degil. KGW/SynthID'de
+    tohumlar bagimsiz olsa bile istem duzeyinde kumelemek DOGRU birimdir.
+    Bu, o iki semada da araligi bir miktar genisletir -- bu bir maliyet degil,
+    dogru belirsizligin raporlanmasidir.
+
+    Pozitif ve negatif AYNI istem secimiyle alinir; ayri secilirse eslesme
+    yapisi bozulur.
+    """
     rng = np.random.default_rng(seed)
-    vals = []
-    for _ in range(n_boot):
-        p = pos[rng.integers(0, len(pos), len(pos))]
-        n = neg[rng.integers(0, len(neg), len(neg))]
-        if len(np.unique(np.r_[p, n])) < 2:
-            continue
-        vals.append(auroc(p, n))
+    vals: list[float] = []
+
+    if pos_pid is None or neg_pid is None:
+        for _ in range(n_boot):
+            p = pos[rng.integers(0, len(pos), len(pos))]
+            n = neg[rng.integers(0, len(neg), len(neg))]
+            if len(np.unique(np.r_[p, n])) < 2:
+                continue
+            vals.append(auroc(p, n))
+    else:
+        kumeler = np.unique(np.r_[pos_pid, neg_pid])
+        k = len(kumeler)
+        p_idx = {c: np.flatnonzero(pos_pid == c) for c in kumeler}
+        n_idx = {c: np.flatnonzero(neg_pid == c) for c in kumeler}
+        for _ in range(n_boot):
+            sec = kumeler[rng.integers(0, k, k)]
+            pi = np.concatenate([p_idx[c] for c in sec]) if k else np.array([], int)
+            ni = np.concatenate([n_idx[c] for c in sec]) if k else np.array([], int)
+            if len(pi) == 0 or len(ni) == 0:
+                continue
+            p, n = pos[pi], neg[ni]
+            if len(np.unique(np.r_[p, n])) < 2:
+                continue
+            vals.append(auroc(p, n))
+
+    if not vals:
+        return float("nan"), float("nan")
     lo, hi = np.percentile(vals, [2.5, 97.5])
     return float(lo), float(hi)
+
+
+def auroc_alt_sinir_cp(n_etkin: int, alpha: float = 0.05) -> float:
+    """AUROC=1.000 ve GA=[1,1] cikan hucreler icin TEK YANLI alt sinir.
+
+    Mukemmel ayrisma bootstrap'ta dejenere aralik uretir ([1.000, 1.000]) --
+    bu "belirsizlik yok" demek DEGILDIR, "orneklemde karsi ornek yok" demektir.
+    Sifir basarisizlik / n_etkin denemeden Clopper-Pearson tek yanli %95 alt
+    siniri: alpha^(1/n). n_etkin ISTEM sayisidir (kumeleme birimi), satir degil.
+    """
+    if n_etkin <= 0:
+        return float("nan")
+    return float(alpha ** (1.0 / n_etkin))
 
 
 def tpr_at_fpr(pos: np.ndarray, neg: np.ndarray,
@@ -54,11 +107,22 @@ def detection_table(scores: pd.DataFrame) -> pd.DataFrame:
             pos = d[(d.condition == cond) & (d.wm == 1)]["stat"].to_numpy()
             if len(pos) == 0 or len(neg_clean) == 0:
                 continue
-            lo, hi = auroc_ci(pos, neg_clean)
+            # ISTEM-KUMELI bootstrap: istem kimlikleri geciriliyor (bkz. auroc_ci)
+            pos_pid = d[(d.condition == cond) & (d.wm == 1)]["prompt_id"].to_numpy()
+            neg_pid = d[(d.condition == "clean") & (d.wm == 0)]["prompt_id"].to_numpy()
+            lo, hi = auroc_ci(pos, neg_clean, pos_pid, neg_pid)
             attneg = d[(d.condition == cond) & (d.wm == 0)]["stat"].to_numpy()
+            au = auroc(pos, neg_clean)
+            # DEJENERE ARALIK: mukemmel ayrisma bootstrap'ta [1,1] verir.
+            # Bu "belirsizlik yok" degil "karsi ornek gozlenmedi" demektir;
+            # istem sayisi uzerinden tek yanli CP alt siniri raporlanir.
+            n_kume = int(len(np.unique(np.r_[pos_pid, neg_pid])))
+            dejenere = bool(np.isfinite(lo) and lo >= 1.0 - 1e-12 and au >= 1.0 - 1e-12)
             rows.append(dict(
                 scheme=scheme, condition=cond, n_pos=len(pos),
-                auroc=auroc(pos, neg_clean), ci_lo=lo, ci_hi=hi,
+                auroc=au, ci_lo=lo, ci_hi=hi,
+                n_kume=n_kume,
+                ci_lo_cp=(auroc_alt_sinir_cp(n_kume) if dejenere else np.nan),
                 tpr_1fpr=tpr_at_fpr(pos, neg_clean),
                 pos_stat_mean=float(pos.mean()),
                 attneg_stat_mean=float(attneg.mean()) if len(attneg) else np.nan,
@@ -997,6 +1061,21 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
         *_morph_sep_lines,
         "",
         "## Tespit (pozitifler vs TEMİZ negatifler)",
+        "",
+        "> **Güven aralıkları İSTEM-KÜMELİ bootstrap ile** (kümeleme birimi "
+        "`prompt_id`). Satır düzeyi bootstrap satırların bağımsız olduğunu "
+        "varsayar; D1 bunun EXP için YANLIŞ olduğunu gösterdi -- dört tohum "
+        "deterministik koşullarda aynı sonucu veriyor. Ölçülen genişleme: "
+        "EXP'de 1,40-1,71x, KGW/SynthID'de 0,94-1,29x (o iki şemada tohumlar "
+        "gerçekten bağımsız). Kümeleme üç şemaya da uygulanır çünkü çıkarım "
+        "hedefi **yeni istemlere genelleme**dir, aynı istemlerden yeni "
+        "üretimler değil.",
+        "",
+        "> `ci_lo_cp`: AUROC=1.000 ve GA=[1,1] çıkan hücreler için tek yanlı "
+        "Clopper-Pearson alt sınırı. Dejenere aralık *belirsizlik yok* demek "
+        "DEĞİL, *örneklemde karşı örnek gözlenmedi* demektir; 24 kümede sıfır "
+        "başarısızlık %95 güvenle AUROC >= 0,883 verir.",
+        "",
         _md_table(det.round(3)),
         "",
         "## Morfolojik-leksik ayrışma (pos_KGW alt-örneklemi)",
