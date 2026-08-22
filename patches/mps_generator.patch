@@ -1,0 +1,60 @@
+diff --git a/watermark/kgw/kgw.py b/watermark/kgw/kgw.py
+index 3d4e73e..3004d40 100644
+--- a/watermark/kgw/kgw.py
++++ b/watermark/kgw/kgw.py
+@@ -57,9 +57,10 @@ class KGWUtils:
+                 config (KGWConfig): Configuration for the KGW algorithm.
+         """
+         self.config = config
+-        self.rng = torch.Generator(device=self.config.device)
++        # MPS uyumu: Generator CPU'da kurulur; türetilen tensorlar hedef cihaza taşınır.
++        self.rng = torch.Generator(device="cpu")
+         self.rng.manual_seed(self.config.hash_key)
+-        self.prf = torch.randperm(self.config.vocab_size, device=self.config.device, generator=self.rng)
++        self.prf = torch.randperm(self.config.vocab_size, device="cpu", generator=self.rng).to(self.config.device)
+         self.f_scheme_map = {"time": self._f_time, "additive": self._f_additive, "skip": self._f_skip, "min": self._f_min}
+         self.window_scheme_map = {"left": self._get_greenlist_ids_left, "self": self._get_greenlist_ids_self}
+ 
+@@ -97,7 +98,7 @@ class KGWUtils:
+         """Get greenlist ids for the input_ids via leftHash scheme."""
+         self.rng.manual_seed((self.config.hash_key * self._f(input_ids)) % self.config.vocab_size)
+         greenlist_size = int(self.config.vocab_size * self.config.gamma)
+-        vocab_permutation = torch.randperm(self.config.vocab_size, device=input_ids.device, generator=self.rng)
++        vocab_permutation = torch.randperm(self.config.vocab_size, device="cpu", generator=self.rng).to(input_ids.device)
+         greenlist_ids = vocab_permutation[:greenlist_size]
+         return greenlist_ids
+     
+@@ -109,7 +110,7 @@ class KGWUtils:
+         for k in range(0, self.config.vocab_size):
+             h_k = f_x * int(self.prf[k])
+             self.rng.manual_seed(h_k % self.config.vocab_size)
+-            vocab_permutation = torch.randperm(self.config.vocab_size, device=input_ids.device, generator=self.rng)
++            vocab_permutation = torch.randperm(self.config.vocab_size, device="cpu", generator=self.rng).to(input_ids.device)
+             temp_greenlist_ids = vocab_permutation[:greenlist_size]
+             if k in temp_greenlist_ids:
+                 greenlist_ids.append(k)
+diff --git a/watermark/synthid/synthid.py b/watermark/synthid/synthid.py
+index bac6235..1016683 100644
+--- a/watermark/synthid/synthid.py
++++ b/watermark/synthid/synthid.py
+@@ -62,7 +62,8 @@ class SynthIDUtils:
+ 
+     def __init__(self, config: SynthIDConfig, *args, **kwargs) -> None:
+         self.config = config
+-        self.rng = torch.Generator(device=self.config.device)
++        # MPS uyumu: Generator CPU'da kurulur.
++        self.rng = torch.Generator(device="cpu")
+         self.rng.manual_seed(self.config.sampling_table_seed)
+         
+     def accumulate_hash(
+@@ -269,8 +270,8 @@ class SynthIDLogitsProcessor(LogitsProcessor):
+             high=2,
+             size=(self.sampling_table_size,),
+             generator=self.utils.rng,
+-            device=self.device,
+-        )
++            device="cpu",
++        ).to(self.device)
+ 
+     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
+         """Process logits to add watermark."""

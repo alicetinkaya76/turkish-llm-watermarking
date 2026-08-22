@@ -175,3 +175,13 @@ cython_debug/
 .vscode
 .DS_Store
 watermark/XSIR/embedding/train_embeddings_10K.txt
+# --- Türkçe filigran çalışması (2026-08) ---
+# Arşivlenmiş GEÇERSİZ pilot korpusu: kanıt olarak diskte tutuluyor ama depoya
+# girmiyor (5,8 MB, 320-token rejimi, tur-2 denetiminde geçersiz ilan edildi).
+results_pilot_gecersiz_*/
+# Türetilmiş arşivler -- kaynaktan yeniden üretilebilir
+faz2_sonuc.tgz
+denetim_paketi_*.zip
+# HPC'ye gönderilen geçici tarball
+pilot.tar.gz
+hpc.tar.gz

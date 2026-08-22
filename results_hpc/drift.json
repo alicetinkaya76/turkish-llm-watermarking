@@ -1,0 +1,79 @@
+{
+  "olcumler": {
+    "T1_dtype_kwarg": {
+      "torch_dtype": {
+        "kabul": true,
+        "elde_edilen_dtype": "torch.float16",
+        "fp16_mi": true,
+        "uyari": [
+          "hf_xet.download_files() is deprecated. Use XetSession().new_file_download_group().start_download_file() instea"
+        ]
+      },
+      "dtype": {
+        "kabul": true,
+        "elde_edilen_dtype": "torch.float16",
+        "fp16_mi": true,
+        "uyari": []
+      },
+      "_karar": "KULLAN: torch_dtype"
+    },
+    "T2_islemci_sirasi": {
+      "sicaklik_T": 0.8,
+      "olculen_oran": 1.0,
+      "beklenen_ONCE": 1.0,
+      "beklenen_SONRA": 1.25,
+      "islemci_sirasi": [
+        "_Kaydedici",
+        "TemperatureLogitsWarper"
+      ],
+      "_karar": "ÖNCE (yerel ölçümle AYNI -> SCHEME_GEN_OVERRIDES geçerli)"
+    },
+    "T3_topk_varsayilani": {
+      "GenerationConfig_bos": {
+        "top_k": null,
+        "repetition_penalty": null
+      },
+      "model_generation_config": {
+        "top_k": 20,
+        "repetition_penalty": 1.1
+      },
+      "sonlu_logit_sayisi": {
+        "hicbir_sey_verilmedi": 9,
+        "acik_top_k=0": 36,
+        "acik_top_k=20": 9
+      },
+      "_karar": "AÇIK DEĞER EZİYOR (config.py:16-21 varsayımı geçerli)"
+    },
+    "T4_determinizm": {
+      "tekrar": 6,
+      "ilkine_ozdes": 6,
+      "_karar": "TAM DETERMİNİSTİK"
+    },
+    "T5_dtype_hizi": {
+      "fp16": 78.0,
+      "bf16": 6.2,
+      "fp32": 10.5,
+      "_karar": "fp16 ZORUNLU (bf16'nın 12.6 katı hızlı)"
+    },
+    "T6_fp16_sapmasi": {
+      "token_sayisi": 23,
+      "ortalama_mutlak_log_olasilik_farki": 0.00926,
+      "azami_fark": 0.04012,
+      "_karar": "DİKKAT: azami sapma 0.0401 nat -- EXP p-değeri fp16'da fp32'den farklı çıkabilir, tespit metrikleri etkilenir"
+    }
+  },
+  "ortam": {
+    "python": "3.12.3",
+    "torch": "2.10.0+cu128",
+    "transformers": "5.15.0",
+    "platform": "Linux-5.15.0-185-generic-x86_64-with-glibc2.39",
+    "cuda_var": true,
+    "gpu": "Quadro RTX 8000",
+    "compute_capability": "7.5",
+    "vram_gb": 50.8,
+    "cuda_runtime": "12.8",
+    "bf16_native": false,
+    "bf16_emulasyon_dahil": true,
+    "olculen_model": "Qwen/Qwen2.5-0.5B-Instruct"
+  }
+}

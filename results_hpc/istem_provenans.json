@@ -1,0 +1,14 @@
+{
+  "tarih": "2026-08-20",
+  "islem": "tüm istemlerde 'en az 300 kelime' -> 'en az 500 kelime'",
+  "gerekce": "Qwen3-14B ölçüldü: istenen uzunluğun %72-80'ini teslim ediyor (300 istendi -> medyan 244; 500 istendi -> medyan 364). KAPI ÖLÇÜTÜ 300 KELİMEDE DEĞİŞMEDEN KALDI; kalibre edilen istemdir. 300 kelime bilimsel gereklilik değil: tespit MIN_COMPLETION_TOKENS=150 istiyor, ölçülen medyan 926 token.",
+  "kanit": [
+    "results_hpc/onkapi_Qwen3-14B.jsonl (istem 300)",
+    "results_hpc/onkapi_14b_istem500.jsonl (istem 500)"
+  ],
+  "n_istem": 24,
+  "n_degisen": 24,
+  "sha256_once": "2a8d8f730c62001089819f54bf82dc77df83c2927940026b3befea96fefd3378",
+  "sha256_sonra": "8fcbe4074b46965c8f7b639a45666f90bd08d8df6c19d2cf1b90885ea02532b6",
+  "geri_alma": "tüm istemlerde '500 kelime' -> '300 kelime'"
+}
