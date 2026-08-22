@@ -158,7 +158,14 @@ def separation_table(subsample: int = C.QUALITY_SUBSAMPLE,
             o = base[(r["prompt_id"], r["seed"])]
             a, b = _lemma_set(o), _lemma_set(r["text"])
             jac = len(a & b) / max(1, len(a | b))
-            chr_ratio = difflib.SequenceMatcher(None, o, r["text"]).ratio()
+            # autojunk=False ZORUNLU. Varsayilan True, difflib in dizinin
+            # %1 inden fazlasinda gecen karakterleri "gurultu" sayip ATLAMASINA
+            # yol acar; ~3000 karakterlik Turkce metinde bu bosluk ve sik
+            # harfleri kapsar ve benzerligi sistematik olarak DUSUK olcer.
+            # Olculen sapma (pos_KGW, n=25): rtt 0,092 -> 0,735 (+0,643),
+            # launder_api 0,119 -> 0,679, launder 0,524 -> 0,874, para 0,642 -> 0,920.
+            chr_ratio = difflib.SequenceMatcher(
+                None, o, r["text"], autojunk=False).ratio()
             rows.append(dict(attack=attack, lemma_jaccard=jac,
                              char_ratio=chr_ratio))
     df = pd.DataFrame(rows)
@@ -184,21 +191,54 @@ def dz_per_edit(scores: pd.DataFrame, condition: str = "morph") -> dict | None:
     j = j[j.edits > 0]
     if len(j) < 8:
         return None
+
+    # SAGLAMLIK ZORUNLU. Ilk surum yalniz OLS egimi + Pearson r basiyordu.
+    # Olculdu (morph_v1, n=92): OLS -0,0261 ama bootstrap %95 GA [-0,034, +0,005]
+    # SIFIRI ICERIYOR, Theil-Sen -0,0050 (OLS in 5te biri), Spearman -0,091
+    # (p=0,390) ve en yuksek 3 nokta atilinca ISARET DONUYOR (+0,0033).
+    # Yani OLS egimi birkac kaldirac noktasindan geliyordu. v0 ise saglam:
+    # GA [-0,071, -0,022] sifiri disliyor, Theil-Sen OLS ile uyumlu, isaret korunuyor.
+    from scipy import stats as _st
+
+    # ISARET KONVANSIYONU: z_clean - stat = DUSUS. Pozitif egim = duzenleme
+    # basina filigran ZAYIFLIYOR. Ilk yazdigimda ters cevirmistim ve oz-test
+    # gomulu +0,150 egimi -0,149 olarak geri kazandi (buyukluk dogru, isaret ters).
     dz = (j["z_clean"] - j["stat"]).to_numpy()
-    ed = j["edits"].to_numpy(dtype=float)
-    slope, intercept = np.polyfit(ed, dz, 1)
-    r = float(np.corrcoef(ed, dz)[0, 1])
-    return dict(condition=condition, n=len(j), slope=float(slope),
-                intercept=float(intercept), r=r, mean_edits=float(ed.mean()))
+    ed = j["edits"].to_numpy()
+    ols = _st.linregress(ed, dz)
+    ts = _st.theilslopes(dz, ed)
+    sp = _st.spearmanr(ed, dz)
+    _rng = np.random.default_rng(42)
+    _bs = []
+    for _ in range(4000):
+        _i = _rng.integers(0, len(ed), len(ed))
+        if len(np.unique(ed[_i])) < 2:
+            continue
+        _bs.append(_st.linregress(ed[_i], dz[_i]).slope)
+    lo, hi = (np.percentile(_bs, [2.5, 97.5]) if _bs else (np.nan, np.nan))
+    _k = np.argsort(ed)[:-3]
+    _ols3 = _st.linregress(ed[_k], dz[_k]) if len(np.unique(ed[_k])) > 1 else None
+
+    saglam = bool(
+        not (lo < 0 < hi)                                   # GA sifiri dislamali
+        and sp.pvalue < 0.05                                # monoton iliski olmali
+        and (_ols3 is None or np.sign(_ols3.slope) == np.sign(ols.slope))
+    )
+    return dict(
+        condition=condition, n=int(len(j)), slope=float(ols.slope),
+        r=float(ols.rvalue), mean_edits=float(ed.mean()),
+        ci_lo=float(lo), ci_hi=float(hi),
+        theil_sen=float(ts[0]),
+        spearman=float(sp.statistic), spearman_p=float(sp.pvalue),
+        slope_top3_atilinca=(float(_ols3.slope) if _ols3 is not None else float("nan")),
+        saglam=saglam,
+    )
 
 
-# ----------------------------------------------------------------------
-# Rapor
-# ----------------------------------------------------------------------
 def _determinizm_satiri() -> str:
-    """Tekrarlanabilirlik kaydı ETKİN CİHAZA göre. Önceki sürüm MPS'te ölçülmüş
-    '8/8 birebir aynı' sonucunu SABİT basıyordu; CUDA'ya taşındıktan sonra bu
-    cümle O ORTAMDA ÖLÇÜLMEMİŞ bir iddia hâline geldi."""
+    """Tekrarlanabilirlik kaydi ETKIN CIHAZA gore. Onceki surum MPS'te olculmus
+    '8/8 birebir ayni' sonucunu SABIT basiyordu; CUDA'ya tasindiktan sonra bu
+    cumle O ORTAMDA OLCULMEMIS bir iddia haline geldi."""
     dev = "?"
     envp = C.RESULTS / "env.json"
     if envp.exists():
@@ -207,24 +247,23 @@ def _determinizm_satiri() -> str:
         except Exception:
             pass
     if dev == "mps":
-        return ("- **Tekrarlanabilirlik ÖLÇÜLDÜ** (`pilot.dev_mps_determinism`): "
-                "saklanan Faz 1 çıktılarının 8 örneği, ayrı bir süreçte aynı "
-                "tohumlarla yeniden üretildiğinde **8/8 birebir aynı** metni verdi, "
-                "|Δz| ort/maks = 0.000/0.000. Kapsam: KGW, tek makine, sabit "
-                "sürümler (bkz. env.json) — taşınabilirlik iddiası DEĞİLDİR.")
+        return ("- **Tekrarlanabilirlik OLCULDU** (`pilot.dev_mps_determinism`): "
+                "saklanan Faz 1 ciktilarinin 8 ornegi, ayri bir surecte ayni "
+                "tohumlarla yeniden uretildiginde **8/8 birebir ayni** metni verdi, "
+                "|dz| ort/maks = 0.000/0.000. Kapsam: KGW, tek makine, sabit "
+                "surumler (bkz. env.json) -- tasinabilirlik iddiasi DEGILDIR.")
     dosya = C.REPO_ROOT / "results_hpc" / "drift.json"
     if dev == "cuda" and dosya.exists():
         try:
             k = json.loads(dosya.read_text())["olcumler"]["T4_determinizm"]
-            return (f"- **Tekrarlanabilirlik ÖLÇÜLDÜ** (CUDA, "
+            return (f"- **Tekrarlanabilirlik OLCULDU** (CUDA, "
                     f"`hpc/remote_scripts/drift.py::T4`): {k.get('ilkine_ozdes')}/"
-                    f"{k.get('tekrar')} yineleme birebir aynı token dizisini verdi. "
-                    "Kapsam: tek GPU, sabit sürümler (bkz. env.json ve "
-                    "results_hpc/drift.json) — taşınabilirlik iddiası DEĞİLDİR.")
+                    f"{k.get('tekrar')} yineleme birebir ayni token dizisini verdi. "
+                    "Kapsam: tek GPU, sabit surumler -- tasinabilirlik iddiasi DEGILDIR.")
         except Exception:
             pass
-    return (f"- **Tekrarlanabilirlik:** bu ortamda (`device={dev}`) ÖLÇÜLMEDİ. "
-            "Önceki MPS ölçümü devralınmaz.")
+    return (f"- **Tekrarlanabilirlik:** bu ortamda (`device={dev}`) OLCULMEDI. "
+            "Onceki MPS olcumu devralinmaz.")
 
 
 def _korpus_uyum_orani() -> tuple[float, float, int]:
@@ -388,9 +427,10 @@ def task_compliance() -> list[str]:
                 + (" Görev yapısal olarak yerine getirilemez."
                    if C.GEN_KWARGS['max_new_tokens'] < gerek else "")]
     out += ["", _md_table(df.round(1)), "",
-            f"**{gecen}/{tot} (%{100*uyum:.1f}) metin {hedef} kelime ölçütünü "
-            f"karşılıyor. {tot - son}/{tot} (%{100*(1-sonl):.1f}) sonlandırıcı "
-            f"noktalama olmadan bitiyor.**"]
+f"**{gecen}/{tot} (%{100*uyum:.1f}) metin {hedef} kelime olcutunu "
+            f"karsiliyor. {tot_son - son}/{tot_son} (%{100*(1-sonl):.1f}) "
+            f"sonlandirici noktalama olmadan bitiyor** (sonlandirma paydasi "
+            f"{tot_son}: EXP in {tot - tot_son} metni yapisal olarak muaf)."]
     if kusurlu:
         out += ["", "> **Sonuç:** `short` (150 token) ve `clean_cut` kapıları GÖREV "
                 "UYUMUNU sınamaz. Bu korpusta ölçülen her şey — tespit dahil — "
@@ -991,11 +1031,37 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
                       f"tespiti düşürmesi hem metni kullanılabilir bırakması gerekir.",
                       "", _md_table(qual.round(3))]
     if dz:
-        lines += ["", "## KGW mekanistik okuma"]
+        lines += ["", "## KGW mekanistik okuma",
+                  "",
+                  "> Eğim SAĞLAMLIK TESTİNDEN geçirilir: bootstrap %95 GA sıfırı "
+                  "dışlamalı, Spearman p<0.05 olmalı, ve en yüksek 3 kaldıraç "
+                  "noktası atılınca işaret korunmalı. Üçünden biri düşerse eğim "
+                  "GERİ ÇEKİLİR -- OLS eğimi birkaç uç gözlemden gelebilir."]
         for x in dz:
-            lines += [f"- `{x['condition']}`: düzenleme başına Δz eğimi "
-                      f"**{x['slope']:.3f}** (r={x['r']:.2f}, n={x['n']}, "
-                      f"ort. edit={x['mean_edits']:.1f})"]
+            if x.get("saglam"):
+                lines += [
+                    f"- `{x['condition']}`: düzenleme başına Δz eğimi "
+                    f"**{x['slope']:+.3f}** "
+                    f"(%95 GA [{x['ci_lo']:+.3f}, {x['ci_hi']:+.3f}], "
+                    f"Theil-Sen {x['theil_sen']:+.3f}, "
+                    f"Spearman ρ={x['spearman']:+.2f} p={x['spearman_p']:.3f}, "
+                    f"n={x['n']}, ort. edit={x['mean_edits']:.1f})",
+                    f"  - Pratik büyüklük: ort. {x['mean_edits']:.1f} edit × "
+                    f"{abs(x['slope']):.3f} ≈ Δz {abs(x['mean_edits']*x['slope']):.2f}; "
+                    f"KGW temiz z ≈ 10.6 üzerinden sinyalin "
+                    f"~%{100*abs(x['mean_edits']*x['slope'])/10.6:.1f}'i. "
+                    f"AUROC etkisi ölçülen: 0.000.",
+                ]
+            else:
+                lines += [
+                    f"- `{x['condition']}`: **GERİ ÇEKİLDİ** — eğim sıfırdan "
+                    f"ayırt edilemiyor. OLS {x['slope']:+.3f} ama "
+                    f"%95 GA [{x['ci_lo']:+.3f}, {x['ci_hi']:+.3f}] sıfırı içeriyor, "
+                    f"Theil-Sen {x['theil_sen']:+.3f} (OLS'ten farklı → kaldıraç), "
+                    f"Spearman ρ={x['spearman']:+.2f} (p={x['spearman_p']:.3f}), "
+                    f"en yüksek 3 nokta atılınca eğim "
+                    f"{x['slope_top3_atilinca']:+.3f}.",
+                ]
     if fert:
         lines += ["", "## Tokenizer bereketi (token/kelime)",
                   "\n".join(f"- {k}: {v:.3f}" for k, v in fert.items())]

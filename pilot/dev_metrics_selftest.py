@@ -151,8 +151,18 @@ def main() -> None:
         dz = M.dz_per_edit(scores)
         print(f"Δz/edit eğimi={dz['slope']:.3f} (gömülü 0.15), r={dz['r']:.2f}, "
               f"n={dz['n']}")
-        if not (dz and abs(dz["slope"] - 0.15) < 0.05 and dz["r"] > 0.6):
-            fails.append("Δz/edit gömülü eğim geri kazanılamadı")
+        # KAPI GUCLENDIRILDI: Pearson r tek basina KALDIRACA duyarli.
+        # morph_v1 gercek veride r=0,60 verirken Spearman rho=-0,09 (p=0,39) ve
+        # bootstrap GA sifiri iceriyordu -- yani r yuksek ama iliski YOK.
+        # Sentetik fiksturde gomulu egim gercek oldugu icin ucu de gecmeli.
+        if not (dz and abs(dz["slope"] - 0.15) < 0.05 and dz["r"] > 0.6
+                and dz.get("spearman_p", 1.0) < 0.05
+                and dz.get("saglam") is True):
+            fails.append(
+                f"Δz/edit gomulu egim geri kazanilamadi "
+                f"(egim={dz['slope']:.3f} r={dz['r']:.2f} "
+                f"rho_p={dz.get('spearman_p', float('nan')):.3f} "
+                f"saglam={dz.get('saglam')})" if dz else "dz_per_edit None dondu")
 
         sep = M.separation_table(subsample=12)
         print(sep.to_string(index=False))

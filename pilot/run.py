@@ -30,18 +30,30 @@ def write_env(device: str, model_name: str, ram: float,
     import torch
     import transformers
 
-    try:
-        commit = subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], cwd=_ROOT, text=True
-        ).strip()
-    except Exception:
-        commit = "unknown"
+    def _git(*a) -> str:
+        try:
+            return subprocess.check_output(["git", *a], cwd=_ROOT, text=True,
+                                           stderr=subprocess.DEVNULL).strip()
+        except Exception:
+            return "unknown"
+
+    commit = _git("rev-parse", "HEAD")
+    # PILOT KODUNUN SÜRÜMÜ. Önceki sürüm YALNIZ upstream MarkLLM commit'ini
+    # kaydediyordu (repo ayrık HEAD'de c45ddc4'teydi) -> bu kodun hangi hâliyle
+    # üretildiği HİÇ kayıtlı değildi.
+    pilot_kirli = bool(_git("status", "--porcelain", "pilot", "hpc"))
     kgw_src = (_ROOT / "watermark/kgw/kgw.py").read_text(encoding="utf-8")
     env = dict(
         torch=torch.__version__,
         transformers=transformers.__version__,
         python=sys.version.split()[0],
         markllm_commit=commit,
+        # Çalışma dalı + kirlilik. Kirli ağaçtan üretilen çıktı TAM olarak
+        # yeniden üretilemez; bunu gizlemek yerine kayda geçiriyoruz.
+        dal=_git("rev-parse", "--abbrev-ref", "HEAD"),
+        pilot_kirli=pilot_kirli,
+        pilot_kirliyse_uyari=("çalışma ağacı KİRLİ -- bu çıktı tam olarak "
+                              "yeniden üretilemez" if pilot_kirli else ""),
         mps_patch_applied=("MPS uyumu" in kgw_src),
         device=device,
         model=model_name,
