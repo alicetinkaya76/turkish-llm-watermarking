@@ -52,6 +52,18 @@ _LAUNDER_SENTS = [  # tamamen yeniden yazım taklidi
 def build_fixture(res: Path) -> None:
     from pilot.attacks import morph_attack, strip_diacritics
 
+    # write_summary artik rejim dogrulamasi yapiyor (_rejim_dogrula): canli
+    # C.GEN_KWARGS, korpusu ureten env.json'la eslesmiyorsa DURUYOR. Fikstur
+    # sentetik oldugu icin env.json'u CANLI config'ten uretiyoruz -- boylece
+    # kapi gecer ve gercek kosuda gercek uyusmazligi yakalamaya devam eder.
+    import json as _j
+    (res / "env.json").write_text(_j.dumps({
+        "model": "selftest-fixture", "device": "cpu",
+        "gen_kwargs": dict(C.GEN_KWARGS),
+        "exp_sequence_length": C.EXP_SEQUENCE_LENGTH,
+        "config_adi": "selftest",
+    }, ensure_ascii=False))
+
     rng = np.random.default_rng(0)
     # --- skorlar: şema başına (temiz_neg, temiz_pos, koşul->pos_ort, sahte-neg) ---
     scales = {  # stat uzayında ortalamalar
@@ -152,7 +164,7 @@ def main() -> None:
         print(f"Δz/edit eğimi={dz['slope']:.3f} (gömülü 0.15), r={dz['r']:.2f}, "
               f"n={dz['n']}")
         # KAPI GUCLENDIRILDI: Pearson r tek basina KALDIRACA duyarli.
-        # morph_v1 gercek veride r=0,60 verirken Spearman rho=-0,09 (p=0,39) ve
+        # morph_v1 gercek veride r=0,60 verirken Spearman p=0,39 ve
         # bootstrap GA sifiri iceriyordu -- yani r yuksek ama iliski YOK.
         # Sentetik fiksturde gomulu egim gercek oldugu icin ucu de gecmeli.
         if not (dz and abs(dz["slope"] - 0.15) < 0.05 and dz["r"] > 0.6

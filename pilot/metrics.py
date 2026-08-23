@@ -256,12 +256,15 @@ def dz_per_edit(scores: pd.DataFrame, condition: str = "morph") -> dict | None:
     if len(j) < 8:
         return None
 
-    # SAGLAMLIK ZORUNLU. Ilk surum yalniz OLS egimi + Pearson r basiyordu.
-    # Olculdu (morph_v1, n=92): OLS -0,0261 ama bootstrap %95 GA [-0,034, +0,005]
-    # SIFIRI ICERIYOR, Theil-Sen -0,0050 (OLS in 5te biri), Spearman -0,091
-    # (p=0,390) ve en yuksek 3 nokta atilinca ISARET DONUYOR (+0,0033).
-    # Yani OLS egimi birkac kaldirac noktasindan geliyordu. v0 ise saglam:
-    # GA [-0,071, -0,022] sifiri disliyor, Theil-Sen OLS ile uyumlu, isaret korunuyor.
+    # SAGLAMLIK ZORUNLU. Ilk surum yalniz OLS egimi + Pearson r basiyordu; ikisi de
+    # KALDIRACA duyarlidir, yani birkac uc gozlem "etki var" gosterebilir.
+    # Uc test kosulur: (i) bootstrap %95 GA sifiri dislamali, (ii) Spearman p<0,05,
+    # (iii) en yuksek 3 kaldirac noktasi atilinca isaret korunmali.
+    #
+    # SAYILAR BURAYA YAZILMAZ. Onceki surumde olculen degerler yoruma elle
+    # kopyalanmisti ve isaret konvansiyonu duzeltilince (dz = z_clean - stat)
+    # HEPSI BAYATLADI: yorum "OLS -0,0261" derken kod +0,0261 donuyordu.
+    # Guncel degerler her kosuda results/dz_saglamlik.json'a yazilir.
     from scipy import stats as _st
 
     # ISARET KONVANSIYONU: z_clean - stat = DUSUS. Pozitif egim = duzenleme
@@ -288,8 +291,13 @@ def dz_per_edit(scores: pd.DataFrame, condition: str = "morph") -> dict | None:
         and sp.pvalue < 0.05                                # monoton iliski olmali
         and (_ols3 is None or np.sign(_ols3.slope) == np.sign(ols.slope))
     )
-    return dict(
+    _sonuc = dict(
         condition=condition, n=int(len(j)), slope=float(ols.slope),
+        # Pratik buyukluk cumlesinin BOLENI. Elle "10.6" yazilmisti; o deger
+        # ne tum ortalamaya (10,5499) ne de bu alt-orneklemin ortalamasina
+        # (11,4672) karsilik geliyordu. Egimin kestirildigi ESLESEN
+        # alt-orneklemin ortalamasi dogru bolendir.
+        z_taban=float(j["z_clean"].mean()),
         r=float(ols.rvalue), mean_edits=float(ed.mean()),
         ci_lo=float(lo), ci_hi=float(hi),
         theil_sen=float(ts[0]),
@@ -297,6 +305,28 @@ def dz_per_edit(scores: pd.DataFrame, condition: str = "morph") -> dict | None:
         slope_top3_atilinca=(float(_ols3.slope) if _ols3 is not None else float("nan")),
         saglam=saglam,
     )
+    # Degerleri diske yaz ki yoruma/rapora elle kopyalanmasin ve bayatlamasin.
+    try:
+        yol = C.RESULTS / "dz_saglamlik.json"
+        kayit = json.loads(yol.read_text()) if yol.exists() else {}
+        kayit[condition] = _sonuc
+        yol.write_text(json.dumps(kayit, ensure_ascii=False, indent=2))
+    except Exception:
+        pass
+    return _sonuc
+
+
+def _dauroc(det, scheme: str, condition: str):
+    """AUROC dususu det TABLOSUNDAN. Onceki surum "AUROC etkisi olculen: 0.000"
+    diye SABIT basiyordu ve bu, saglam bulunan HER kosul icin tekrarlaniyordu --
+    morph icin dogru olmasi tesadufti."""
+    try:
+        k = det[det["scheme"] == scheme]
+        t = float(k[k["condition"] == "clean"]["auroc"].iloc[0])
+        c = float(k[k["condition"] == condition]["auroc"].iloc[0])
+        return t - c
+    except Exception:
+        return None
 
 
 def _determinizm_satiri() -> str:
@@ -330,6 +360,26 @@ def _determinizm_satiri() -> str:
             "Onceki MPS olcumu devralinmaz.")
 
 
+def _sonlandirma_sayimi(recs) -> tuple[int, int, int]:
+    """(sonlandirilmis, olculebilen_n, muaf) -- SATIR bazinda.
+
+    Muafiyet karari satir duzeyindedir (kapi_sonlandirilmis is None). Kol
+    duzeyinde all(...) kullanmak, karisik kollarda tum satirlari yanlis
+    siniflandirir. _korpus_uyum_orani ile ayni mantik; iki yerde ayri
+    yazilirsa sessizce ayrisirlar."""
+    son, n, muaf = 0, 0, 0
+    for r in recs:
+        ks = r.get("kapi_sonlandirilmis", "yok")
+        if ks == "yok":
+            ks = r["text"].rstrip().endswith((".", "!", "?", "…"))
+        if ks is None:
+            muaf += 1
+            continue
+        n += 1
+        son += bool(ks)
+    return son, n, muaf
+
+
 def _korpus_uyum_orani() -> tuple[float, float, int]:
     """(uyum_orani, sonlandirma_orani, n). Manşet ve görev-uyumu bölümü AYNI
     veriden beslensin diye tek yerde hesaplanır -- ikisi çelişemesin.
@@ -356,7 +406,7 @@ def _korpus_uyum_orani() -> tuple[float, float, int]:
             if ks is None:                       # MUAF (EXP) -> paydaya girmez
                 continue
             son += bool(ks); sn += 1
-    return (w / wn if wn else 0.0, son / sn if sn else 0.0, n)
+    return (w / wn if wn else 0.0, son / sn if sn else 0.0, n, sn)
 
 
 def _md_table(df: pd.DataFrame, floatfmt: str = "{:.3f}") -> str:
@@ -439,12 +489,11 @@ def task_compliance() -> list[str]:
             kaynak=src, n=len(recs), ort_kelime=sum(w) / len(w),
             min_kelime=min(w), maks_kelime=max(w),
             hedefi_gecen=sum(x >= hedef for x in w) if hedef else -1,
-            # EXP muaf: kapi_sonlandirilmis=None -> -1 ile "uygulanmaz" isaretlenir
-            sonlandirilmis=(-1 if all(r.get("kapi_sonlandirilmis", False) is None
-                                      for r in recs)
-                            else sum(bool(r.get("kapi_sonlandirilmis",
-                                     r["text"].rstrip().endswith((".", "!", "?", "…"))))
-                                     for r in recs)),
+            # SATIR BAZINDA sayim (bkz. _sonlandirma_sayimi). Onceki surum
+            # all(...) ile KOLA TOPLU karar veriyordu: kolda tek bir satirin
+            # bayragi None disi olsa 96 EXP metninin tamami "kesik" sayilirdi.
+            **dict(zip(("sonlandirilmis", "sonlandirma_n", "sonlandirma_muaf"),
+                       _sonlandirma_sayimi(recs))),
             token_tavaninda=sum(r.get("n_tokens", 0) >=
                                 C.GEN_KWARGS["max_new_tokens"] - 1 for r in recs)))
     if not rows:
@@ -452,10 +501,8 @@ def task_compliance() -> list[str]:
     df = pd.DataFrame(rows)
     tot = int(df["n"].sum())
     gecen = int(df["hedefi_gecen"].sum())
-    # -1 = muaf (EXP): hem paydan hem PAYDADAN düşer
-    _muaf = df[df["sonlandirilmis"] < 0]["n"].sum()
-    son = int(df[df["sonlandirilmis"] >= 0]["sonlandirilmis"].sum())
-    tot_son = tot - int(_muaf)
+    son = int(df["sonlandirilmis"].sum())
+    tot_son = int(df["sonlandirma_n"].sum())
 
     fert = C.RESULTS / "fertility.json"
     gerek = None
@@ -964,7 +1011,39 @@ def _phase3_sections() -> list[str]:
     return out
 
 
+def _rejim_dogrula() -> dict:
+    """Uretim rejimi env.json'dan okunur ve CANLI config ile KARSILASTIRILIR.
+
+    NEDEN: korpus `--config cuda` yamasi altinda uretildi (max_new_tokens=1800,
+    EXP=950). pilot/config.py'nin ham degerleri 320/300'dur. write_summary
+    yamasiz bir surecte cagrilirsa rapor ayni veriyle "butce gerekenin %42'si,
+    gorev yapisal olarak yerine getirilemez" gibi cumleler basar -- manset ise
+    "korpus gecerli" der. Rapor kendi icinde celisir ve sayilar korpusu URETEN
+    degerler olmaz. Uyusmazlikta rapor uretmek yerine DURULUR.
+    """
+    envp = C.RESULTS / "env.json"
+    if not envp.exists():
+        raise SystemExit("⛔ results/env.json yok -- rejim dogrulanamiyor. "
+                         "Rapor, korpusu ureten rejim bilinmeden uretilmez.")
+    env = json.loads(envp.read_text())
+    ekw = env.get("gen_kwargs", {})
+    farklar = [f"{k}: env={ekw[k]} canli={C.GEN_KWARGS.get(k)}"
+               for k in ("max_new_tokens", "top_k", "repetition_penalty")
+               if k in ekw and ekw[k] != C.GEN_KWARGS.get(k)]
+    e_exp = env.get("exp_sequence_length")
+    if e_exp is not None and e_exp != C.EXP_SEQUENCE_LENGTH:
+        farklar.append(f"exp_sequence_length: env={e_exp} canli={C.EXP_SEQUENCE_LENGTH}")
+    if farklar:
+        raise SystemExit(
+            "⛔ REJIM UYUSMAZLIGI: canli config, korpusu ureten env.json'dan farkli:\n  "
+            + "\n  ".join(farklar)
+            + "\n  Cozum: run.py --config cuda uzerinden cagir (ozet_yaz.py boyle yapiyor)"
+              " veya env.json'daki rejimi yukle.")
+    return env
+
+
 def write_summary(device: str, with_quality: bool = True) -> Path:
+    env = _rejim_dogrula()
     scores = pd.read_csv(C.RESULTS / "scores.csv")
     det = detection_table(scores)
     det.to_csv(C.RESULTS / "detection_metrics.csv", index=False)
@@ -1022,7 +1101,7 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
     # "hiçbir metin ulaşmıyor / %96 kesik" diye HER ZAMAN basıyordu -- temiz bir
     # korpusta rapor kendi tablosunu yalanlayan bir manşetle açılırdı. Sayılar
     # artık aynı veriden hesaplanır; eşikler C.KORPUS_*_ESIGI (koşudan önce sabit).
-    _uy, _sn, _n = _korpus_uyum_orani()
+    _uy, _sn, _n, _sn_payda = _korpus_uyum_orani()
     lines = [
         "# Pilot Özeti — Türkçe LLM Filigran Sağlamlığı",
         "",
@@ -1036,10 +1115,11 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
             _dusen.append(f"metinlerin yalnız %{100*_uy:.1f}'i {C.KAPI_HEDEF_KELIME} "
                           f"kelime ölçütünü karşılıyor (eşik %{100*C.KORPUS_UYUM_ESIGI:.0f})")
         if _sn < C.KORPUS_SONLANDIRMA_ESIGI:
-            _dusen.append(f"%{100*(1-_sn):.1f}'i cümle ortasında kesik "
-                          f"(sonlandırma eşiği %{100*C.KORPUS_SONLANDIRMA_ESIGI:.0f})")
+            _dusen.append(f"sonlandırma ölçülebilenlerin %{100*(1-_sn):.1f}'i "
+                          f"cümle ortasında kesik "
+                          f"(eşik %{100*C.KORPUS_SONLANDIRMA_ESIGI:.0f})")
         lines += [
-            f"> ⛔ **KORPUS GEÇERSİZ** ({_n} metin): " + "; ".join(_dusen) +
+            f"> ⛔ **KORPUS GEÇERSİZ** ({_n} metin, sonlandırma paydası {_sn_payda}): " + "; ".join(_dusen) +
             ". Ayrıntı: *Görev uyumu*. Aşağıdaki bütün sayılar bu korpus üzerinde "
             "ölçülmüştür ve ana bulgu olarak kullanılamaz.",
             "",
@@ -1048,7 +1128,9 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
         lines += [
             f"> Korpus koşudan önce sabitlenen kabul eşiklerini karşılıyor: "
             f"{_n} metnin %{100*_uy:.1f}'i {C.KAPI_HEDEF_KELIME} kelime ölçütünü "
-            f"karşılıyor, %{100*_sn:.1f}'i sonlandırıcı noktalama ile bitiyor.",
+            f"karşılıyor; sonlandırma ölçülebilen {_sn_payda} metnin "
+            f"%{100*_sn:.1f}'i sonlandırıcı noktalama ile bitiyor "
+            f"(EXP'in {_n - _sn_payda} metni yapısal olarak muaf).",
             "",
         ]
     lines += [
@@ -1128,9 +1210,11 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
                     f"n={x['n']}, ort. edit={x['mean_edits']:.1f})",
                     f"  - Pratik büyüklük: ort. {x['mean_edits']:.1f} edit × "
                     f"{abs(x['slope']):.3f} ≈ Δz {abs(x['mean_edits']*x['slope']):.2f}; "
-                    f"KGW temiz z ≈ 10.6 üzerinden sinyalin "
-                    f"~%{100*abs(x['mean_edits']*x['slope'])/10.6:.1f}'i. "
-                    f"AUROC etkisi ölçülen: 0.000.",
+                    f"eşleşen alt-örneklemin temiz z ortalaması "
+                    f"{x['z_taban']:.2f} üzerinden sinyalin "
+                    f"~%{100*abs(x['mean_edits']*x['slope'])/x['z_taban']:.1f}'i."
+                    + (f" Aynı koşulda ölçülen ΔAUROC: {_dauroc(det, 'KGW', x['condition']):+.3f}."
+                       if _dauroc(det, "KGW", x["condition"]) is not None else ""),
                 ]
             else:
                 lines += [

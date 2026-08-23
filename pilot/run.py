@@ -308,7 +308,15 @@ def main() -> None:
     if args.config == "cuda":
         import pilot.config as _pc
         from hpc import config_cuda as _H
-        _EZILEN = ("GEN_KWARGS", "EXP_SEQUENCE_LENGTH")
+        # Ezilecek adlar config_cuda'da TANIMLI ve config.py'de VAR olan tum
+        # buyuk harfli sabitlerden turetilir. Elle liste tutmak delik birakti:
+        # ATTN_IMPLEMENTATION listede yoktu -> config_cuda'daki "sdpa" kosuya
+        # hic girmedi (generate.py None gorup transformers varsayilanina dustu).
+        _EZILEN = tuple(sorted(
+            ad for ad in dir(_H)
+            if ad.isupper() and not ad.startswith("_")
+            and hasattr(_pc, ad)
+            and getattr(_H, ad) != getattr(_pc, ad)))
         for _ad in _EZILEN:
             _eski, _yeni = getattr(_pc, _ad), getattr(_H, _ad)
             setattr(_pc, _ad, _yeni)

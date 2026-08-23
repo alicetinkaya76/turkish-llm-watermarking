@@ -99,6 +99,13 @@ MODEL_TIERS = [                    # (min birleşik RAM GB, HF model adı)
     (16, "Qwen/Qwen2.5-3B-Instruct"),
     (0,  "Qwen/Qwen2.5-1.5B-Instruct"),
 ]
+# Cihaza bagli iki ayar. Varsayilanlar PILOT (MPS) icindir; hpc/config_cuda.py
+# ezer ve run.py --config cuda yamasi buraya tasir. Bu adlar onceden config.py'de
+# HIC yoktu -> generate.py getattr(C, "ATTN_IMPLEMENTATION", None) daima None
+# buluyordu ve config_cuda'daki "sdpa" KOSUYA HIC GIRMIYORDU (denetim bulgusu).
+ATTN_IMPLEMENTATION = None        # None = transformers varsayilani
+DTYPE = "float16"
+
 SMOKE_MODEL = "Qwen/Qwen2.5-1.5B-Instruct"
 NLLB_MODEL = "facebook/nllb-200-distilled-600M"
 E5_MODEL = "intfloat/multilingual-e5-base"

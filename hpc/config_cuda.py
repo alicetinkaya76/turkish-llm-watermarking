@@ -38,6 +38,11 @@ BF16_YASAK_GEREKCE = "sm_75 native bf16 yok; ölçülen fp16/bf16 hız oranı 11
 DTYPE_KWARG_OLCULMELI = "hpc/remote_scripts/drift.py :: T1_dtype_kwarg"
 
 # Turing FlashAttention-2 desteklemez (ölçüldü: is_flash_attn_2_available() False).
+# ⚠ PROVENANS NOTU: bu deger denetime kadar KOSUYA HIC GIRMEDI -- run.py'nin
+# ezme listesi elle tutuluyordu ve bu ad listede yoktu; generate.py None gorup
+# transformers'in kendi secimine dusuyordu (v5'te bu da sdpa'dir, yani FIILEN
+# ayni cekirdek kullanildi ama bunu BIZ secmedik ve env.json'a yazilmadi).
+# Mevcut korpus O REJIMDE uretildi; bu satir artik gelecek kosulari baglar.
 ATTN_IMPLEMENTATION = "sdpa"
 
 # ---------------------------------------------------------------- VRAM bütçesi

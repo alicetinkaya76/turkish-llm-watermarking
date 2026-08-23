@@ -1,11 +1,11 @@
 # Pilot Özeti — Türkçe LLM Filigran Sağlamlığı
 
-> Korpus koşudan önce sabitlenen kabul eşiklerini karşılıyor: 384 metnin %97.7'i 300 kelime ölçütünü karşılıyor, %98.3'i sonlandırıcı noktalama ile bitiyor.
+> Korpus koşudan önce sabitlenen kabul eşiklerini karşılıyor: 384 metnin %97.7'i 300 kelime ölçütünü karşılıyor; sonlandırma ölçülebilen 288 metnin %98.3'i sonlandırıcı noktalama ile bitiyor (EXP'in 96 metni yapısal olarak muaf).
 
 ## Go / No-Go
 - **Öncül (KGW temiz AUROC ≥ 0.9):** GEÇTİ (1.000)
 - **TR-saldırılar ΔAUROC (KGW):** dia100=0.006, morph(v0)=0.000, morph_v1=0.000, morph+dia=0.006, rtt=0.046
-- **Morfolojik ≠ leksik (morph):** ÖLÇÜLEMEDİ — metin yalnız %0.2 değişti; J=0.998 saldırının leksik korumasını değil, etkisizliğini yansıtıyor
+- **Morfolojik ≠ leksik (morph):** ÖLÇÜLEMEDİ — metin yalnız %0.2 değişti; J=0.999 saldırının leksik korumasını değil, etkisizliğini yansıtıyor
 - **Morfolojik ≠ leksik (morph_v1):** ÖLÇÜLEMEDİ — metin yalnız %0.5 değişti; J=0.998 saldırının leksik korumasını değil, etkisizliğini yansıtıyor
 
 ## Tespit (pozitifler vs TEMİZ negatifler)
@@ -54,7 +54,7 @@
 | attack | n | lemma_jaccard | char_ratio |
 |---|---|---|---|
 | launder | 40 | 0.832 | 0.891 |
-| morph | 40 | 0.998 | 0.998 |
+| morph | 40 | 0.999 | 0.998 |
 | morph_v1 | 40 | 0.998 | 0.995 |
 | para | 40 | 0.881 | 0.941 |
 | rtt | 40 | 0.598 | 0.751 |
@@ -110,7 +110,7 @@
 
 > Eğim SAĞLAMLIK TESTİNDEN geçirilir: bootstrap %95 GA sıfırı dışlamalı, Spearman p<0.05 olmalı, ve en yüksek 3 kaldıraç noktası atılınca işaret korunmalı. Üçünden biri düşerse eğim GERİ ÇEKİLİR -- OLS eğimi birkaç uç gözlemden gelebilir.
 - `morph`: düzenleme başına Δz eğimi **+0.052** (%95 GA [+0.022, +0.071], Theil-Sen +0.051, Spearman ρ=+0.58 p=0.000, n=38, ort. edit=2.9)
-  - Pratik büyüklük: ort. 2.9 edit × 0.052 ≈ Δz 0.15; KGW temiz z ≈ 10.6 üzerinden sinyalin ~%1.4'i. AUROC etkisi ölçülen: 0.000.
+  - Pratik büyüklük: ort. 2.9 edit × 0.052 ≈ Δz 0.15; eşleşen alt-örneklemin temiz z ortalaması 11.47 üzerinden sinyalin ~%1.3'i. Aynı koşulda ölçülen ΔAUROC: +0.000.
 - `morph_v1`: **GERİ ÇEKİLDİ** — eğim sıfırdan ayırt edilemiyor. OLS +0.026 ama %95 GA [-0.005, +0.034] sıfırı içeriyor, Theil-Sen +0.005 (OLS'ten farklı → kaldıraç), Spearman ρ=+0.09 (p=0.390), en yüksek 3 nokta atılınca eğim -0.003.
 
 ## Tokenizer bereketi (token/kelime)
@@ -129,12 +129,12 @@
 
 Ölçülen bereket (2.545 token/kelime) ile 300 kelime yaklaşık **764 token** gerektirir — bütçe gerekenin **%236**'i.
 
-| kaynak | n | ort_kelime | min_kelime | maks_kelime | hedefi_gecen | sonlandirilmis | token_tavaninda |
-|---|---|---|---|---|---|---|---|
-| filigransız | 96 | 370.400 | 281 | 581 | 94 | 95 | 0 |
-| KGW | 96 | 392.500 | 292 | 678 | 92 | 94 | 2 |
-| EXP | 96 | 381.600 | 348 | 439 | 96 | -1 | 0 |
-| SynthID | 96 | 394.200 | 290 | 1637 | 93 | 94 | 2 |
+| kaynak | n | ort_kelime | min_kelime | maks_kelime | hedefi_gecen | sonlandirilmis | sonlandirma_n | sonlandirma_muaf | token_tavaninda |
+|---|---|---|---|---|---|---|---|---|---|
+| filigransız | 96 | 370.400 | 281 | 581 | 94 | 95 | 96 | 0 | 0 |
+| KGW | 96 | 392.500 | 292 | 678 | 92 | 94 | 96 | 0 | 2 |
+| EXP | 96 | 381.600 | 348 | 439 | 96 | 0 | 0 | 96 | 0 |
+| SynthID | 96 | 394.200 | 290 | 1637 | 93 | 94 | 96 | 0 | 2 |
 
 **375/384 (%97.7) metin 300 kelime olcutunu karsiliyor. 5/288 (%1.7) sonlandirici noktalama olmadan bitiyor** (sonlandirma paydasi 288: EXP in 96 metni yapisal olarak muaf).
 
