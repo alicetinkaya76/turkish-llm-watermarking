@@ -1,0 +1,60 @@
+{
+  "olcum_tarihi": "2026-08-23",
+  "on_kayit": "hpc/README.md S1 (8f8df72)",
+  "tr": {
+    "KGW": {
+      "n": 1500,
+      "null_ort": -0.05531915786288738,
+      "null_std": 1.478662740868063,
+      "fpr_config_esigi": 0.002,
+      "fpr_model_kalibre_esik": 0.008,
+      "esik_model_kalibre": 3.2848419046542747,
+      "z4_nominal_fpr": 3.167124183311986e-05,
+      "z4_gozlenen_dagilimda": 0.003048128934377599
+    },
+    "EXP": {
+      "n": 1500,
+      "null_ort": 0.5900719194846761,
+      "null_std": 0.7489567556884957,
+      "fpr_config_esigi": 0.008666666666666666,
+      "fpr_model_kalibre_esik": 0.074,
+      "esik_model_kalibre": 1.6094175617258597
+    },
+    "SynthID": {
+      "n": 1500,
+      "null_ort": 0.4994094562214755,
+      "null_std": 0.0029175911388551025,
+      "fpr_config_esigi": 0.0,
+      "fpr_model_kalibre_esik": 0.010666666666666666,
+      "esik_model_kalibre": 0.5065824997557733
+    }
+  },
+  "en": {
+    "KGW": {
+      "n": 1500,
+      "null_ort": 0.27800260861199977,
+      "null_std": 1.3211500985064275,
+      "fpr_config_esigi": 0.002,
+      "fpr_model_kalibre_esik": 0.008666666666666666,
+      "esik_model_kalibre": 3.2848419046542747,
+      "z4_nominal_fpr": 3.167124183311986e-05,
+      "z4_gozlenen_dagilimda": 0.0024219129722274748
+    },
+    "EXP": {
+      "n": 1500,
+      "null_ort": 0.45194576690826593,
+      "null_std": 0.4696702438070336,
+      "fpr_config_esigi": 0.0,
+      "fpr_model_kalibre_esik": 0.032,
+      "esik_model_kalibre": 1.6094175617258597
+    },
+    "SynthID": {
+      "n": 1500,
+      "null_ort": 0.49970081155384627,
+      "null_std": 0.00393030576001055,
+      "fpr_config_esigi": 0.0,
+      "fpr_model_kalibre_esik": 0.04133333333333333,
+      "esik_model_kalibre": 0.5065824997557733
+    }
+  }
+}
