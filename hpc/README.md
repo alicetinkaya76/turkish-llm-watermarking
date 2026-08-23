@@ -176,6 +176,34 @@ model 9B'dir.
 | T6'nın tespit metriklerine etkisi | aynı metinler üzerinde fp16 ve fp32 tespit istatistikleri karşılaştırılacak |
 | `qwen3_5` + MarkLLM uyumu | model yüklenip ön-kapı ve filigran yolu fiilen koşturulacak |
 
+### ÖN-KAYIT — S1: insan metninde yanlış pozitif oranı (yazım anı: 2026-08-23, VERİ TOPLANMADAN ÖNCE)
+
+**Soru:** dedektörler filigransız İNSAN Türkçesini filigranlı sanıyor mu, ve bu
+Türkçeye özgü mü?
+
+**Motivasyon (model-negatiflerinden ölçüldü, n=96):** KGW null dağılımı N(0,1)
+olmalıyken ort +0,013, **std 1,313** (varyans şişmesi 1,72×); `config/KGW.json`
+`z_threshold=4.0` bu dağılımda yalnız 3,04σ uzakta → nominal FPR 3,2e-5 iken
+gözlenen dağılım altında ~1,2e-3 (**~38×**). Öne sürülen mekanizma:
+`prefix_length=1` + sondan eklemeli dilde tekrarlanan ek alt-tokenleri →
+ardışık yeşil-liste kararları bağımsız değil.
+
+**Hipotezler (veri görülmeden):**
+- H1: İnsan Türkçesinde KGW null std > 1 (varyans şişmesi model metniyle sınırlı değil).
+- H2: Tür ve uzunlukça eşlenmiş İngilizce kümede şişme Türkçeden KÜÇÜK.
+- H3: EXP ve SynthID null'larında anlamlı şişme YOK (EXP ~Uniform; SynthID std≈0,003).
+
+**Protokol:** TR Vikipedi + eşlenmiş EN Vikipedi rastgele maddeleri; belge başına
+korpus uzunluk dağılımına eşlenmiş bitişik pencere (cümle ortasından kesmeden);
+hedef ≥1000 belge/dil, ulaşılan n raporlanır. Üç dedektör `model=None` ile
+(doğrulandı: üçü de modelsiz çalışıyor). Çıktı: şema×dil null ort/std,
+`z_threshold=4.0`'ta gözlenen FPR, model-negatiflerinden kalibre eşikte FPR.
+Kesinlik: n=1000'de %1 FPR'nin GA'sı ~±0,6 puan; %0,1 iddiası İÇİN YETERSİZ —
+yalnız büyüklük sırası raporlanır.
+
+**Sınır:** tek register (ansiklopedi). Gazete/deneme registerı toplanamadıysa
+"Vikipedi registerında" diye daraltılarak yazılır.
+
 ### ÖN-KAYIT — korpus kabul eşikleri
 
 Bu üç eşik `pilot/config.py`'de tanımlı ve **Faz 1 başlamadan önce**, denetimin
