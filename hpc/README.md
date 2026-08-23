@@ -176,6 +176,30 @@ model 9B'dir.
 | T6'nın tespit metriklerine etkisi | aynı metinler üzerinde fp16 ve fp32 tespit istatistikleri karşılaştırılacak |
 | `qwen3_5` + MarkLLM uyumu | model yüklenip ön-kapı ve filigran yolu fiilen koşturulacak |
 
+### ÖN-KAYIT — S2: fayda ekseni (yazım anı: 2026-08-23, KOŞUDAN ÖNCE)
+
+**Soru:** "en yıkıcı saldırı" dediğimiz launder_api, metni KULLANILABİLİR
+bırakıyor mu? Tespiti düşüren ama metni imha eden şey saldırı değil imhadır;
+e5 kosinüsü bu ayrımı yapamıyor (dia100'ü 0,962 ile zeminden ayıramıyor).
+
+**Protokol:**
+- Yalnız İKİLİ karşılaştırma (orijinal vs saldırılı, iki sırada). Pointwise
+  KOŞULMAZ: eski koşuda ölçek tabanda kilitliydi (orijinaller dahil her şey 1/5).
+- Koşullar: rtt, para, launder, launder_api. Kaynak: pos_KGW (e5 tablosu
+  faydanın kaynağa değişmez olduğunu gösteriyor). Saldırı başına 40 çift.
+- KÖR kalibrasyon: 20 özdeş çift (tavan; beklenen hüküm ESIT) + 20 farklı-istem
+  çifti (zemin; beklenen ANLAM=HAYIR), gerçek çiftlerle karıştırılır.
+  gen_pos_EXP'ten ASLA (tohumlar %66 özdeş).
+- **Çıkar çatışması:** launder_api metinlerini Opus 5 üretti. İKİ yargıç koşulur:
+  Opus 5 (Anthropic) + gpt-oss-120b (Groq, farklı aile). launder_api hükmü
+  yalnız iki yargıç UYUŞURSA kullanılır; uyuşmazlık raporlanır.
+- Analiz birimi ÇİFT (n=40/koşul); istem-kümeli bootstrap; konum dönme oranı
+  her koşulda raporlanır (kabul: <%30).
+
+**Karar kuralı (koşudan önce):** bir saldırı "başarılı" sayılır ancak
+(i) ΔAUROC > 0,05 VE (ii) yargıç çoğunluğu ANLAM=EVET/KISMEN verirse.
+launder_api için (ii) iki yargıçta da sağlanmalı.
+
 ### ÖN-KAYIT — S1: insan metninde yanlış pozitif oranı (yazım anı: 2026-08-23, VERİ TOPLANMADAN ÖNCE)
 
 **Soru:** dedektörler filigransız İNSAN Türkçesini filigranlı sanıyor mu, ve bu
