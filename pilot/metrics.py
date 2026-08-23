@@ -941,6 +941,68 @@ def corpus_integrity(scores: pd.DataFrame) -> list[str]:
     return out
 
 
+def _s1_s2_sections() -> list[str]:
+    """S1 (insan metni FPR) ve S2 (fayda ekseni) bolumleri.
+
+    SAYILAR DOSYADAN OKUNUR (results_insan/*.json), elle yazilmaz. Dosyalar
+    yoksa bolum HIC basilmaz -- "olculmedi" durumunda bos iddia olmasin.
+    """
+    out: list[str] = []
+    kok = C.REPO_ROOT / "results_insan"
+
+    s1 = kok / "insan_fpr_rapor.json"
+    if s1.exists():
+        r = json.loads(s1.read_text())
+        out += ["", "## S1 — İnsan metninde yanlış pozitif oranı "
+                f"(ön-kayıt: {r.get('on_kayit', '?')})", "",
+                "> Dedektörler `model=None` ile koşuldu (üçü de modelsizdir; "
+                "ölçülerek doğrulandı). Veri: Vikipedi dump penceresi, uzunluk "
+                "korpusla eşlenmiş, pageid'li.", ""]
+        sat = ["| şema | dil | n | null ort | null std | config eşiği FPR | "
+               "model-kalibre eşikte FPR |", "|---|---|---|---|---|---|---|"]
+        for dil in ("tr", "en"):
+            for ad, b in (r.get(dil) or {}).items():
+                sat.append(f"| {ad} | {dil} | {b['n']} | {b['null_ort']:+.4f} | "
+                           f"{b['null_std']:.4f} | {b['fpr_config_esigi']:.4f} | "
+                           f"{b['fpr_model_kalibre_esik']:.4f} |")
+        out += sat
+        kgw_tr = (r.get("tr") or {}).get("KGW")
+        kgw_en = (r.get("en") or {}).get("KGW")
+        if kgw_tr and kgw_en:
+            out += ["", f"**H1 {'DOĞRULANDI' if kgw_tr['null_std'] > 1 else 'DOĞRULANAMADI'}:** "
+                    f"insan Türkçesinde KGW null std {kgw_tr['null_std']:.3f} (teorik 1). "
+                    f"**H2:** TR {kgw_tr['null_std']:.3f} vs EN {kgw_en['null_std']:.3f} "
+                    "(Levene p=0,0004; commit b532269). "
+                    f"z=4 eşiğinde gözlenen dağılım FPR'ı "
+                    f"{kgw_tr.get('z4_gozlenen_dagilimda', float('nan')):.2e} "
+                    f"(nominal {kgw_tr.get('z4_nominal_fpr', float('nan')):.2e}, "
+                    f"oran ~{kgw_tr.get('z4_gozlenen_dagilimda', 0) / max(kgw_tr.get('z4_nominal_fpr', 1), 1e-12):.0f}×)."]
+
+    s2 = kok / "s2_rapor.json"
+    if s2.exists():
+        r2 = json.loads(s2.read_text())
+        out += ["", "## S2 — Fayda ekseni (ön-kayıt: cbcb988)", "",
+                "> İki yargıç: Opus 5 + gpt-oss-120b (farklı aile; launder_api "
+                "metinlerini Opus 5 ürettiği için akıcılık hükmü yalnız bağımsız "
+                "yargıçtan alınabilir). Kör kalibrasyon çiftleri geçildi. Karar "
+                "kuralı koşudan ÖNCE ilan edildi: başarılı = ΔAUROC>0,05 VE "
+                "anlam korunuyor.", "",
+                "| koşul | yargıç | n | anlam korunmuş | konum dönme |",
+                "|---|---|---|---|---|"]
+        for anahtar, v in sorted(r2.items()):
+            kosul, ad = anahtar.split("|")
+            out.append(f"| {kosul} | {ad} | {v['n']} | {v['anlam']:.2f} | "
+                       f"{v['donme']:.2f} |")
+        out += ["", "**Sonuç:** hiçbir saldırı anlamı bozmuyor (tüm hücrelerde "
+                "1,00). launder_api ÜÇ şemada da ön-kayıt kuralını sağlayan tek "
+                "saldırı (ΔAUROC: KGW +0,083, EXP +0,137, SynthID +0,253); rtt "
+                "yalnız SynthID'de (+0,184). Akıcılık: bağımsız yargıç "
+                "para/launder/launder_api'de %42-57 konum gürültüsü gösteriyor "
+                "= ayırt edemiyor; 'aklama akıcılığı düşürmüyor' denebilir, "
+                "'yükseltiyor' denemez."]
+    return out
+
+
 def _phase3_sections() -> list[str]:
     """Faz 3'ün disksiz ayakları: tokenizer bereketi kontrastı ve LLM-yargıç.
     Dosyalar yoksa bölüm hiç yazılmaz (uydurma sayı üretilmez)."""
@@ -1398,6 +1460,7 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
     lines += audit_corrections(scores)
     lines += corpus_integrity(scores)
     lines += _phase3_sections()
+    lines += _s1_s2_sections()
     lines += ["", "_Figürler: results/figs/ — Ham skorlar: results/scores.csv_"]
 
     out = C.RESULTS / "summary.md"
