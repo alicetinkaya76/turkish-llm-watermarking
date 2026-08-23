@@ -5,7 +5,7 @@
 ## Go / No-Go
 - **Öncül (KGW temiz AUROC ≥ 0.9):** GEÇTİ (1.000)
 - **TR-saldırılar ΔAUROC (KGW):** dia100=0.006, morph(v0)=0.000, morph_v1=0.000, morph+dia=0.006, rtt=0.046
-- **Morfolojik ≠ leksik (morph):** ÖLÇÜLEMEDİ — metin yalnız %0.2 değişti; J=0.999 saldırının leksik korumasını değil, etkisizliğini yansıtıyor
+- **Morfolojik ≠ leksik (morph):** ÖLÇÜLEMEDİ — metin yalnız %0.2 değişti; J=0.998 saldırının leksik korumasını değil, etkisizliğini yansıtıyor
 - **Morfolojik ≠ leksik (morph_v1):** ÖLÇÜLEMEDİ — metin yalnız %0.5 değişti; J=0.998 saldırının leksik korumasını değil, etkisizliğini yansıtıyor
 
 ## Tespit (pozitifler vs TEMİZ negatifler)
@@ -14,50 +14,50 @@
 
 > `ci_lo_cp`: AUROC=1.000 ve GA=[1,1] çıkan hücreler için tek yanlı Clopper-Pearson alt sınırı. Dejenere aralık *belirsizlik yok* demek DEĞİL, *örneklemde karşı örnek gözlenmedi* demektir; 24 kümede sıfır başarısızlık %95 güvenle AUROC >= 0,883 verir.
 
-| scheme | condition | n_pos | auroc | ci_lo | ci_hi | n_kume | ci_lo_cp | tpr_1fpr | pos_stat_mean | attneg_stat_mean |
-|---|---|---|---|---|---|---|---|---|---|---|
-| EXP | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 55.883 | 0.446 |
-| EXP | dia100 | 96 | 0.983 | 0.946 | 1.000 | 24 | nan | 0.917 | 6.138 | 0.475 |
-| EXP | dia50 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 16.088 | 0.419 |
-| EXP | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 53.870 | 0.451 |
-| EXP | morph+dia | 96 | 0.982 | 0.944 | 1.000 | 24 | nan | 0.875 | 5.943 | 0.481 |
-| EXP | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 52.301 | 0.432 |
-| EXP | morph_v1+dia | 96 | 0.982 | 0.945 | 1.000 | 24 | nan | 0.917 | 5.669 | 0.450 |
-| EXP | rtt | 96 | 0.956 | 0.896 | 0.998 | 24 | nan | 0.792 | 4.522 | 0.430 |
-| EXP | para | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 40.425 | 0.446 |
-| EXP | launder | 96 | 0.997 | 0.990 | 1.000 | 24 | nan | 0.990 | 26.837 | 0.468 |
-| EXP | launder_api | 96 | 0.863 | 0.790 | 0.924 | 24 | nan | 0.490 | 3.624 | 0.543 |
-| KGW | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 10.550 | 0.012 |
-| KGW | dia100 | 96 | 0.994 | 0.986 | 0.999 | 24 | nan | 0.865 | 6.194 | 0.275 |
-| KGW | dia50 | 96 | 0.999 | 0.996 | 1.000 | 24 | nan | 0.979 | 7.597 | 0.011 |
-| KGW | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 10.498 | 0.015 |
-| KGW | morph+dia | 96 | 0.994 | 0.986 | 0.999 | 24 | nan | 0.865 | 6.137 | 0.247 |
-| KGW | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 10.392 | -0.003 |
-| KGW | morph_v1+dia | 96 | 0.993 | 0.984 | 0.999 | 24 | nan | 0.844 | 5.992 | 0.123 |
-| KGW | rtt | 96 | 0.954 | 0.926 | 0.979 | 24 | nan | 0.594 | 3.738 | 0.092 |
-| KGW | para | 96 | 0.998 | 0.995 | 1.000 | 24 | nan | 0.990 | 8.516 | -0.064 |
-| KGW | launder | 96 | 0.999 | 0.996 | 1.000 | 24 | nan | 0.938 | 7.016 | 0.016 |
-| KGW | launder_api | 96 | 0.917 | 0.865 | 0.956 | 24 | nan | 0.427 | 3.171 | -0.141 |
-| SynthID | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 0.535 | 0.501 |
-| SynthID | dia100 | 96 | 0.929 | 0.887 | 0.963 | 24 | nan | 0.677 | 0.509 | 0.501 |
-| SynthID | dia50 | 96 | 0.996 | 0.989 | 0.999 | 24 | nan | 0.948 | 0.516 | 0.501 |
-| SynthID | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 0.535 | 0.501 |
-| SynthID | morph+dia | 96 | 0.926 | 0.884 | 0.960 | 24 | nan | 0.656 | 0.509 | 0.501 |
-| SynthID | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 0.534 | 0.501 |
-| SynthID | morph_v1+dia | 96 | 0.923 | 0.882 | 0.958 | 24 | nan | 0.656 | 0.509 | 0.501 |
-| SynthID | rtt | 96 | 0.816 | 0.758 | 0.870 | 24 | nan | 0.312 | 0.505 | 0.501 |
-| SynthID | para | 96 | 0.998 | 0.994 | 1.000 | 24 | nan | 0.990 | 0.527 | 0.501 |
-| SynthID | launder | 96 | 0.981 | 0.955 | 0.997 | 24 | nan | 0.948 | 0.519 | 0.501 |
-| SynthID | launder_api | 96 | 0.747 | 0.650 | 0.834 | 24 | nan | 0.250 | 0.504 | 0.500 |
+| scheme | condition | n_pos | auroc | ci_lo | ci_hi | n_kume | ci_lo_cp | tpr_temiz_esikte | tpr_ci_lo | tpr_ci_hi | pos_stat_mean | attneg_stat_mean |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| EXP | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 55.883 | 0.446 |
+| EXP | dia100 | 96 | 0.983 | 0.946 | 1.000 | 24 | nan | 0.917 | 0.832 | 1.000 | 6.138 | 0.475 |
+| EXP | dia50 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 16.088 | 0.419 |
+| EXP | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 53.870 | 0.451 |
+| EXP | morph+dia | 96 | 0.982 | 0.944 | 1.000 | 24 | nan | 0.875 | 0.750 | 1.000 | 5.943 | 0.481 |
+| EXP | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 52.301 | 0.432 |
+| EXP | morph_v1+dia | 96 | 0.982 | 0.945 | 1.000 | 24 | nan | 0.917 | 0.792 | 1.000 | 5.669 | 0.450 |
+| EXP | rtt | 96 | 0.956 | 0.896 | 0.998 | 24 | nan | 0.792 | 0.667 | 0.958 | 4.522 | 0.430 |
+| EXP | para | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 40.425 | 0.446 |
+| EXP | launder | 96 | 0.997 | 0.990 | 1.000 | 24 | nan | 0.990 | 0.969 | 1.000 | 26.837 | 0.468 |
+| EXP | launder_api | 96 | 0.863 | 0.790 | 0.924 | 24 | nan | 0.490 | 0.344 | 0.698 | 3.624 | 0.543 |
+| KGW | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 10.550 | 0.012 |
+| KGW | dia100 | 96 | 0.994 | 0.986 | 0.999 | 24 | nan | 0.865 | 0.708 | 1.000 | 6.194 | 0.275 |
+| KGW | dia50 | 96 | 0.999 | 0.996 | 1.000 | 24 | nan | 0.979 | 0.927 | 1.000 | 7.597 | 0.011 |
+| KGW | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 10.498 | 0.015 |
+| KGW | morph+dia | 96 | 0.994 | 0.986 | 0.999 | 24 | nan | 0.865 | 0.708 | 1.000 | 6.137 | 0.247 |
+| KGW | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 10.392 | -0.003 |
+| KGW | morph_v1+dia | 96 | 0.993 | 0.984 | 0.999 | 24 | nan | 0.844 | 0.656 | 0.990 | 5.992 | 0.123 |
+| KGW | rtt | 96 | 0.954 | 0.926 | 0.979 | 24 | nan | 0.594 | 0.385 | 0.844 | 3.738 | 0.092 |
+| KGW | para | 96 | 0.998 | 0.995 | 1.000 | 24 | nan | 0.990 | 0.927 | 1.000 | 8.516 | -0.064 |
+| KGW | launder | 96 | 0.999 | 0.996 | 1.000 | 24 | nan | 0.938 | 0.885 | 1.000 | 7.016 | 0.016 |
+| KGW | launder_api | 96 | 0.917 | 0.865 | 0.956 | 24 | nan | 0.427 | 0.198 | 0.729 | 3.171 | -0.141 |
+| SynthID | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 0.535 | 0.501 |
+| SynthID | dia100 | 96 | 0.929 | 0.887 | 0.963 | 24 | nan | 0.677 | 0.458 | 0.792 | 0.509 | 0.501 |
+| SynthID | dia50 | 96 | 0.996 | 0.989 | 0.999 | 24 | nan | 0.948 | 0.854 | 0.990 | 0.516 | 0.501 |
+| SynthID | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 0.535 | 0.501 |
+| SynthID | morph+dia | 96 | 0.926 | 0.884 | 0.960 | 24 | nan | 0.656 | 0.438 | 0.760 | 0.509 | 0.501 |
+| SynthID | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 0.534 | 0.501 |
+| SynthID | morph_v1+dia | 96 | 0.923 | 0.882 | 0.958 | 24 | nan | 0.656 | 0.406 | 0.750 | 0.509 | 0.501 |
+| SynthID | rtt | 96 | 0.816 | 0.758 | 0.870 | 24 | nan | 0.312 | 0.146 | 0.438 | 0.505 | 0.501 |
+| SynthID | para | 96 | 0.998 | 0.994 | 1.000 | 24 | nan | 0.990 | 0.969 | 1.000 | 0.527 | 0.501 |
+| SynthID | launder | 96 | 0.981 | 0.955 | 0.997 | 24 | nan | 0.948 | 0.885 | 0.979 | 0.519 | 0.501 |
+| SynthID | launder_api | 96 | 0.747 | 0.650 | 0.834 | 24 | nan | 0.250 | 0.073 | 0.385 | 0.504 | 0.500 |
 
 ## Morfolojik-leksik ayrışma (pos_KGW alt-örneklemi)
 | attack | n | lemma_jaccard | char_ratio |
 |---|---|---|---|
 | launder | 40 | 0.832 | 0.891 |
-| morph | 40 | 0.999 | 0.998 |
+| morph | 40 | 0.998 | 0.998 |
 | morph_v1 | 40 | 0.998 | 0.995 |
 | para | 40 | 0.881 | 0.941 |
-| rtt | 40 | 0.598 | 0.751 |
+| rtt | 40 | 0.599 | 0.751 |
 
 ## Kalite (e5 kosinüs)
 
@@ -123,6 +123,19 @@
 - SynthID'nin logits işlemcisi durumu her üretimden önce sıfırlanır (MarkLLM'de sıfırlanmıyor; örnekler arası bağlam sızıntısı sonucu üretim sırasına bağımlı kılıyordu).
 - **Tekrarlanabilirlik OLCULDU** (CUDA, `hpc/remote_scripts/drift.py::T4`): 6/6 yineleme birebir ayni token dizisini verdi. Kapsam: tek GPU, sabit surumler -- tasinabilirlik iddiasi DEGILDIR.
 
+## Şemalar arası eşlenmiş karşılaştırma
+
+> Birim: 24 istem, ölçüt her şemanın KENDİ temiz eşiğinde istem başına tespit oranı (ham stat ölçekleri şemalar arası karşılaştırılamaz). Aile önceden ilan: {rtt, launder_api} × 3 çift = 6 test, Holm düzeltmesi. Pozitif fark = ilk şema daha dayanıklı.
+
+| kosul | cift | ort_fark | n_istem | p | holm_esik | holm |
+|---|---|---|---|---|---|---|
+| rtt | EXP vs SynthID | 0.479 | 24 | 0.001 | 0.008 | ANLAMLI |
+| rtt | KGW vs SynthID | 0.281 | 24 | 0.001 | 0.010 | ANLAMLI |
+| launder_api | EXP vs SynthID | 0.240 | 24 | 0.003 | 0.013 | ANLAMLI |
+| launder_api | KGW vs SynthID | 0.177 | 24 | 0.013 | 0.017 | ANLAMLI |
+| rtt | KGW vs EXP | -0.198 | 24 | 0.104 | 0.025 | — |
+| launder_api | KGW vs EXP | -0.062 | 24 | 0.513 | 0.050 | — |
+
 ## Görev uyumu
 
 24/24 istem **en az 500 kelime** istiyor; kabul ölçütü **300 kelime** (model istenenin bir kısmını teslim ettiği için istem kalibre edildi — ölçüm: results_hpc/istem_provenans.json). Üretim bütçesi `max_new_tokens=1800`.
@@ -158,28 +171,57 @@ Bağımsız metodolojik denetim yedi kritik bulgu getirdi; hepsi bu veride doğr
 
 ### D2 — 'TPR@%1FPR' saldırılı veride %1 FPR DEĞİL (KRİTİK)
 
-Eşik temiz negatiflerden kuruluyor; saldırılı negatiflerde o eşiğin gerçek yanlış-pozitif oranı ölçülmemişti. En kötü altı hücre:
+Eşik temiz negatiflerden kuruluyor; saldırılı negatiflerde o eşiğin gerçek yanlış-pozitif oranı ölçülmemişti. TAM tablo (kırpılmadı; önceki sürüm yalnız en kötü 6 hücreyi gösteriyordu):
 
-| sema | kosul | tpr | gercek_fpr |
-|---|---|---|---|
-| EXP | launder_api | 0.490 | 0.062 |
-| SynthID | morph_v1+dia | 0.656 | 0.062 |
-| EXP | dia100 | 0.917 | 0.042 |
-| EXP | morph+dia | 0.875 | 0.042 |
-| SynthID | rtt | 0.312 | 0.042 |
-| EXP | dia50 | 1.000 | 0.031 |
+| sema | kosul | tpr | gercek_fpr | n_gecen | fpr_ci_hi | ayni_donusum_auroc |
+|---|---|---|---|---|---|---|
+| EXP | clean | 1.000 | 0.010 | 1/96 | 0.057 | 1.000 |
+| EXP | dia100 | 0.917 | 0.042 | 4/96 | 0.103 | 0.982 |
+| EXP | dia50 | 1.000 | 0.031 | 3/96 | 0.089 | 1.000 |
+| EXP | morph | 1.000 | 0.010 | 1/96 | 0.057 | 1.000 |
+| EXP | morph+dia | 0.875 | 0.042 | 4/96 | 0.103 | 0.981 |
+| EXP | morph_v1 | 1.000 | 0.010 | 1/96 | 0.057 | 1.000 |
+| EXP | morph_v1+dia | 0.917 | 0.021 | 2/96 | 0.073 | 0.980 |
+| EXP | rtt | 0.792 | 0.021 | 2/96 | 0.073 | 0.960 |
+| EXP | para | 1.000 | 0.010 | 1/96 | 0.057 | 1.000 |
+| EXP | launder | 0.990 | 0.031 | 3/96 | 0.089 | 0.996 |
+| EXP | launder_api | 0.490 | 0.062 | 6/96 | 0.131 | 0.840 |
+| KGW | clean | 1.000 | 0.010 | 1/96 | 0.057 | 1.000 |
+| KGW | dia100 | 0.865 | 0.010 | 1/96 | 0.057 | 0.993 |
+| KGW | dia50 | 0.979 | 0.000 | 0/96 | 0.038 | 0.999 |
+| KGW | morph | 1.000 | 0.010 | 1/96 | 0.057 | 1.000 |
+| KGW | morph+dia | 0.865 | 0.010 | 1/96 | 0.057 | 0.994 |
+| KGW | morph_v1 | 1.000 | 0.021 | 2/96 | 0.073 | 1.000 |
+| KGW | morph_v1+dia | 0.844 | 0.010 | 1/96 | 0.057 | 0.995 |
+| KGW | rtt | 0.594 | 0.010 | 1/96 | 0.057 | 0.961 |
+| KGW | para | 0.990 | 0.000 | 0/96 | 0.038 | 0.999 |
+| KGW | launder | 0.938 | 0.000 | 0/96 | 0.038 | 0.999 |
+| KGW | launder_api | 0.427 | 0.000 | 0/96 | 0.038 | 0.941 |
+| SynthID | clean | 1.000 | 0.010 | 1/96 | 0.057 | 1.000 |
+| SynthID | dia100 | 0.677 | 0.021 | 2/96 | 0.073 | 0.927 |
+| SynthID | dia50 | 0.948 | 0.010 | 1/96 | 0.057 | 0.996 |
+| SynthID | morph | 1.000 | 0.021 | 2/96 | 0.073 | 1.000 |
+| SynthID | morph+dia | 0.656 | 0.021 | 2/96 | 0.073 | 0.924 |
+| SynthID | morph_v1 | 1.000 | 0.031 | 3/96 | 0.089 | 1.000 |
+| SynthID | morph_v1+dia | 0.656 | 0.062 | 6/96 | 0.131 | 0.915 |
+| SynthID | rtt | 0.312 | 0.042 | 4/96 | 0.103 | 0.825 |
+| SynthID | para | 0.990 | 0.021 | 2/96 | 0.073 | 0.998 |
+| SynthID | launder | 0.948 | 0.021 | 2/96 | 0.073 | 0.980 |
+| SynthID | launder_api | 0.250 | 0.010 | 1/96 | 0.057 | 0.807 |
 
-**En yüksek gerçek FPR %6.2** — yani bazı hücrelerde 'yüksek TPR' etiketinin bedeli %1 değil %6.2'e kadar yanlış pozitif (16 hücrede eşiğin iki katından fazla). Metrik operasyonel olarak yanlış adlandırılmıştı. Ana çalışmada her koşul için (i) temiz eşikte TPR, (ii) aynı eşikte saldırılı-negatif FPR, (iii) saldırılı pozitif–saldırılı negatif AUROC birlikte verilmelidir.
+**En yüksek gözlenen FPR %6.2.** Nominal %1'den tek yanlı binom + Bonferroni (33 test) sonrası anlamlı sapan hücre: EXP/launder_api, SynthID/morph_v1+dia (2/33). n=96'da FPR çözünürlüğü 1/96=%1,04 olduğundan küçük sapmalar ayırt edilemez -- bu, S1'in (insan metni FPR, n>=3000) varlık sebebidir.
 
-### D3 — launder_api, rtt'den daha yıkıcı (2/3 şemada ANLAMLI)
+`ayni_donusum_auroc`: her iki sınıf da dönüştürülmüşken ayrışma. dia/rtt için ekolojik olarak geçerli bir soru, launder/para için değil (kimse insan metnini filigran silmek için aklamaz); manşet temiz-negatif AUROC'ta kalır, bu sütun sağlamlık kontrolüdür.
 
-| sema | tpr_rtt | tpr_launder_api | fark | mcnemar_p | bonferroni |
-|---|---|---|---|---|---|
-| EXP | 0.792 | 0.490 | -0.302 | 0.000 | ANLAMLI |
-| KGW | 0.594 | 0.427 | -0.167 | 0.002 | ANLAMLI |
-| SynthID | 0.312 | 0.250 | -0.062 | 0.392 | — |
+### D3 — launder_api, rtt'den daha yıkıcı (1/3 şemada ANLAMLI, istem düzeyi)
 
-Eşleşmiş McNemar testinde EXP, KGW şemasında fark Bonferroni düzeltmesini geçiyor. Ortalama TPR farkı -0.177 (negatif = launder_api daha yıkıcı).
+| sema | tpr_rtt | tpr_launder_api | fark | mcnemar_p | bonferroni | wilcoxon_istem_p | n_istem | bonf_istem |
+|---|---|---|---|---|---|---|---|---|
+| EXP | 0.792 | 0.490 | -0.302 | 0.000 | ANLAMLI | 0.037 | 24 | — |
+| KGW | 0.594 | 0.427 | -0.167 | 0.002 | ANLAMLI | 0.005 | 24 | ANLAMLI |
+| SynthID | 0.312 | 0.250 | -0.062 | 0.392 | — | 0.019 | 24 | — |
+
+BİRİNCİL analiz istem düzeyi eşlenmiş Wilcoxon'dur (n=24 istem; satır düzeyi McNemar D1'i ihlal eder -- EXP'de 4 tohum deterministik koşullarda özdeş). Bonferroni-3 sonrası anlamlı: KGW. Ortalama TPR farkı -0.177 (negatif = launder_api daha yıkıcı). McNemar sütunları betimleyici olarak korundu.
 
 **Kapsam:** bu karşılaştırma yalnız rtt ile launder_api arasındadır; tüm saldırıların sıralaması için *Tespit* tablosuna bakınız.
 
