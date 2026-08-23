@@ -94,8 +94,43 @@ def auroc_alt_sinir_cp(n_etkin: int, alpha: float = 0.05) -> float:
 
 def tpr_at_fpr(pos: np.ndarray, neg: np.ndarray,
                fpr: float = C.TPR_AT_FPR) -> float:
+    """TPR, TEMIZ negatiflerden kalibre edilen esikte.
+
+    ADLANDIRMA DURUSTLUGU: raporda bu "TPR@%1FPR" diye gecmisti; n=96 negatifte
+    %1'lik dilim iki gozlem arasina duser (indeks 94,05) ve esik en buyuk iki
+    negatif arasinda enterpolasyondur. Tek negatif atilsa KGW/rtt TPR 0,594 ->
+    0,719 degisir. Yani bu "temiz esikte TPR"dir ve nominal %1 FPR yalniz
+    yaklasiktir; sutun adi tpr_temiz_esikte olarak degistirildi.
+    """
     thr = np.quantile(neg, 1 - fpr)
     return float((pos > thr).mean())
+
+
+def tpr_ci_kumeli(pos: np.ndarray, neg: np.ndarray,
+                  pos_pid: np.ndarray, neg_pid: np.ndarray,
+                  fpr: float = C.TPR_AT_FPR,
+                  n_boot: int = C.BOOTSTRAP_N, seed: int = 0) -> tuple[float, float]:
+    """TPR icin ISTEM-KUMELI bootstrap GA. Esik her yinelemede o yinelemenin
+    negatiflerinden YENIDEN kalibre edilir -- esik belirsizligi de aralige
+    girer (sabit esikle bootstrap, belirsizligin yarisini gizlerdi)."""
+    rng = np.random.default_rng(seed)
+    kumeler = np.unique(np.r_[pos_pid, neg_pid])
+    k = len(kumeler)
+    p_idx = {c: np.flatnonzero(pos_pid == c) for c in kumeler}
+    n_idx = {c: np.flatnonzero(neg_pid == c) for c in kumeler}
+    vals = []
+    for _ in range(n_boot):
+        sec = kumeler[rng.integers(0, k, k)]
+        pi = np.concatenate([p_idx[c] for c in sec])
+        ni = np.concatenate([n_idx[c] for c in sec])
+        if len(pi) == 0 or len(ni) == 0:
+            continue
+        thr = np.quantile(neg[ni], 1 - fpr)
+        vals.append(float((pos[pi] > thr).mean()))
+    if not vals:
+        return float("nan"), float("nan")
+    lo, hi = np.percentile(vals, [2.5, 97.5])
+    return float(lo), float(hi)
 
 
 def detection_table(scores: pd.DataFrame) -> pd.DataFrame:
@@ -123,7 +158,9 @@ def detection_table(scores: pd.DataFrame) -> pd.DataFrame:
                 auroc=au, ci_lo=lo, ci_hi=hi,
                 n_kume=n_kume,
                 ci_lo_cp=(auroc_alt_sinir_cp(n_kume) if dejenere else np.nan),
-                tpr_1fpr=tpr_at_fpr(pos, neg_clean),
+                tpr_temiz_esikte=tpr_at_fpr(pos, neg_clean),
+                **dict(zip(("tpr_ci_lo", "tpr_ci_hi"),
+                           tpr_ci_kumeli(pos, neg_clean, pos_pid, neg_pid))),
                 pos_stat_mean=float(pos.mean()),
                 attneg_stat_mean=float(attneg.mean()) if len(attneg) else np.nan,
             ))
@@ -620,22 +657,49 @@ def audit_corrections(scores: pd.DataFrame) -> list[str]:
             pos = ds[(ds.condition == cond) & (ds.wm == 1)]["stat"].to_numpy()
             if not len(an) or not len(pos):
                 continue
-            rows.append(dict(sema=s, kosul=cond, tpr=float((pos > thr).mean()),
-                             gercek_fpr=float((an > thr).mean())))
+            # (iii) ayni-donusum AUROC: HER IKI SINIF da donusturulmus.
+            # "Gercekci AUROC" DEGIL -- kimse insan metnini filigran silmek
+            # icin aklamaz; dia/rtt icin ekolojik olarak gecerli, launder/para
+            # icin degil. Manset temiz-negatif AUROC'ta kalir, bu sutun
+            # saglamlik kontroludur.
+            k_bin = int((an > thr).sum())
+            from scipy.stats import binomtest as _bt
+            rows.append(dict(
+                sema=s, kosul=cond, tpr=float((pos > thr).mean()),
+                gercek_fpr=float((an > thr).mean()),
+                n_gecen=f"{k_bin}/{len(an)}",
+                fpr_ci_hi=float(_bt(k_bin, len(an)).proportion_ci(0.95).high),
+                ayni_donusum_auroc=(auroc(pos, an)
+                                    if len(np.unique(np.r_[pos, an])) > 1
+                                    else float("nan")),
+            ))
     fpr = pd.DataFrame(rows)
-    worst = fpr.nlargest(6, "gercek_fpr")
+    # Bonferroni ile "nominalden anlamli sapan" hucre sayisi: tek yanli binom,
+    # H0: gercek FPR = nominal %1. KIRPMA YOK -- 33 hucrenin tamami basilir;
+    # nlargest(6) onceki surumde kalanlari gizliyordu.
+    _n_test = len(fpr)
+    _anl = []
+    for _, r in fpr.iterrows():
+        k, n = map(int, r["n_gecen"].split("/"))
+        pv = _bt(k, n, C.TPR_AT_FPR, alternative="greater").pvalue
+        if pv * _n_test < 0.05:
+            _anl.append(f"{r['sema']}/{r['kosul']}")
     out += ["", "### D2 — 'TPR@%1FPR' saldırılı veride %1 FPR DEĞİL (KRİTİK)", "",
             "Eşik temiz negatiflerden kuruluyor; saldırılı negatiflerde o eşiğin "
-            "gerçek yanlış-pozitif oranı ölçülmemişti. En kötü altı hücre:", "",
-            _md_table(worst.round(3)), "",
-            f"**En yüksek gerçek FPR %{100*fpr.gercek_fpr.max():.1f}** — "
-            f"yani bazı hücrelerde 'yüksek TPR' etiketinin bedeli %1 değil "
-            f"%{100*fpr.gercek_fpr.max():.1f}'e kadar yanlış pozitif "
-            f"({int((fpr.gercek_fpr > 2*C.TPR_AT_FPR).sum())} hücrede eşiğin "
-            f"iki katından fazla). Metrik operasyonel olarak yanlış "
-            "adlandırılmıştı. Ana çalışmada her koşul için (i) temiz eşikte "
-            "TPR, (ii) aynı eşikte saldırılı-negatif FPR, (iii) saldırılı "
-            "pozitif–saldırılı negatif AUROC birlikte verilmelidir."]
+            "gerçek yanlış-pozitif oranı ölçülmemişti. TAM tablo (kırpılmadı; "
+            "önceki sürüm yalnız en kötü 6 hücreyi gösteriyordu):", "",
+            _md_table(fpr.round(3)), "",
+            f"**En yüksek gözlenen FPR %{100*fpr.gercek_fpr.max():.1f}.** "
+            f"Nominal %1'den tek yanlı binom + Bonferroni ({_n_test} test) "
+            f"sonrası anlamlı sapan hücre: "
+            f"{', '.join(_anl) if _anl else 'YOK'} "
+            f"({len(_anl)}/{_n_test}). n=96'da FPR çözünürlüğü 1/96=%1,04 "
+            "olduğundan küçük sapmalar ayırt edilemez -- bu, S1'in (insan "
+            "metni FPR, n>=3000) varlık sebebidir.", "",
+            "`ayni_donusum_auroc`: her iki sınıf da dönüştürülmüşken ayrışma. "
+            "dia/rtt için ekolojik olarak geçerli bir soru, launder/para için "
+            "değil (kimse insan metnini filigran silmek için aklamaz); manşet "
+            "temiz-negatif AUROC'ta kalır, bu sütun sağlamlık kontrolüdür."]
 
     # --- D3: eşlenmiş koşul karşılaştırması (launder_api vs rtt) ---------
     if "launder_api" in set(scores.condition) and "rtt" in set(scores.condition):
@@ -659,25 +723,108 @@ def audit_corrections(scores: pd.DataFrame) -> list[str]:
         # HÜKÜM HESAPTAN GELİR. Önceki sürüm "hiçbir şemada anlamlı değil" diye
         # SABİT yazıyordu; o cümle ESKİ (geçersiz) korpusun sonucuydu. Yeni veride
         # tablo başka şey söylüyorsa rapor kendi hesabıyla çelişirdi.
+        # ISTEM DUZEYI Wilcoxon (BIRINCIL ANALIZ). Satir duzeyi McNemar kendi
+        # D1'imizi ihlal ediyor: EXP'de 4 tohum deterministik kosullarda ozdes,
+        # yani 96 "bagimsiz" cift aslinda 24 istem. Birincil birim ISTEM;
+        # surekli stat uzerinde eslenmis Wilcoxon + Bonferroni-3.
+        from scipy.stats import wilcoxon as _wx
+        for r in rows:
+            _sm = r["sema"]
+            _d = scores[scores.scheme == _sm]
+            _a = (_d[(_d.condition == "rtt") & (_d.wm == 1)]
+                  .groupby("prompt_id")["stat"].mean())
+            _b = (_d[(_d.condition == "launder_api") & (_d.wm == 1)]
+                  .groupby("prompt_id")["stat"].mean())
+            _j = pd.concat([_a.rename("r"), _b.rename("l")], axis=1).dropna()
+            try:
+                _pw = float(_wx(_j["r"], _j["l"]).pvalue)
+            except ValueError:
+                _pw = 1.0
+            r["wilcoxon_istem_p"] = _pw
+            r["n_istem"] = int(len(_j))
+            r["bonf_istem"] = "ANLAMLI" if _pw * 3 < 0.05 else "—"
         _d3 = pd.DataFrame(rows)
-        _anl = _d3[_d3["bonferroni"] == "ANLAMLI"]
+        _anl = _d3[_d3["bonf_istem"] == "ANLAMLI"]
         _yon = _d3["fark"].mean()
         if len(_anl):
             _basl = ("### D3 — launder_api, rtt'den daha yıkıcı "
-                     f"({len(_anl)}/{len(_d3)} şemada ANLAMLI)")
-            _yorum = (f"Eşleşmiş McNemar testinde {', '.join(_anl['sema'])} şemasında "
-                      f"fark Bonferroni düzeltmesini geçiyor. Ortalama TPR farkı "
-                      f"{_yon:+.3f} (negatif = launder_api daha yıkıcı).")
+                     f"({len(_anl)}/{len(_d3)} şemada ANLAMLI, istem düzeyi)")
+            _yorum = (f"BİRİNCİL analiz istem düzeyi eşlenmiş Wilcoxon'dur "
+                      f"(n=24 istem; satır düzeyi McNemar D1'i ihlal eder -- "
+                      f"EXP'de 4 tohum deterministik koşullarda özdeş). "
+                      f"Bonferroni-3 sonrası anlamlı: {', '.join(_anl['sema'])}. "
+                      f"Ortalama TPR farkı {_yon:+.3f} (negatif = launder_api "
+                      f"daha yıkıcı). McNemar sütunları betimleyici olarak korundu.")
         else:
             _basl = "### D3 — 'launder_api en yıkıcı saldırı' iddiası: KANITLANAMADI"
-            _yorum = ("Eşleşmiş McNemar testinde hiçbir şemada fark Bonferroni'yi "
-                      f"geçmiyor (ortalama TPR farkı {_yon:+.3f}). Nokta tahmini "
-                      "sıralaması TEHDİT SIRALAMASI DEĞİLDİR.")
+            _yorum = ("İstem düzeyi eşlenmiş Wilcoxon'da (n=24) hiçbir şemada fark "
+                      f"Bonferroni-3'ü geçmiyor (ortalama TPR farkı {_yon:+.3f}). "
+                      "Nokta tahmini sıralaması TEHDİT SIRALAMASI DEĞİLDİR.")
         out += ["", _basl, "", _md_table(_d3.round(4)), "", _yorum, "",
                 "**Kapsam:** bu karşılaştırma yalnız rtt ile launder_api arasındadır; "
                 "tüm saldırıların sıralaması için *Tespit* tablosuna bakınız."]
 
     return out + [""]
+
+
+def scheme_pairwise(scores: pd.DataFrame) -> list[str]:
+    """Semalar arasi ESLENMIS karsilastirma -- rapor uc semayi yan yana koyup
+    farki hic test etmiyordu; "SynthID en kirilgan" gibi cumleler nokta
+    tahminine dayaniyordu.
+
+    Birim: 24 istem (D1 geregi). Olcut: istem basina ortalama stat degil --
+    stat olcekleri semalar arasi KARSILASTIRILAMAZ (z-skoru vs -log10 p vs
+    g-ortalamasi) -- her semanin KENDI temiz esiginde istem basina TESPIT
+    ORANI. Aile onceden ilan edilir: {rtt, launder_api} x 3 sema cifti = 6
+    test, Holm duzeltmesi. 6 kosulun tamamina genisletmek (30 test) post-hoc
+    olurdu; iki kosul manset saldirilardir (en yikici ikili).
+    """
+    from scipy.stats import wilcoxon as _wx
+    from itertools import combinations
+
+    KOSULLAR = ("rtt", "launder_api")            # once ilan edilen aile
+    esikler = {}
+    for sm in C.SCHEMES:
+        neg = scores[(scores.scheme == sm) & (scores.condition == "clean")
+                     & (scores.wm == 0)]["stat"].to_numpy()
+        esikler[sm] = float(np.quantile(neg, 1 - C.TPR_AT_FPR))
+
+    testler = []
+    for kosul in KOSULLAR:
+        oranlar = {}
+        for sm in C.SCHEMES:
+            d = scores[(scores.scheme == sm) & (scores.condition == kosul)
+                       & (scores.wm == 1)]
+            oranlar[sm] = (d.assign(hit=d["stat"] > esikler[sm])
+                            .groupby("prompt_id")["hit"].mean())
+        for a, b in combinations(C.SCHEMES, 2):
+            j = pd.concat([oranlar[a].rename("a"), oranlar[b].rename("b")],
+                          axis=1).dropna()
+            fark = j["a"] - j["b"]
+            if (fark == 0).all():
+                pv = 1.0
+            else:
+                try:
+                    pv = float(_wx(j["a"], j["b"]).pvalue)
+                except ValueError:
+                    pv = 1.0
+            testler.append(dict(kosul=kosul, cift=f"{a} vs {b}",
+                                ort_fark=float(fark.mean()), n_istem=len(j),
+                                p=pv))
+    df = pd.DataFrame(testler).sort_values("p").reset_index(drop=True)
+    # Holm
+    m = len(df)
+    df["holm_esik"] = [0.05 / (m - i) for i in range(m)]
+    kesici = next((i for i in range(m) if df.p[i] > df.holm_esik[i]), m)
+    df["holm"] = ["ANLAMLI" if i < kesici else "—" for i in range(m)]
+
+    return ["", "## Şemalar arası eşlenmiş karşılaştırma", "",
+            "> Birim: 24 istem, ölçüt her şemanın KENDİ temiz eşiğinde istem "
+            "başına tespit oranı (ham stat ölçekleri şemalar arası "
+            "karşılaştırılamaz). Aile önceden ilan: {rtt, launder_api} × 3 "
+            "çift = 6 test, Holm düzeltmesi. Pozitif fark = ilk şema daha "
+            "dayanıklı.", "",
+            _md_table(df.round(4))]
 
 
 def corpus_integrity(scores: pd.DataFrame) -> list[str]:
@@ -1246,6 +1393,7 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
         "üretim sırasına bağımlı kılıyordu).",
         _determinizm_satiri(),
     ]
+    lines += scheme_pairwise(scores)
     lines += task_compliance()
     lines += audit_corrections(scores)
     lines += corpus_integrity(scores)

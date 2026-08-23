@@ -214,7 +214,7 @@ def phase1(model_name: str, device: str) -> None:
     det = detection_table(scores)
     print("\nTemiz AUROC'lar:")
     print(det[det.condition == "clean"][
-        ["scheme", "auroc", "ci_lo", "ci_hi", "tpr_1fpr"]
+        ["scheme", "auroc", "ci_lo", "ci_hi", "tpr_temiz_esikte"]
     ].to_string(index=False))
     kgw = det[(det.scheme == "KGW") & (det.condition == "clean")]["auroc"]
     if len(kgw) and float(kgw.iloc[0]) < C.SANITY_AUROC:

@@ -152,8 +152,8 @@ def main() -> None:
         det = M.detection_table(scores)
         kgw = det[(det.scheme == "KGW") & (det.condition == "clean")].iloc[0]
         print(f"temiz KGW  AUROC={kgw.auroc:.3f}  "
-              f"GA=[{kgw.ci_lo:.3f},{kgw.ci_hi:.3f}]  TPR@1%={kgw.tpr_1fpr:.2f}")
-        if not (kgw.auroc > 0.99 and kgw.tpr_1fpr > 0.9):
+              f"GA=[{kgw.ci_lo:.3f},{kgw.ci_hi:.3f}]  TPR={kgw.tpr_temiz_esikte:.2f}")
+        if not (kgw.auroc > 0.99 and kgw.tpr_temiz_esikte > 0.9):
             fails.append("temiz KGW metrikleri beklenen aralıkta değil")
         laund = det[(det.scheme == "KGW") & (det.condition == "launder")].iloc[0]
         print(f"launder KGW AUROC={laund.auroc:.3f} (beklenen ~0.5-0.7)")
