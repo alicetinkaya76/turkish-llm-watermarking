@@ -228,6 +228,12 @@ yalnız büyüklük sırası raporlanır.
 **Sınır:** tek register (ansiklopedi). Gazete/deneme registerı toplanamadıysa
 "Vikipedi registerında" diye daraltılarak yazılır.
 
+**EK — ikinci register (yazım anı: 2026-08-25, VERİ TOPLANMADAN ÖNCE):**
+TR Vikikaynak (wikimedia/wikisource 20231201 dump) — eski resmî/edebî düzyazı.
+Aynı pencereleme, aynı dedektörler, aynı eşikler. Hipotez: H1 bu registerde de
+tutar (KGW null std > 1). Register farkı KEŞİFSEL olarak raporlanır; ansiklopedi
+sonuçlarıyla havuzlanmaz. n hedefi >=750 (Vikikaynak TR küçük; ulaşılan n yazılır).
+
 ### ÖN-KAYIT — korpus kabul eşikleri
 
 Bu üç eşik `pilot/config.py`'de tanımlı ve **Faz 1 başlamadan önce**, denetimin
