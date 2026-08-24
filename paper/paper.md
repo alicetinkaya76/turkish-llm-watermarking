@@ -1,6 +1,9 @@
 # Watermarking Turkish LLM Output: Calibration Failure, Scheme Fragility, and the Laundering Attack
 
-**Authors:** [to be completed]
+**Corresponding author:** Ali Çetinkaya — Department of Computer Engineering,
+Faculty of Technology, Selçuk University, Alaeddin Keykubat Campus, 42075
+Selçuklu, Konya, Türkiye. E-mail: ali.cetinkaya@selcuk.edu.tr ·
+Tel: +90 332 241 11 02 · ORCID: 0000-0002-7747-6854
 
 **Keywords:** LLM watermarking; Turkish; agglutinative morphology; detector calibration; false-positive rate; paraphrase attack; laundering
 
