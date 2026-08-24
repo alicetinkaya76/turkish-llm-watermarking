@@ -1,0 +1,28 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "O1_dusunme": {
+    "sablon_var": true,
+    "enable_thinking_anahtari": true,
+    "think_etiketi_sablonda": true,
+    "<think>_id": 151667,
+    "</think>_id": 151668,
+    "varsayilan_istem_think_ile_bitiyor": false,
+    "kapali_farkli_mi": true,
+    "kapali_token_farki": 4,
+    "_karar": "DÜŞÜNME KİPİ VAR -> render_prompt'a enable_thinking=False geçilmeli"
+  },
+  "O2_gamma": {
+    "len_tokenizer": 151669,
+    "config_vocab_size": 151936,
+    "yazili_gamma": 0.5,
+    "etkin_gamma": 0.499118,
+    "sapma": -0.000882,
+    "_karar": "SAPMA -0.000882 -- SINIRLAMALAR bölümüne yazılmalı"
+  },
+  "O3_istem": {
+    "n_istem": 24,
+    "istem0_sha256": "7c59e1794ad8a43045f461f60e4ca8e1",
+    "tum_istemler_sha256": "63289646163dc36f026beb1be05f50b1",
+    "istem0_token": 48
+  }
+}
