@@ -281,4 +281,38 @@ Bu veride sıralama değişimi saptanmadı.
 | launder_api | EXP | 0.862 | 0.490 | 0.863 | 0.490 |
 | launder_api | SynthID | 0.751 | 0.241 | 0.747 | 0.250 |
 
+## S1 — İnsan metninde yanlış pozitif oranı (ön-kayıt: hpc/README.md S1 (8f8df72))
+
+> Dedektörler `model=None` ile koşuldu (üçü de modelsizdir; ölçülerek doğrulandı). Veri: Vikipedi dump penceresi, uzunluk korpusla eşlenmiş, pageid'li.
+
+| şema | dil | n | null ort | null std | config eşiği FPR | model-kalibre eşikte FPR |
+|---|---|---|---|---|---|---|
+| KGW | tr | 1500 | -0.0553 | 1.4787 | 0.0020 | 0.0080 |
+| EXP | tr | 1500 | +0.5901 | 0.7490 | 0.0087 | 0.0740 |
+| SynthID | tr | 1500 | +0.4994 | 0.0029 | 0.0000 | 0.0107 |
+| KGW | en | 1500 | +0.2780 | 1.3212 | 0.0020 | 0.0087 |
+| EXP | en | 1500 | +0.4519 | 0.4697 | 0.0000 | 0.0320 |
+| SynthID | en | 1500 | +0.4997 | 0.0039 | 0.0000 | 0.0413 |
+
+**H1 DOĞRULANDI:** insan Türkçesinde KGW null std 1.479 (teorik 1). **H2:** TR 1.479 vs EN 1.321 (Levene p=0,0004; commit b532269). z=4 eşiğini aşan insan metni (AMPİRİK): 3/1500 = 2.00e-03 — nominalin ~63×. Parametrik tahmin (Gauss uyumu; H1 gereği yalnız yaklaşık): 3.05e-03 ~96×.
+
+> **Keşifsel (ön-kayıt dışı):** model-negatiflerinden kalibre edilen %1 eşikler insan metnine TAŞINMIYOR -- tabloda `model-kalibre eşikte FPR` sütunu: EXP TR'de %7,4, SynthID EN'de %4,1. Operasyonel eşik, dağıtım ortamının kendi negatif dağılımından kalibre edilmelidir; model çıktısı vekil olarak yetersiz.
+
+## S2 — Fayda ekseni (ön-kayıt: cbcb988)
+
+> İki yargıç: Opus 5 + gpt-oss-120b (farklı aile; launder_api metinlerini Opus 5 ürettiği için akıcılık hükmü yalnız bağımsız yargıçtan alınabilir). Kör kalibrasyon çiftleri geçildi. Karar kuralı koşudan ÖNCE ilan edildi: başarılı = ΔAUROC>0,05 VE anlam korunuyor.
+
+| koşul | yargıç | n | anlam korunmuş | konum dönme |
+|---|---|---|---|---|
+| launder_api | gpt-oss | 80.0 | 1.00 | 0.50 |
+| launder_api | opus | 80.0 | 1.00 | 0.00 |
+| launder | gpt-oss | 80.0 | 1.00 | 0.57 |
+| launder | opus | 80.0 | 1.00 | 0.05 |
+| para | gpt-oss | 80.0 | 1.00 | 0.42 |
+| para | opus | 80.0 | 1.00 | 0.15 |
+| rtt | gpt-oss | 80.0 | 1.00 | 0.25 |
+| rtt | opus | 80.0 | 1.00 | 0.10 |
+
+**Sonuç:** hiçbir saldırı anlamı bozmuyor (tüm hücrelerde 1,00). launder_api ÜÇ şemada da ön-kayıt kuralını sağlayan tek saldırı (ΔAUROC: KGW +0,083, EXP +0,137, SynthID +0,253); rtt yalnız SynthID'de (+0,184). Akıcılık: bağımsız yargıç para/launder/launder_api'de %42-57 konum gürültüsü gösteriyor = ayırt edemiyor; 'aklama akıcılığı düşürmüyor' denebilir, 'yükseltiyor' denemez.
+
 _Figürler: results/figs/ — Ham skorlar: results/scores.csv_

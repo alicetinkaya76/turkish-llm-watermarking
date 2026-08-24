@@ -969,14 +969,35 @@ def _s1_s2_sections() -> list[str]:
         kgw_tr = (r.get("tr") or {}).get("KGW")
         kgw_en = (r.get("en") or {}).get("KGW")
         if kgw_tr and kgw_en:
+            # AMPİRİK sayım ESASTIR: parametrik oran Gauss uyumu varsayar, oysa
+            # H1'in kendisi o varsayımın bozuk olduğunu söylüyor. İki kestirimci
+            # farklı sayı verir (ampirik ~63x, parametrik ~96x) -- ikisi de
+            # etiketiyle basılır, manşet ampiriktir.
+            _skor_tr = C.REPO_ROOT / "results_insan" / "skor_tr.jsonl"
+            _amp = ""
+            if _skor_tr.exists():
+                _k = [json.loads(l)["score"] for l in
+                      _skor_tr.open(encoding="utf-8")
+                      if json.loads(l)["scheme"] == "KGW"]
+                if _k:
+                    _n4 = sum(x > 4.0 for x in _k)
+                    _amp = (f"z=4 eşiğini aşan insan metni (AMPİRİK): "
+                            f"{_n4}/{len(_k)} = {_n4/len(_k):.2e} — nominalin "
+                            f"~{(_n4/len(_k))/max(kgw_tr.get('z4_nominal_fpr',1),1e-12):.0f}×. ")
             out += ["", f"**H1 {'DOĞRULANDI' if kgw_tr['null_std'] > 1 else 'DOĞRULANAMADI'}:** "
                     f"insan Türkçesinde KGW null std {kgw_tr['null_std']:.3f} (teorik 1). "
                     f"**H2:** TR {kgw_tr['null_std']:.3f} vs EN {kgw_en['null_std']:.3f} "
-                    "(Levene p=0,0004; commit b532269). "
-                    f"z=4 eşiğinde gözlenen dağılım FPR'ı "
+                    "(Levene p=0,0004; commit b532269). " + _amp +
+                    f"Parametrik tahmin (Gauss uyumu; H1 gereği yalnız yaklaşık): "
                     f"{kgw_tr.get('z4_gozlenen_dagilimda', float('nan')):.2e} "
-                    f"(nominal {kgw_tr.get('z4_nominal_fpr', float('nan')):.2e}, "
-                    f"oran ~{kgw_tr.get('z4_gozlenen_dagilimda', 0) / max(kgw_tr.get('z4_nominal_fpr', 1), 1e-12):.0f}×)."]
+                    f"~{kgw_tr.get('z4_gozlenen_dagilimda', 0) / max(kgw_tr.get('z4_nominal_fpr', 1), 1e-12):.0f}×.",
+                    "",
+                    "> **Keşifsel (ön-kayıt dışı):** model-negatiflerinden kalibre edilen "
+                    "%1 eşikler insan metnine TAŞINMIYOR -- tabloda "
+                    "`model-kalibre eşikte FPR` sütunu: EXP TR'de %7,4, SynthID "
+                    "EN'de %4,1. Operasyonel eşik, dağıtım ortamının kendi negatif "
+                    "dağılımından kalibre edilmelidir; model çıktısı vekil olarak "
+                    "yetersiz."]
 
     s2 = kok / "s2_rapor.json"
     if s2.exists():
