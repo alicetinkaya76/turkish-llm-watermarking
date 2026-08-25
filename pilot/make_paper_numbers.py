@@ -173,6 +173,50 @@ def main() -> None:
             pass
     n["uzunluk_orani"] = uz
 
+    # ikinci register (S1 ek, on-kayit 5c4f323)
+    r2 = C.REPO_ROOT / "results_insan" / "register2_rapor.json"
+    if r2.exists():
+        n["s1_register2"] = json.loads(r2.read_text())
+
+    # ikinci uretici adaylari (G5b) -- kapi kayitlarindan
+    aday = {}
+    for ad, dosya in (("Mistral-Nemo-12B", "onkapi_nemo"),
+                      ("Turkish-Llama-8b", "onkapi_trllama")):
+        yol = C.REPO_ROOT / "results_hpc" / f"{dosya}.jsonl"
+        if not yol.exists():
+            continue
+        r = read_jsonl(yol)
+        aday[ad] = {
+            "n": len(r),
+            "kapi": sum(x["gecti"] for x in r),
+            "latin": sum(x["latin"] for x in r),
+            "kelime": sum(x["kelime"] for x in r),
+            "sonlandirilmis": sum(x["sonlandirilmis"] for x in r),
+            "tekrar": sum(x["tekrar"] for x in r),
+            "kelime_medyan": float(np.median([x["n_kelime"] for x in r])),
+        }
+    if aday:
+        n["ikinci_uretici_adaylari"] = aday
+        n["ikinci_uretici_ozet"] = ("5 aday ayni on-kayitli kapida denendi "
+                                    "(Qwen2.5-3B, Qwen2.5-7B, Qwen3-14B, "
+                                    "Mistral-Nemo-12B, Turkish-Llama-8b); "
+                                    "yalniz Qwen3-14B gecti")
+
+    # cihaz-RNG olcumu (SynthID)
+    n["cihaz_rng"] = {
+        "cpu_mean_ornek": 0.498288, "cuda_mean_ornek": 0.529836,
+        "cuda_scorescsv_maks_fark": 5.55e-17,
+        "_kaynak": "dev_synthid_weighted on-kapisi + cuda_synthid_test (2026-08-25)",
+        "_yorum": "SynthID g-degeri anahtari cihaz sinifina bagli; dedektor "
+                  "ureticiyle ayni cihaz sinifinda kosulmali. S1 etkilenmez: "
+                  "null dagilimi anahtar-degismez.",
+    }
+
+    # weighted_mean karsilastirmasi (varsa)
+    wj = C.RESULTS / "synthid_weighted_karsilastirma.json"
+    if wj.exists():
+        n["synthid_weighted"] = json.loads(wj.read_text())
+
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps(n, ensure_ascii=False, indent=2))
     print(f"yazıldı: {OUT}  ({OUT.stat().st_size/1024:.0f} KiB)")

@@ -180,8 +180,8 @@ model 9B'dir.
 
 | aday | boyut (ölçülü) | tokenizer | sonuç |
 |---|---|---|---|
-| mistralai/Mistral-Nemo-Instruct-2407 | 24,50 GB | Tekken 131k (γ sapması 0) | **KALDI** — latin 14/16, KAPI 9/16, medyan 320 kelime (teslim ~%64) |
-| ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 | 16,06 GB | Llama-3 128k (γ sapması 0) | **KALDI** — latin 16/16 ✓, kelime 16/16 ✓ (medyan 818!) ama tekrar 3/16, bitmiş 2/16: tekrar döngüsüne giriyor, bitiremiyor |
+| mistralai/Mistral-Nemo-Instruct-2407 | 24,50 GB | Tekken 131k (γ sapması 0) | **KALDI** — latin 14/16, KAPI 9/16, kelime medyanı 315 (teslim ~%63) |
+| ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 | 16,06 GB | Llama-3 128k (γ sapması 0) | **KALDI** — latin 16/16 ✓, kelime 16/16 ✓ (medyan 808,5!) ama tekrar 3/16, bitmiş 2/16: tekrar döngüsüne giriyor, bitiremiyor |
 
 **SONUÇ:** aynı ön-kayıtlı kapıda 5 aday denendi (Qwen2.5-3B, Qwen2.5-7B,
 Qwen3-14B, Mistral-Nemo-12B, Turkish-Llama-8b); yalnız **Qwen3-14B** geçti.

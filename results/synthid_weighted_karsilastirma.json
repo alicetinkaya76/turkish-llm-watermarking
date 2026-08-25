@@ -1,0 +1,46 @@
+{
+  "clean": {
+    "mean": 1.0,
+    "weighted_mean": 1.0
+  },
+  "dia100": {
+    "mean": 0.9291449652777778,
+    "weighted_mean": 0.9548611111111112
+  },
+  "dia50": {
+    "mean": 0.9956597222222222,
+    "weighted_mean": 0.9995659722222222
+  },
+  "morph": {
+    "mean": 1.0,
+    "weighted_mean": 1.0
+  },
+  "morph+dia": {
+    "mean": 0.9258897569444444,
+    "weighted_mean": 0.9533420138888888
+  },
+  "morph_v1": {
+    "mean": 1.0,
+    "weighted_mean": 1.0
+  },
+  "morph_v1+dia": {
+    "mean": 0.9229600694444444,
+    "weighted_mean": 0.9487847222222222
+  },
+  "rtt": {
+    "mean": 0.8162977430555557,
+    "weighted_mean": 0.8569878472222224
+  },
+  "para": {
+    "mean": 0.9984809027777778,
+    "weighted_mean": 0.9958767361111112
+  },
+  "launder": {
+    "mean": 0.9807942708333334,
+    "weighted_mean": 0.986545138888889
+  },
+  "launder_api": {
+    "mean": 0.7472873263888888,
+    "weighted_mean": 0.7731119791666666
+  }
+}
