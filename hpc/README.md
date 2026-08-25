@@ -176,6 +176,17 @@ model 9B'dir.
 | T6'nın tespit metriklerine etkisi | aynı metinler üzerinde fp16 ve fp32 tespit istatistikleri karşılaştırılacak |
 | `qwen3_5` + MarkLLM uyumu | model yüklenip ön-kapı ve filigran yolu fiilen koşturulacak |
 
+### İKİNCİ ÜRETİCİ ADAY KAYDI (G5b — ölçüt DEĞİŞMEDİ: latin 16/16 zorunlu, KAPI ≥ 12/16)
+
+| aday | boyut (ölçülü) | tokenizer | sonuç |
+|---|---|---|---|
+| mistralai/Mistral-Nemo-Instruct-2407 | 24,50 GB | Tekken 131k (γ sapması 0) | **KALDI** — latin 14/16, KAPI 9/16, medyan 320 kelime (teslim ~%64) |
+| ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 | 16,06 GB | Llama-3 128k | koşuluyor |
+
+Nemo'nun düşüşü eşik oynatılarak kurtarılmadı; "aday kapıyı geçemedi" kendisi
+raporlanabilir bir sonuçtur (Türkçe üretim kalitesi genel amaçlı modellerde
+güvenilir değil — Qwen2.5 ailesi de 5 konfigürasyonda düşmüştü).
+
 ### ÖN-KAYIT — S2: fayda ekseni (yazım anı: 2026-08-23, KOŞUDAN ÖNCE)
 
 **Soru:** "en yıkıcı saldırı" dediğimiz launder_api, metni KULLANILABİLİR
