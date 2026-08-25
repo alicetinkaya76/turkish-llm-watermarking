@@ -181,11 +181,20 @@ model 9B'dir.
 | aday | boyut (ölçülü) | tokenizer | sonuç |
 |---|---|---|---|
 | mistralai/Mistral-Nemo-Instruct-2407 | 24,50 GB | Tekken 131k (γ sapması 0) | **KALDI** — latin 14/16, KAPI 9/16, medyan 320 kelime (teslim ~%64) |
-| ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 | 16,06 GB | Llama-3 128k | koşuluyor |
+| ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 | 16,06 GB | Llama-3 128k (γ sapması 0) | **KALDI** — latin 16/16 ✓, kelime 16/16 ✓ (medyan 818!) ama tekrar 3/16, bitmiş 2/16: tekrar döngüsüne giriyor, bitiremiyor |
 
-Nemo'nun düşüşü eşik oynatılarak kurtarılmadı; "aday kapıyı geçemedi" kendisi
-raporlanabilir bir sonuçtur (Türkçe üretim kalitesi genel amaçlı modellerde
-güvenilir değil — Qwen2.5 ailesi de 5 konfigürasyonda düşmüştü).
+**SONUÇ:** aynı ön-kayıtlı kapıda 5 aday denendi (Qwen2.5-3B, Qwen2.5-7B,
+Qwen3-14B, Mistral-Nemo-12B, Turkish-Llama-8b); yalnız **Qwen3-14B** geçti.
+Düşüş kipleri farklı: Qwen2.5 kirlenme, Nemo kirlenme+eksik teslim, TR-Llama
+tekrar dejenerasyonu. Çapraz-model tekrar BAŞARILAMADI ve bu dürüstçe
+raporlanır; "kabul edilebilir uzun-form Türkçe üretim başlı başına engel"
+bulgusu beş veri noktasıyla desteklenir.
+
+**CİHAZ-RNG ÖLÇÜMÜ (2026-08-25):** SynthID g-değeri anahtarı cihaz sınıfına
+bağlı — CPU'da skorlanan filigranlı metin şansa çöküyor (mean 0,498 vs CUDA
+0,529); CUDA'da scores.csv birebir (maks |Δ| = 0,00e+00). Dedektör üreticiyle
+aynı cihaz sınıfında koşmalı. S1 etkilenmez: insan metninde filigran yok, null
+dağılımı anahtar-değişmez (SynthID null std iki cihazda da 0,003).
 
 ### ÖN-KAYIT — S2: fayda ekseni (yazım anı: 2026-08-23, KOŞUDAN ÖNCE)
 

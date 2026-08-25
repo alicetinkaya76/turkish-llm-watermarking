@@ -1,0 +1,12 @@
+{
+  "on_kayit": "5c4f323",
+  "register": "wikisource 20231201.tr",
+  "KGW": {
+    "n": 1000,
+    "null_ort": -0.17372299973150523,
+    "null_std": 1.4199378722503972,
+    "z4_ustu": 4,
+    "z_maks": 5.564254813571456,
+    "levene_vs_wikipedia_p": 0.20044980579985902
+  }
+}

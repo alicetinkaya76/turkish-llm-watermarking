@@ -68,7 +68,7 @@ def _pencere(text: str, hedef: int, rng: random.Random) -> str | None:
 DUMP_SURUM = "20231101"     # provenans: wikimedia/wikipedia HF dump'i
 
 
-def topla(dil: str, hedef: int) -> None:
+def topla(dil: str, hedef: int, kaynak: str = "wikipedia") -> None:
     """Vikipedi DUMP'indan akisla toplar (tam indirme yok).
 
     Ilk surum action API kullaniyordu; olculdu: prop=extracts coklu sayfada
@@ -82,13 +82,22 @@ def topla(dil: str, hedef: int) -> None:
     from datasets import load_dataset
 
     VERI.mkdir(exist_ok=True)
-    yol = VERI / f"insan_{dil}.jsonl"
+    ek = "" if kaynak == "wikipedia" else f"_{kaynak}"
+    yol = VERI / f"insan_{dil}{ek}.jsonl"
     var = read_jsonl(yol)
     gorulen = {r["pageid"] for r in var}
     rng = random.Random(42)
-    ds = load_dataset("wikimedia/wikipedia", f"{DUMP_SURUM}.{dil}",
-                      split="train", streaming=True)
-    print(f"{dil}: {len(var)} hazır, hedef {hedef} (dump {DUMP_SURUM})")
+    if kaynak == "wikipedia":
+        ds = load_dataset("wikimedia/wikipedia", f"{DUMP_SURUM}.{dil}",
+                          split="train", streaming=True)
+        dump_adi = f"wikipedia {DUMP_SURUM}.{dil}"
+    else:
+        # Ikinci register: Vikikaynak (eski resmi/edebi duzyazi). Dump surumu
+        # wikimedia/wikisource'un HF'deki tek yayimlanan surumudur.
+        ds = load_dataset("wikimedia/wikisource", f"20231201.{dil}",
+                          split="train", streaming=True)
+        dump_adi = f"wikisource 20231201.{dil}"
+    print(f"{dil}/{kaynak}: {len(var)} hazır, hedef {hedef} ({dump_adi})")
     t0, taranan = time.time(), 0
     for madde in ds:
         if len(gorulen) >= hedef:
@@ -105,7 +114,7 @@ def topla(dil: str, hedef: int) -> None:
             continue
         append_jsonl(yol, {
             "pageid": pid, "title": madde.get("title"),
-            "dump": f"{DUMP_SURUM}.{dil}",
+            "dump": dump_adi,
             "dil": dil, "n_kelime": len(pencere.split()),
             "text": pencere,
         })
@@ -135,11 +144,13 @@ def skorla() -> None:
             ad, algorithm_config=C.SCHEME_CONFIGS[ad],
             transformers_config=tcfg, **extra)
 
-    for dil in ("tr", "en"):
-        kaynak = VERI / f"insan_{dil}.jsonl"
+    # kayitli tum korpuslar: dil + istege bagli register eki
+    hedefler = [("tr", ""), ("en", ""), ("tr", "_wikisource")]
+    for dil, ek in hedefler:
+        kaynak = VERI / f"insan_{dil}{ek}.jsonl"
         if not kaynak.exists():
-            print(f"  {dil}: veri yok, atlandı"); continue
-        cikti = VERI / f"skor_{dil}.jsonl"
+            print(f"  {dil}{ek}: veri yok, atlandı"); continue
+        cikti = VERI / f"skor_{dil}{ek}.jsonl"
         hazir = {(r["pageid"], r["scheme"]) for r in read_jsonl(cikti)}
         rows = read_jsonl(kaynak)
         print(f"{dil}: {len(rows)} belge x {len(semalar)} şema "
@@ -211,10 +222,14 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     t = sub.add_parser("topla"); t.add_argument("--dil", choices=("tr", "en"), required=True)
     t.add_argument("--hedef", type=int, default=1000)
+    t.add_argument("--kaynak", choices=("wikipedia", "wikisource"),
+                   default="wikipedia",
+                   help="wikisource = ikinci register (eski resmî/edebî düzyazı); "
+                        "ayrı dosyaya yazılır, ansiklopediyle HAVUZLANMAZ")
     sub.add_parser("skorla"); sub.add_parser("rapor")
     a = ap.parse_args()
     if a.cmd == "topla":
-        topla(a.dil, a.hedef)
+        topla(a.dil, a.hedef, a.kaynak)
     elif a.cmd == "skorla":
         skorla()
     else:
