@@ -1,0 +1,58 @@
+{
+  "rtt|gpt-oss": {
+    "n": 80.0,
+    "anlam": 1.0,
+    "orij": 0.85,
+    "donme": 0.25,
+    "guvenilir": true
+  },
+  "rtt|opus": {
+    "n": 80.0,
+    "anlam": 1.0,
+    "orij": 0.95,
+    "donme": 0.1,
+    "guvenilir": true
+  },
+  "para|gpt-oss": {
+    "n": 80.0,
+    "anlam": 1.0,
+    "orij": 0.1125,
+    "donme": 0.425,
+    "guvenilir": true
+  },
+  "para|opus": {
+    "n": 80.0,
+    "anlam": 1.0,
+    "orij": 0.1,
+    "donme": 0.15,
+    "guvenilir": true
+  },
+  "launder|gpt-oss": {
+    "n": 80.0,
+    "anlam": 1.0,
+    "orij": 0.2125,
+    "donme": 0.575,
+    "guvenilir": true
+  },
+  "launder|opus": {
+    "n": 80.0,
+    "anlam": 1.0,
+    "orij": 0.0125,
+    "donme": 0.05,
+    "guvenilir": true
+  },
+  "launder_api|gpt-oss": {
+    "n": 80.0,
+    "anlam": 1.0,
+    "orij": 0.0875,
+    "donme": 0.5,
+    "guvenilir": true
+  },
+  "launder_api|opus": {
+    "n": 80.0,
+    "anlam": 1.0,
+    "orij": 0.0,
+    "donme": 0.0,
+    "guvenilir": true
+  }
+}

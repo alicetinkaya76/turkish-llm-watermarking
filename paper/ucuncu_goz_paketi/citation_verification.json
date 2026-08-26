@@ -1,0 +1,68 @@
+{
+  "_tarih": "2026-08-25",
+  "_yontem": "OpenAlex title.search (mailto'lu nazik havuz); her giriş için başlık+ilk yazar+yıl+DOI eşleşmesi kontrol edildi. Crossref bibliyografik arama PMLR/TMLR/arXiv girişlerinde isabetsizdi, OpenAlex kullanıldı. YALNIZ bibliyografik kimlik doğrulandı; içerik iddiaları için makaleler OKUNMADI -- metindeki atıflar bu yüzden jeneriktir.",
+  "dogrulanan": {
+    "KGW": {
+      "doi": "10.48550/arXiv.2301.10226",
+      "ilk_yazar": "John Kirchenbauer",
+      "yil": 2023
+    },
+    "EXP-K": {
+      "doi": "10.48550/arXiv.2307.15593",
+      "ilk_yazar": "Rohith Kuditipudi",
+      "yil": 2023
+    },
+    "SYNTHID": {
+      "doi": "10.1038/s41586-024-08025-4",
+      "venue": "Nature",
+      "yil": 2024
+    },
+    "MARKLLM": {
+      "doi": "10.18653/v1/2024.emnlp-demo.7",
+      "ilk_yazar": "Leyi Pan",
+      "yil": 2024
+    },
+    "QWEN3": {
+      "doi": "10.48550/arXiv.2505.09388",
+      "yil": 2025
+    },
+    "NLLB": {
+      "doi": "10.48550/arXiv.2207.04672",
+      "yil": 2022
+    },
+    "E5": {
+      "doi": "10.48550/arXiv.2402.05672",
+      "ilk_yazar": "Liang Wang",
+      "yil": 2024
+    },
+    "XLING": {
+      "doi": "10.18653/v1/2024.acl-long.226",
+      "ilk_yazar": "Zhiwei He",
+      "yil": 2024
+    },
+    "DIPPER": {
+      "doi": "10.48550/arXiv.2303.13408",
+      "ilk_yazar": "Kalpesh Krishna",
+      "yil": 2023
+    },
+    "SADASIVAN": {
+      "doi": "10.48550/arXiv.2303.11156",
+      "yil": 2023
+    },
+    "TOKENIZER": {
+      "doi": "10.18653/v1/2021.acl-long.243",
+      "ilk_yazar": "Phillip Rust",
+      "yil": 2021
+    },
+    "XLING-ROB": {
+      "doi": "10.48550/arXiv.2502.16699",
+      "yil": 2025,
+      "not": "preprint"
+    }
+  },
+  "doi_siz": {
+    "EXP-A": "Aaronson konuşma/blog — arşivsel değil",
+    "ZEYREK": "yazılım",
+    "WIKIDUMP": "veri kümesi, sürümle atıflı"
+  }
+}

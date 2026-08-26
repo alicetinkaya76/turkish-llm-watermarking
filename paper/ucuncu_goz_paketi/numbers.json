@@ -1,0 +1,896 @@
+{
+  "_kaynak": "pilot/make_paper_numbers.py — elle sayı YOK",
+  "_uretim": "python -m pilot.make_paper_numbers",
+  "corpus": {
+    "model": "Qwen/Qwen3-14B",
+    "device": "cuda",
+    "gen_kwargs": {
+      "max_new_tokens": 1800,
+      "min_new_tokens": 400,
+      "do_sample": true,
+      "temperature": 0.8,
+      "top_p": 0.95,
+      "top_k": 20,
+      "repetition_penalty": 1.0
+    },
+    "exp_sequence_length": 950,
+    "prompts_sha256_12": "8fcbe4074b46",
+    "n_prompts": 24,
+    "n_seeds": 4,
+    "n_arms": 4,
+    "n_texts": 384
+  },
+  "kollar": {
+    "neg": {
+      "n": 96,
+      "kelime_medyan": 365.0,
+      "token_medyan": 935.0,
+      "token_std": 101.01840580509825,
+      "kirlenen": 2,
+      "tavana_dayanan": 0
+    },
+    "KGW": {
+      "n": 96,
+      "kelime_medyan": 382.0,
+      "token_medyan": 983.5,
+      "token_std": 178.1678241842825,
+      "kirlenen": 8,
+      "tavana_dayanan": 2
+    },
+    "EXP": {
+      "n": 96,
+      "kelime_medyan": 376.0,
+      "token_medyan": 947.0,
+      "token_std": 1.5486270093328112,
+      "kirlenen": 0,
+      "tavana_dayanan": 0
+    },
+    "SynthID": {
+      "n": 96,
+      "kelime_medyan": 371.5,
+      "token_medyan": 950.5,
+      "token_std": 158.38336201771665,
+      "kirlenen": 9,
+      "tavana_dayanan": 2
+    }
+  },
+  "kabul": {
+    "uyum_oran": 0.9765625,
+    "uyum_pay": 375,
+    "uyum_payda": 384,
+    "sonlandirma_oran": 0.9826388888888888,
+    "sonlandirma_pay": 283,
+    "sonlandirma_payda": 288,
+    "esikler": {
+      "kelime": 300,
+      "uyum": 0.75,
+      "sonlandirma": 0.9,
+      "kirlenme": 0.05
+    }
+  },
+  "istem_kalibrasyonu": {
+    "istem_hedefi_eski": 300,
+    "istem_hedefi_yeni": 500,
+    "medyan_300_istendiginde": 244,
+    "medyan_500_istendiginde": 364,
+    "_kaynak": "results_hpc/onkapi_Qwen3-14B.jsonl / onkapi_14b_istem500.jsonl"
+  },
+  "bereket_tok_kelime": 2.552437761958672,
+  "tespit": [
+    {
+      "scheme": "EXP",
+      "condition": "clean",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 55.8827338623,
+      "attneg_stat_mean": 0.4460902515
+    },
+    {
+      "scheme": "EXP",
+      "condition": "dia100",
+      "n_pos": 96,
+      "auroc": 0.9826388889,
+      "ci_lo": 0.9461588542,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9166666667,
+      "tpr_ci_lo": 0.8322916667,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 6.1377995856,
+      "attneg_stat_mean": 0.4750972679
+    },
+    {
+      "scheme": "EXP",
+      "condition": "dia50",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 16.0881904538,
+      "attneg_stat_mean": 0.4192003017
+    },
+    {
+      "scheme": "EXP",
+      "condition": "morph",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 53.8696529195,
+      "attneg_stat_mean": 0.4509323077
+    },
+    {
+      "scheme": "EXP",
+      "condition": "morph+dia",
+      "n_pos": 96,
+      "auroc": 0.9817708333,
+      "ci_lo": 0.9444444444,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.875,
+      "tpr_ci_lo": 0.75,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 5.9425793098,
+      "attneg_stat_mean": 0.4808430381
+    },
+    {
+      "scheme": "EXP",
+      "condition": "morph_v1",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 52.3005765017,
+      "attneg_stat_mean": 0.4324904795
+    },
+    {
+      "scheme": "EXP",
+      "condition": "morph_v1+dia",
+      "n_pos": 96,
+      "auroc": 0.9822048611,
+      "ci_lo": 0.9453016493,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9166666667,
+      "tpr_ci_lo": 0.7916666667,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 5.6693079052,
+      "attneg_stat_mean": 0.4501646012
+    },
+    {
+      "scheme": "EXP",
+      "condition": "rtt",
+      "n_pos": 96,
+      "auroc": 0.9557291667,
+      "ci_lo": 0.8962565104,
+      "ci_hi": 0.9982638889,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.7916666667,
+      "tpr_ci_lo": 0.6666666667,
+      "tpr_ci_hi": 0.9583333333,
+      "pos_stat_mean": 4.5215074926,
+      "attneg_stat_mean": 0.4300300428
+    },
+    {
+      "scheme": "EXP",
+      "condition": "para",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 40.4246310291,
+      "attneg_stat_mean": 0.4462985699
+    },
+    {
+      "scheme": "EXP",
+      "condition": "launder",
+      "n_pos": 96,
+      "auroc": 0.9969618056,
+      "ci_lo": 0.9904459635,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9895833333,
+      "tpr_ci_lo": 0.96875,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 26.8368611659,
+      "attneg_stat_mean": 0.4681292652
+    },
+    {
+      "scheme": "EXP",
+      "condition": "launder_api",
+      "n_pos": 96,
+      "auroc": 0.86328125,
+      "ci_lo": 0.7899278429,
+      "ci_hi": 0.9239393446,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.4895833333,
+      "tpr_ci_lo": 0.34375,
+      "tpr_ci_hi": 0.6979166667,
+      "pos_stat_mean": 3.6241099711,
+      "attneg_stat_mean": 0.5431707829
+    },
+    {
+      "scheme": "KGW",
+      "condition": "clean",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 10.5499345291,
+      "attneg_stat_mean": 0.0124962788
+    },
+    {
+      "scheme": "KGW",
+      "condition": "dia100",
+      "n_pos": 96,
+      "auroc": 0.9939236111,
+      "ci_lo": 0.9861111111,
+      "ci_hi": 0.999351671,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.8645833333,
+      "tpr_ci_lo": 0.7083333333,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 6.1941822844,
+      "attneg_stat_mean": 0.2751133452
+    },
+    {
+      "scheme": "KGW",
+      "condition": "dia50",
+      "n_pos": 96,
+      "auroc": 0.9986979167,
+      "ci_lo": 0.9963107639,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9791666667,
+      "tpr_ci_lo": 0.9270833333,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 7.5966876827,
+      "attneg_stat_mean": 0.0110981271
+    },
+    {
+      "scheme": "KGW",
+      "condition": "morph",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 10.4978536314,
+      "attneg_stat_mean": 0.0154956695
+    },
+    {
+      "scheme": "KGW",
+      "condition": "morph+dia",
+      "n_pos": 96,
+      "auroc": 0.9939236111,
+      "ci_lo": 0.9861111111,
+      "ci_hi": 0.999351671,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.8645833333,
+      "tpr_ci_lo": 0.7083333333,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 6.1374498831,
+      "attneg_stat_mean": 0.2473441555
+    },
+    {
+      "scheme": "KGW",
+      "condition": "morph_v1",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 10.3918487518,
+      "attneg_stat_mean": -0.0026001576
+    },
+    {
+      "scheme": "KGW",
+      "condition": "morph_v1+dia",
+      "n_pos": 96,
+      "auroc": 0.9929470486,
+      "ci_lo": 0.9842637804,
+      "ci_hi": 0.9993489583,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.84375,
+      "tpr_ci_lo": 0.65625,
+      "tpr_ci_hi": 0.9895833333,
+      "pos_stat_mean": 5.9921571941,
+      "attneg_stat_mean": 0.1232997853
+    },
+    {
+      "scheme": "KGW",
+      "condition": "rtt",
+      "n_pos": 96,
+      "auroc": 0.9541015625,
+      "ci_lo": 0.9259928385,
+      "ci_hi": 0.9788465712,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.59375,
+      "tpr_ci_lo": 0.38515625,
+      "tpr_ci_hi": 0.84375,
+      "pos_stat_mean": 3.7376155073,
+      "attneg_stat_mean": 0.0922827825
+    },
+    {
+      "scheme": "KGW",
+      "condition": "para",
+      "n_pos": 96,
+      "auroc": 0.9983723958,
+      "ci_lo": 0.9952256944,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9895833333,
+      "tpr_ci_lo": 0.9270833333,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 8.5157103542,
+      "attneg_stat_mean": -0.0642091961
+    },
+    {
+      "scheme": "KGW",
+      "condition": "launder",
+      "n_pos": 96,
+      "auroc": 0.9985894097,
+      "ci_lo": 0.99609375,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9375,
+      "tpr_ci_lo": 0.8854166667,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 7.0160813357,
+      "attneg_stat_mean": 0.0155984012
+    },
+    {
+      "scheme": "KGW",
+      "condition": "launder_api",
+      "n_pos": 96,
+      "auroc": 0.9168836806,
+      "ci_lo": 0.8654459635,
+      "ci_hi": 0.9557318793,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.4270833333,
+      "tpr_ci_lo": 0.1979166667,
+      "tpr_ci_hi": 0.7291666667,
+      "pos_stat_mean": 3.1706222618,
+      "attneg_stat_mean": -0.1408501337
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "clean",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 0.5350636187,
+      "attneg_stat_mean": 0.5010441348
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "dia100",
+      "n_pos": 96,
+      "auroc": 0.9291449653,
+      "ci_lo": 0.8871446398,
+      "ci_hi": 0.9634358724,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.6770833333,
+      "tpr_ci_lo": 0.4583333333,
+      "tpr_ci_hi": 0.7916666667,
+      "pos_stat_mean": 0.5090867685,
+      "attneg_stat_mean": 0.5008912973
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "dia50",
+      "n_pos": 96,
+      "auroc": 0.9956597222,
+      "ci_lo": 0.9893663194,
+      "ci_hi": 0.9993489583,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9479166667,
+      "tpr_ci_lo": 0.8541666667,
+      "tpr_ci_hi": 0.9895833333,
+      "pos_stat_mean": 0.5163417081,
+      "attneg_stat_mean": 0.5007050352
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "morph",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 0.5346856912,
+      "attneg_stat_mean": 0.501057225
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "morph+dia",
+      "n_pos": 96,
+      "auroc": 0.9258897569,
+      "ci_lo": 0.8836561415,
+      "ci_hi": 0.9597547743,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.65625,
+      "tpr_ci_lo": 0.4375,
+      "tpr_ci_hi": 0.7604166667,
+      "pos_stat_mean": 0.5089757654,
+      "attneg_stat_mean": 0.5009206141
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "morph_v1",
+      "n_pos": 96,
+      "auroc": 1.0,
+      "ci_lo": 1.0,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": 0.8826538438,
+      "tpr_temiz_esikte": 1.0,
+      "tpr_ci_lo": 1.0,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 0.5338735981,
+      "attneg_stat_mean": 0.5009358168
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "morph_v1+dia",
+      "n_pos": 96,
+      "auroc": 0.9229600694,
+      "ci_lo": 0.8822374132,
+      "ci_hi": 0.9578993056,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.65625,
+      "tpr_ci_lo": 0.40625,
+      "tpr_ci_hi": 0.75,
+      "pos_stat_mean": 0.5087777516,
+      "attneg_stat_mean": 0.5009902195
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "rtt",
+      "n_pos": 96,
+      "auroc": 0.8162977431,
+      "ci_lo": 0.7583468967,
+      "ci_hi": 0.8703911675,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.3125,
+      "tpr_ci_lo": 0.1458333333,
+      "tpr_ci_hi": 0.4377604167,
+      "pos_stat_mean": 0.5051845225,
+      "attneg_stat_mean": 0.5006758205
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "para",
+      "n_pos": 96,
+      "auroc": 0.9984809028,
+      "ci_lo": 0.9938151042,
+      "ci_hi": 1.0,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9895833333,
+      "tpr_ci_lo": 0.96875,
+      "tpr_ci_hi": 1.0,
+      "pos_stat_mean": 0.5265945012,
+      "attneg_stat_mean": 0.5008867628
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "launder",
+      "n_pos": 96,
+      "auroc": 0.9807942708,
+      "ci_lo": 0.9553900825,
+      "ci_hi": 0.9973958333,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.9479166667,
+      "tpr_ci_lo": 0.8854166667,
+      "tpr_ci_hi": 0.9791666667,
+      "pos_stat_mean": 0.5186036162,
+      "attneg_stat_mean": 0.5010777933
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "launder_api",
+      "n_pos": 96,
+      "auroc": 0.7472873264,
+      "ci_lo": 0.6495144314,
+      "ci_hi": 0.8340928819,
+      "n_kume": 24,
+      "ci_lo_cp": null,
+      "tpr_temiz_esikte": 0.25,
+      "tpr_ci_lo": 0.0729166667,
+      "tpr_ci_hi": 0.3854166667,
+      "pos_stat_mean": 0.5042596309,
+      "attneg_stat_mean": 0.5001444659
+    }
+  ],
+  "auroc_dusus_ort": {
+    "launder_api": 0.1575159143518519,
+    "rtt": 0.09129050925925915,
+    "morph_v1+dia": 0.033962673611111084,
+    "morph+dia": 0.03280526620370361,
+    "dia100": 0.031430844907407364,
+    "launder": 0.007884837962962946,
+    "dia50": 0.0018807870370370534,
+    "para": 0.0010489004629630205,
+    "morph": 0.0,
+    "morph_v1": 0.0
+  },
+  "d3_istem_duzeyi": {
+    "KGW": {
+      "n_istem": 24,
+      "wilcoxon_p": 0.005330443382263184
+    },
+    "EXP": {
+      "n_istem": 24,
+      "wilcoxon_p": 0.036649227142333984
+    },
+    "SynthID": {
+      "n_istem": 24,
+      "wilcoxon_p": 0.019441962242126465
+    }
+  },
+  "sema_karsilastirma_md": [
+    "| kosul | cift | ort_fark | n_istem | p | holm_esik | holm |\n|---|---|---|---|---|---|---|\n| rtt | EXP vs SynthID | 0.479 | 24 | 0.001 | 0.008 | ANLAMLI |\n| rtt | KGW vs SynthID | 0.281 | 24 | 0.001 | 0.010 | ANLAMLI |\n| launder_api | EXP vs SynthID | 0.240 | 24 | 0.003 | 0.013 | ANLAMLI |\n| launder_api | KGW vs SynthID | 0.177 | 24 | 0.013 | 0.017 | ANLAMLI |\n| rtt | KGW vs EXP | -0.198 | 24 | 0.104 | 0.025 | — |\n| launder_api | KGW vs EXP | -0.062 | 24 | 0.513 | 0.050 | — |"
+  ],
+  "kgw_model_negatif": {
+    "n": 96,
+    "ort": 0.012496278772032169,
+    "std": 1.3126649282713527,
+    "z4_sigma_uzaklik": 3.0377163549871846,
+    "z4_nominal_fpr": 3.167124183311986e-05
+  },
+  "s1": {
+    "olcum_tarihi": "2026-08-23",
+    "on_kayit": "hpc/README.md S1 (8f8df72)",
+    "tr": {
+      "KGW": {
+        "n": 1500,
+        "null_ort": -0.05531915786288738,
+        "null_std": 1.478662740868063,
+        "fpr_config_esigi": 0.002,
+        "fpr_model_kalibre_esik": 0.008,
+        "esik_model_kalibre": 3.2848419046542747,
+        "z4_nominal_fpr": 3.167124183311986e-05,
+        "z4_gozlenen_dagilimda": 0.003048128934377599
+      },
+      "EXP": {
+        "n": 1500,
+        "null_ort": 0.5900719194846761,
+        "null_std": 0.7489567556884957,
+        "fpr_config_esigi": 0.008666666666666666,
+        "fpr_model_kalibre_esik": 0.074,
+        "esik_model_kalibre": 1.6094175617258597
+      },
+      "SynthID": {
+        "n": 1500,
+        "null_ort": 0.4994094562214755,
+        "null_std": 0.0029175911388551025,
+        "fpr_config_esigi": 0.0,
+        "fpr_model_kalibre_esik": 0.010666666666666666,
+        "esik_model_kalibre": 0.5065824997557733
+      }
+    },
+    "en": {
+      "KGW": {
+        "n": 1500,
+        "null_ort": 0.27800260861199977,
+        "null_std": 1.3211500985064275,
+        "fpr_config_esigi": 0.002,
+        "fpr_model_kalibre_esik": 0.008666666666666666,
+        "esik_model_kalibre": 3.2848419046542747,
+        "z4_nominal_fpr": 3.167124183311986e-05,
+        "z4_gozlenen_dagilimda": 0.0024219129722274748
+      },
+      "EXP": {
+        "n": 1500,
+        "null_ort": 0.45194576690826593,
+        "null_std": 0.4696702438070336,
+        "fpr_config_esigi": 0.0,
+        "fpr_model_kalibre_esik": 0.032,
+        "esik_model_kalibre": 1.6094175617258597
+      },
+      "SynthID": {
+        "n": 1500,
+        "null_ort": 0.49970081155384627,
+        "null_std": 0.00393030576001055,
+        "fpr_config_esigi": 0.0,
+        "fpr_model_kalibre_esik": 0.04133333333333333,
+        "esik_model_kalibre": 0.5065824997557733
+      }
+    }
+  },
+  "s1_ek": {
+    "tr_z4_ustu": 3,
+    "tr_n": 1500,
+    "en_z4_ustu": 3,
+    "en_n": 1500,
+    "tr_z_maks": 5.077367528252131,
+    "levene_tr_en_p": 0.00039173395611149836,
+    "dump": "wikimedia/wikipedia 20231101",
+    "ampirik_oran_tr": 0.002,
+    "ampirik_kat_tr": 63.1487710692961
+  },
+  "s2": {
+    "rtt|gpt-oss": {
+      "n": 80.0,
+      "anlam": 1.0,
+      "orij": 0.85,
+      "donme": 0.25,
+      "guvenilir": true
+    },
+    "rtt|opus": {
+      "n": 80.0,
+      "anlam": 1.0,
+      "orij": 0.95,
+      "donme": 0.1,
+      "guvenilir": true
+    },
+    "para|gpt-oss": {
+      "n": 80.0,
+      "anlam": 1.0,
+      "orij": 0.1125,
+      "donme": 0.425,
+      "guvenilir": true
+    },
+    "para|opus": {
+      "n": 80.0,
+      "anlam": 1.0,
+      "orij": 0.1,
+      "donme": 0.15,
+      "guvenilir": true
+    },
+    "launder|gpt-oss": {
+      "n": 80.0,
+      "anlam": 1.0,
+      "orij": 0.2125,
+      "donme": 0.575,
+      "guvenilir": true
+    },
+    "launder|opus": {
+      "n": 80.0,
+      "anlam": 1.0,
+      "orij": 0.0125,
+      "donme": 0.05,
+      "guvenilir": true
+    },
+    "launder_api|gpt-oss": {
+      "n": 80.0,
+      "anlam": 1.0,
+      "orij": 0.0875,
+      "donme": 0.5,
+      "guvenilir": true
+    },
+    "launder_api|opus": {
+      "n": 80.0,
+      "anlam": 1.0,
+      "orij": 0.0,
+      "donme": 0.0,
+      "guvenilir": true
+    }
+  },
+  "s2_maliyet_usd": {
+    "opus_yargic": 7.021,
+    "launder_api_uretim": 17.704,
+    "_kaynak": "ölçülen API muhasebesi (loglar)"
+  },
+  "tokenizer_facts": {
+    "len_tokenizer": 151669,
+    "config_vocab_size": 151936,
+    "yazili_gamma": 0.5,
+    "etkin_gamma": 0.499118,
+    "sapma": -0.000882,
+    "_karar": "SAPMA -0.000882 -- SINIRLAMALAR bölümüne yazılmalı"
+  },
+  "dz": {
+    "morph": {
+      "condition": "morph",
+      "n": 38,
+      "slope": 0.052387220156953566,
+      "z_taban": 11.467152433024793,
+      "r": 0.7831529413306682,
+      "mean_edits": 2.8684210526315788,
+      "ci_lo": 0.022357787333283335,
+      "ci_hi": 0.07093005756200532,
+      "theil_sen": 0.05135396074769849,
+      "spearman": 0.5789395644552099,
+      "spearman_p": 0.00014013223626842426,
+      "slope_top3_atilinca": 0.04350672423674514,
+      "saglam": true
+    },
+    "morph_v1": {
+      "condition": "morph_v1",
+      "n": 92,
+      "slope": 0.026123680937088747,
+      "z_taban": 10.424571020424144,
+      "r": 0.5962213030392566,
+      "mean_edits": 7.8478260869565215,
+      "ci_lo": -0.005446832860717199,
+      "ci_hi": 0.03419921470041688,
+      "theil_sen": 0.005004402493004035,
+      "spearman": 0.09072792068118896,
+      "spearman_p": 0.3897289413840039,
+      "slope_top3_atilinca": -0.003346042303723739,
+      "saglam": false
+    }
+  },
+  "morph_kapsam": {
+    "morph": {
+      "ort_edit": 1.1354166666666667,
+      "edit_sifir_oran": 0.6041666666666666
+    },
+    "morph_v1": {
+      "ort_edit": 7.520833333333333,
+      "edit_sifir_oran": 0.041666666666666664
+    }
+  },
+  "uzunluk_orani": {
+    "para": {
+      "medyan": 0.9915,
+      "min": 0.669
+    },
+    "rtt": {
+      "medyan": 0.899,
+      "min": 0.781
+    },
+    "launder_api": {
+      "medyan": 0.9764999999999999,
+      "min": 0.541
+    }
+  },
+  "s1_register2": {
+    "on_kayit": "5c4f323",
+    "register": "wikisource 20231201.tr",
+    "KGW": {
+      "n": 1000,
+      "null_ort": -0.17372299973150523,
+      "null_std": 1.4199378722503972,
+      "z4_ustu": 4,
+      "z_maks": 5.564254813571456,
+      "levene_vs_wikipedia_p": 0.20044980579985902
+    }
+  },
+  "ikinci_uretici_adaylari": {
+    "Mistral-Nemo-12B": {
+      "n": 16,
+      "kapi": 9,
+      "latin": 14,
+      "kelime": 10,
+      "sonlandirilmis": 16,
+      "tekrar": 16,
+      "kelime_medyan": 315.0
+    },
+    "Turkish-Llama-8b": {
+      "n": 16,
+      "kapi": 0,
+      "latin": 16,
+      "kelime": 16,
+      "sonlandirilmis": 2,
+      "tekrar": 3,
+      "kelime_medyan": 808.5
+    }
+  },
+  "ikinci_uretici_ozet": "5 aday ayni on-kayitli kapida denendi (Qwen2.5-3B, Qwen2.5-7B, Qwen3-14B, Mistral-Nemo-12B, Turkish-Llama-8b); yalniz Qwen3-14B gecti",
+  "cihaz_rng": {
+    "cpu_mean_ornek": 0.498288,
+    "cuda_mean_ornek": 0.529836,
+    "cuda_scorescsv_maks_fark": 5.55e-17,
+    "_kaynak": "dev_synthid_weighted on-kapisi + cuda_synthid_test (2026-08-25)",
+    "_yorum": "SynthID g-degeri anahtari cihaz sinifina bagli; dedektor ureticiyle ayni cihaz sinifinda kosulmali. S1 etkilenmez: null dagilimi anahtar-degismez."
+  },
+  "synthid_weighted": {
+    "clean": {
+      "mean": 1.0,
+      "weighted_mean": 1.0
+    },
+    "dia100": {
+      "mean": 0.9291449652777778,
+      "weighted_mean": 0.9548611111111112
+    },
+    "dia50": {
+      "mean": 0.9956597222222222,
+      "weighted_mean": 0.9995659722222222
+    },
+    "morph": {
+      "mean": 1.0,
+      "weighted_mean": 1.0
+    },
+    "morph+dia": {
+      "mean": 0.9258897569444444,
+      "weighted_mean": 0.9533420138888888
+    },
+    "morph_v1": {
+      "mean": 1.0,
+      "weighted_mean": 1.0
+    },
+    "morph_v1+dia": {
+      "mean": 0.9229600694444444,
+      "weighted_mean": 0.9487847222222222
+    },
+    "rtt": {
+      "mean": 0.8162977430555557,
+      "weighted_mean": 0.8569878472222224
+    },
+    "para": {
+      "mean": 0.9984809027777778,
+      "weighted_mean": 0.9958767361111112
+    },
+    "launder": {
+      "mean": 0.9807942708333334,
+      "weighted_mean": 0.986545138888889
+    },
+    "launder_api": {
+      "mean": 0.7472873263888888,
+      "weighted_mean": 0.7731119791666666
+    }
+  }
+}
