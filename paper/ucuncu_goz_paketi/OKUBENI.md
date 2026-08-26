@@ -1,12 +1,13 @@
 # Üçüncü-göz paketi
 
 **Nasıl kullanılır:** `UCUNCU_GOZ_PROMPT.md` içindeki ayraç arasındaki metni
-bağımsız bir LLM oturumuna kopyala, bu klasördeki dosyaları da ekle.
-Makalenin kendisi (`paper.md` veya `paper.docx`) ayrıca eklenmeli.
+bağımsız bir LLM oturumuna kopyala, bu klasördeki dosyaları da ekle. Paket
+artık kendi kendine yeter: makalenin kendisi de içinde.
 
 | dosya | ne işe yarar |
 |---|---|
 | `UCUNCU_GOZ_PROMPT.md` | üç rollü değerlendirme promptu (editör / hakem / atıf denetçisi) |
+| `paper.md` | makalenin tam metni (`paper/paper.md` ile aynı) |
 | `numbers.json` | makaledeki HER sayının kaynağı — denetçi metindeki sayıları buna karşı kontrol eder |
 | `citation_verification.json` | yazarların yaptığı DOI doğrulaması — denetçi "doğrulamayı doğrular" |
 | `detection_metrics.csv` | tespit tablosunun ham hâli (Tablo 2 ve Figür 1'in kaynağı) |
