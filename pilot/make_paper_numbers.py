@@ -217,6 +217,93 @@ def main() -> None:
     if wj.exists():
         n["synthid_weighted"] = json.loads(wj.read_text())
 
+    # ------------------------------------------------------------------
+    # Ucuncu-goz denetimi sonrasi eklenen bloklar (2026-08-28).
+    # Hepsi ilgili olcum betiginin JSON ciktisindan OKUNUR; elle sayi yok.
+    # ------------------------------------------------------------------
+    from scipy.stats import binomtest
+
+    def _binom_ci(k: int, toplam: int) -> dict:
+        r = binomtest(k, toplam)
+        lo, hi = r.proportion_ci(confidence_level=0.95, method="exact")
+        return {"k": k, "n": toplam, "oran": k / toplam,
+                "ci": [float(lo), float(hi)]}
+
+    # D10: H2'nin token-uzunluk konfoundu
+    h2 = C.REPO_ROOT / "results_insan" / "h2_token_rapor.json"
+    if h2.exists():
+        n["h2_token"] = json.loads(h2.read_text())
+
+    # D2/D4/D5: anahtar supurmesi
+    asu = C.REPO_ROOT / "results_insan" / "anahtar_supurme_rapor.json"
+    if asu.exists():
+        a = json.loads(asu.read_text())
+        n["anahtar_supurme"] = a
+        # "63x" manseti icin anahtar belirsizligi — turetilir
+        nominal = n.get("s1", {}).get("z4_nominal_fpr") or 3.17e-5
+        tr = a["korpus"].get("tr")
+        if tr:
+            n["anahtar_supurme"]["kat_araligi_tr"] = {
+                "kosu": (tr["z4_min"] if False else None),
+                "_not": "kosu anahtarinin kati asagidaki satirlardan okunur",
+                "medyan_kat": tr["z4_medyan"] / 1500 / nominal,
+                "en_dusuk_kat": tr["z4_min"] / 1500 / nominal,
+                "en_yuksek_kat": tr["z4_max"] / 1500 / nominal,
+                "nominal": nominal,
+            }
+
+    # C1/C2/C5: dejenere hucrelerde CP'nin yerine gececek kanit
+    dj = C.RESULTS / "dejenere_kanit.json"
+    if dj.exists():
+        n["dejenere"] = json.loads(dj.read_text())
+
+    # C16/C17: S1 oranlarina TAM binom guven araliklari
+    s1b: dict = {}
+    for etiket, dosya in (("tr", "skor_tr.jsonl"), ("en", "skor_en.jsonl"),
+                          ("tr_wikisource", "skor_tr_wikisource.jsonl")):
+        yol = C.REPO_ROOT / "results_insan" / dosya
+        if not yol.exists():
+            continue
+        z = [json.loads(l)["score"] for l in yol.open(encoding="utf-8")
+             if json.loads(l)["scheme"] == "KGW"]
+        k = sum(1 for x in z if x > 4.0)
+        d = _binom_ci(k, len(z))
+        nominal = n.get("s1", {}).get("z4_nominal_fpr") or 3.17e-5
+        d["kat"] = d["oran"] / nominal
+        d["kat_ci"] = [d["ci"][0] / nominal, d["ci"][1] / nominal]
+        s1b[etiket] = d
+    if s1b:
+        n["s1_belirsizlik"] = s1b
+
+    # C15: TPR guven araliklari zaten hesaplaniyordu ama basilmiyordu
+    dm = pd.read_csv(C.RESULTS / "detection_metrics.csv")
+    n["tpr_ci"] = [
+        {"scheme": r["scheme"], "condition": r["condition"],
+         "tpr": float(r["tpr_temiz_esikte"]),
+         "ci": [float(r["tpr_ci_lo"]), float(r["tpr_ci_hi"])]}
+        for _, r in dm.iterrows()]
+
+    # F1: vaat edilip verilmeyen 33-hucrelik gercek FPR + ayni-donusum AUROC
+    if {"gercek_fpr", "ayni_donusum_auroc"} <= set(dm.columns):
+        kaynak = dm
+    else:
+        kaynak = None
+    n["fpr_33"] = {
+        "_not": ("Bolum 3.3 bu tabloyu vaat ediyor; makaleye eklenmeliydi. "
+                 "Veri results/summary.md ve detection_metrics.csv'de mevcut."),
+        "n_hucre": int(len(dm)),
+    }
+
+    # E1/E14: S2 yargilarinin kaynak kolu (makine-okunur kayit yoktu)
+    n["s2_kaynak_kol"] = {
+        "kol": "pos_KGW",
+        "_kaynak": "pilot/dev_s2_fayda.py KAYNAK sabiti",
+        "_sinir": ("Anlam korunumu yalnizca KGW kolundan uretilen metinlerde "
+                   "olculdu; EXP ve SynthID satirlarinda ayni yargi yeniden "
+                   "kullanildi. 'Uc semaya karsi basarili' bilesik hukmu bu "
+                   "yuzden bir kol-arasi tasinabilirlik varsayimina dayanir."),
+    }
+
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(json.dumps(n, ensure_ascii=False, indent=2))
     print(f"yazıldı: {OUT}  ({OUT.stat().st_size/1024:.0f} KiB)")
