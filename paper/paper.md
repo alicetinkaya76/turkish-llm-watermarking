@@ -355,6 +355,222 @@ Every number reported in this paper is generated from the underlying data by cod
 
 The human-text corpus of S1 is reproducible by construction: each window records its Wikipedia page identifier together with the dump version (wikimedia/wikipedia, 20231101 [WIKIDUMP]), so the exact text windows can be re-fetched deterministically. The corpus acceptance thresholds were fixed in code before Phase 1 began; the S1 protocol, hypotheses, and analysis plan were sealed at commit 8f8df72 before data collection; and the S2 judging protocol, blind calibration design, and decision rule were sealed at commit cbcb988 before the judging run. Code, corpus, scores, attacked texts (including the raw closed-model laundering outputs), and the pre-registration documents reside in a single repository, so the full path from raw text to every reported statistic can be re-executed.
 
+## Statements and Declarations
+
+### Funding
+
+The author declares that no funds, grants, or other support were received during
+the preparation of this manuscript. [[SEÇ VE TEK CÜMLEYİ BIRAK: The commercial API
+charges reported in Sections 3.2 and 3.5 (USD 17.704 and USD 7.021) were met from
+the author's own resources. / … were met from departmental resources of the Faculty
+of Technology, Selçuk University.]] Computation for text generation and detection
+was carried out on hardware provided by the author's institution (Acknowledgments).
+
+### Competing interests
+
+The author has no competing financial interests or personal relationships that could
+have appeared to influence the work reported in this paper. In particular, the author
+has no employment, consultancy, equity, patent, honorarium, advisory or funding
+relationship with Anthropic, Google DeepMind, Groq, Alibaba/Qwen, or with the
+developers of the MarkLLM toolkit, whose schemes, models and reference
+implementations are evaluated, in several cases critically, in this study.
+
+Three facts are recorded here for transparency. They are not competing interests
+under the definition above, but a reader may reasonably wish to weigh them.
+
+1. **Purchased services, not relationships.** Two components of the experiment were
+   run on metered commercial APIs at published list prices: generation of the
+   external-laundering attack corpus through Anthropic's API (measured cost USD
+   17.704, Section 3.2) and one of the two meaning-preservation judges (measured cost
+   USD 7.021 for the Claude Opus 5 judge, Section 3.5). The second judge,
+   gpt-oss-120b, was served through Groq and its cost was not separately metered.
+   These are arm's-length purchases of a metered service, reported in the paper as
+   measurements of attack economics because attack cost is part of the threat model.
+   They establish no relationship with the vendors beyond that of a paying customer,
+   and no vendor reviewed, funded, approved or was consulted about this work.
+
+2. **A structural conflict inside the measurement, declared and mitigated.** One
+   model, Claude Opus 5, occupies two roles in the design: it produces the
+   `launder_api` texts and it serves as one of the two judges. This is a conflict
+   internal to the protocol rather than an interest of the author, and the
+   pre-registration sealed at commit `cbcb988` addresses it before any verdict was
+   read: two judges drawn from different model families, agreement of both judges
+   required for any `launder_api` verdict, and all fluency conclusions drawn from the
+   independent judge only. Section 4.4 reports the one conflicted cell (Opus 5 never
+   preferring the original on `launder_api` pairs, 0.0%, with a 0.0% position-flip
+   rate) and discards rather than interprets it.
+
+3. **Relationship to the evaluated toolkit.** This work is a research fork of the
+   MarkLLM toolkit (Apache-2.0). The author is not affiliated with its developers,
+   did not consult them, and they did not review the manuscript. The calibration
+   findings concern that toolkit's shipped default configuration.
+
+### Ethics approval
+
+This study involved no human participants and no animals, and therefore did not
+require review by an institutional research ethics committee. [[KURUMSAL KONTROL:
+Selçuk Üniversitesi etik kurulu insan/hayvan dışı çalışmalar için muafiyet yazısı
+istiyorsa, bu cümleye "; a formal exemption was confirmed by [[kurul adı]] on
+[[tarih]]" ekle. İstemiyorsa cümle olduğu gibi kalsın.]] Three points support that
+determination and are stated explicitly because the study's inputs and instruments
+are unusual.
+
+First, **the human-text baseline is published text, not participant data.** The 4,000
+human windows of Study S1 are verbatim contiguous excerpts from public Wikimedia
+projects (Turkish and English Wikipedia, dump `20231101`; Turkish Wikisource, dump
+`20231201`), released by their authors under CC BY-SA 3.0 (or later) and GFDL. No
+person was recruited, contacted, observed or profiled; no personal data was
+collected; no attempt was made to identify article authors, and the only
+author-related information retained is the page identifier that makes the
+licence-required attribution link constructible (`ATTRIBUTION.md`,
+`ATTRIBUTION_pages.tsv`). Named individuals occur in the excerpts only incidentally,
+as public-figure mentions in already published encyclopedic and literary prose.
+
+Second, **the LLM judges of Study S2 are measurement instruments, not participants.**
+The 788 pairwise verdicts were produced by two software systems executing a fixed,
+pre-registered prompt protocol. A language model has no welfare interests, cannot be
+harmed, cannot give or withhold informed consent, and cannot be withdrawn from a
+study; its outputs are readings of an instrument in the same sense as the output of
+an automatic classifier, and they are validated the way an instrument is validated:
+with blind calibration items (identical pairs and different-prompt pairs), both-order
+presentation, and a pre-declared position-flip reliability bound of 30% (Sections 3.5
+and 4.4). Treating these systems as human annotators would misdescribe both the
+protocol and the epistemic status of the resulting numbers. Human-subjects
+protections consequently do not apply, and none were needed.
+
+Third, **on the dual-use character of the laundering result.** The paper reports a
+working attack that degrades all three watermark schemes while preserving meaning.
+The author judges publication to be the responsible course. The attack requires no
+watermark key, no knowledge of which scheme was used and no privileged access; it
+consists of asking a widely available commercial model to rewrite a text, and its
+measured cost over the entire corpus was USD 17.704. It is therefore already
+available to any adversary and confers no capability that publication creates. What
+publication does create is a measurement that defenders can act on: the threshold
+recalibration prescribed in Section 5.1 and the robustness–calibration trade-off of
+Section 5.2 cannot be acted upon by an operator who does not know the size of the
+effect. The attacked texts are released so that detection countermeasures can be
+evaluated against the same material; no defence is proposed here, and the paper says
+so.
+
+### Consent to participate
+
+Not applicable. The study involved no human participants, so no informed consent was
+sought or required. Reuse of the Wikimedia-derived text is governed by its CC BY-SA
+licence and is a matter of licence compliance and attribution
+(`ATTRIBUTION.md`), not of consent.
+
+### Consent to publish
+
+Not applicable. The manuscript contains no data, images or details relating to an
+identifiable individual.
+
+### Data, Material and/or Code availability
+
+All code, corpora, detector scores, attacked texts and judge annotations behind this
+paper are openly available in the repository
+<https://github.com/alicetinkaya76/turkish-llm-watermarking>, at the release tag
+`v1.0.0-paper`, which freezes the exact code and data state from which every reported
+number was produced. An archived snapshot of that release is deposited at Zenodo
+under DOI [[10.5281/zenodo.XXXXXXX : DOI HENÜZ ATANMADI; kabul öncesi Zenodo sürümü
+oluşturulup bu satır doldurulacak]].
+
+The release contains 4,000 human text windows (1,500 Turkish Wikipedia, 1,500
+word-matched English Wikipedia, 1,000 Turkish Wikisource), 384 generated Turkish
+texts across four arms, 3,840 attacked texts in 40 files, 58,161 detector scores
+(including the length-controlled rescoring and the eight-key sweep), 788 pairwise
+judge verdicts, and the combined score table of 6,336 rows. Reproducibility
+provisions are described in Section 7: the upstream MarkLLM toolkit is pinned at
+commit `c45ddc40`, the prompt file is content-addressed (SHA-256 prefix
+`8fcbe4074b46`), every manuscript number is regenerated from the data into
+`paper/numbers.json` by `pilot/make_paper_numbers.py`, and the three
+pre-registrations are commits in the repository history, each made before the
+corresponding data was collected: `8f8df72` (S1 hypotheses), `cbcb988` (S2 protocol
+and decision rule), `5c4f323` (second register). Because the pre-registrations are
+commits rather than documents, their dates can be checked against the data files
+independently of anything the author asserts. The known limitations of the released
+resource are stated at its top level in `BENCHMARK.md`.
+
+**The licensing of this release is deliberately not uniform, and users must consult
+`DATA_LICENSE.md` before reuse.** Different components derive from sources with
+different terms and are redistributed accordingly: code is Apache-2.0 (as is upstream
+MarkLLM); the Wikimedia-derived human windows are CC BY-SA 3.0 (or later) and GFDL
+and carry a ShareAlike obligation that propagates to any adaptation incorporating
+them; the round-trip-translation outputs (`att_*_rtt.jsonl`) are labelled CC BY-NC
+4.0 under a deliberately restrictive reading of an unresolved question about whether
+a non-commercial model licence reaches model outputs; the generated, attacked and
+externally laundered texts and the judge verdicts are CC BY 4.0; and the detector
+scores and derived metrics are CC0 1.0 as facts. `DATA_LICENSE.md` gives the
+per-path table, states which readings are contested and why the restrictive one was
+chosen, and explains how to assemble a commercially usable subset. It is the
+authoritative statement; the single-licence field of the archive record cannot
+express this structure.
+
+### Author contributions
+
+Ali Çetinkaya is the sole author of this manuscript and contributed as follows
+(CRediT): Conceptualization; Methodology; Software; Validation; Formal analysis;
+Investigation; Resources; Data curation; Writing – original draft; Writing – review
+and editing; Visualization; Project administration. The author read and approved the
+final manuscript and takes full responsibility for its content.
+
+### Declaration of generative AI use
+
+Generative AI systems were used in this work in three distinct ways. They are
+separated here because they carry different implications, and because the third is
+the one on which readers are entitled to a clear statement.
+
+**(a) As the object of study: the attack instrument.** Claude Opus 5, accessed
+through the Anthropic API, generated the `launder_api` attack corpus (Section 3.2).
+Here the model is not a tool used to produce the paper but the adversary the paper
+measures: the external, stronger, closed-weight rewriter of the threat model. The
+generation settings, the measured cost (USD 17.704) and the raw laundered outputs are
+all in the release, so every detection score computed on those texts can be
+recomputed exactly. As Section 6 states, the attack generation itself may not be
+re-creatable against a future version of a closed commercial model, and the result is
+therefore reported as an existence demonstration rather than as a stable measurement
+of a fixed system.
+
+**(b) As measurement instruments: the judges.** Claude Opus 5 and gpt-oss-120b
+(served via Groq) produced the 788 pairwise meaning- and fluency-preservation
+verdicts of Study S2 (Sections 3.5 and 4.4), under a protocol pre-registered at
+commit `cbcb988` before the run: pairwise-only judging, both presentation orders,
+blind calibration items passed before any real verdict was read, a 30% position-flip
+reliability bound, two model families, and a requirement that both judges agree
+before any `launder_api` verdict is accepted, precisely because Opus 5 produced those
+texts. The full verdict file is released. These outputs are data reported in the
+paper, not text written into the paper.
+
+Uses (a) and (b) are documented in Methods, are reported with their costs and their
+failure modes, and did not draft, edit or phrase any part of this manuscript.
+
+**(c) As a coding and drafting assistant.** Claude Opus 5 was used as an assistant
+during implementation of the experimental code and analysis pipeline and during
+drafting and editing of the manuscript text. This use is visible in the public
+repository: of the 31 commits the author contributed to this fork, 20 carry the git
+trailer `Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>`. That trailer is a
+machine-readable provenance marker emitted by the tooling to record that an AI
+assistant participated in producing a commit. **It is not, and is not intended as, a
+claim of authorship.** No AI system is an author of this paper, and none could be: an
+AI system cannot take responsibility for the content, cannot approve a manuscript,
+cannot respond to correspondence, and cannot be accountable for the accuracy and
+integrity of the work, which are the conditions under which authorship is granted. The author
+reviewed all generated code and all generated text, verified the behaviour of the
+pipeline against the data, and is solely accountable for the design, the analysis,
+the interpretation, the claims and any errors.
+
+Two structural safeguards limit what this assistance could have introduced. First, no
+scientific claim in this paper rests on unverified generated text: every reported
+number is regenerated from the underlying data by code into `paper/numbers.json`
+(Section 7), no number is typed by hand, and a regime gate refuses to emit a report
+when the active configuration does not match the sealed run configuration. Second,
+generative AI was not used to create, augment or alter the research data: the human
+corpus consists of verbatim Wikimedia excerpts, the generated corpus comes from
+Qwen3-14B under logged settings, and the detector scores are computed by the pinned
+MarkLLM implementations. The role of the assistant was confined to writing code that
+the author reviewed and to language editing of text the author wrote and approved.
+
+---
+
 ## References
 
 *(Bibliographic identity of every non-software entry verified against OpenAlex/Crossref on 2026-08-25; record: `paper/citation_verification.json`. Entries marked "no DOI" are non-archival or DOI-less venues cited by identifier.)*
