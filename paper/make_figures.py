@@ -103,9 +103,13 @@ def fig2() -> None:
             y = y0 + kay[sema]
             dejenere = pd.notna(r.get("ci_lo_cp"))
             if dejenere:
-                # bootstrap GA [1,1] dejenere: CP alt sınırından 1'e ince çizgi
-                ax.plot([r["ci_lo_cp"], 1.0], [y, y], color=RENK[sema],
-                        lw=1.0, alpha=0.45, solid_capstyle="butt")
+                # Dejenere hücre: bootstrap GA [1,1]. ÖNCEKİ SÜRÜM burada
+                # Clopper-Pearson alt sınırından 1'e ince bir çizgi çiziyordu;
+                # o sınır geri çekildi (§3.3: CP bir binom oranını sınırlar,
+                # AUROC ise U-istatistiğidir), dolayısıyla çizgi de kaldırıldı.
+                # Geriye içi boş işaretçi kalıyor: "karşı örnek gözlenmedi",
+                # sayısal bir alt sınır İDDİA ETMEDEN. Ayrışmanın gücü
+                # Tablo 3'te marj ve tam permütasyon p'siyle veriliyor.
                 ax.plot(r["auroc"], y, "o", ms=4.5, mfc="white",
                         mec=RENK[sema], mew=1.3, zorder=3)
             else:
@@ -114,7 +118,9 @@ def fig2() -> None:
                 ax.plot(r["auroc"], y, "o", ms=4.5, color=RENK[sema], zorder=3)
     ax.set_yticks([len(sira) - 1 - i for i in range(len(sira))])
     ax.set_yticklabels([etiket[c] for c in sira])
-    ax.set_xlabel("AUROC (watermarked vs. clean negatives) — "
+    # Etiket kısaltıldı: uzun sürüm bbox_inches="tight" ile bile sağdan
+    # kırpılıyordu ("CI" görünmüyordu, render kontrolünde yakalandı).
+    ax.set_xlabel("AUROC vs. clean negatives\n"
                   "bars: prompt-clustered 95% CI")
     ax.set_xlim(0.62, 1.01)
     ax.axvline(1.0, color="#E3E6E3", lw=0.8)
@@ -123,7 +129,7 @@ def fig2() -> None:
            for s in ("KGW", "EXP", "SynthID")]
     lej.append(Line2D([0], [0], marker="o", mfc="white", mec=GRI, color="none",
                       ms=4.5, mew=1.3,
-                      label="degenerate CI → one-sided CP bound"))
+                      label="degenerate CI (complete separation)"))
     # sol alt, launder(external) çizgisiyle çakışıyordu -> sol üst boş
     ax.legend(handles=lej, loc="upper left", fontsize=7, frameon=False)
     ax.grid(axis="y", visible=False)
