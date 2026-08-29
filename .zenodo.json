@@ -1,0 +1,33 @@
+{
+  "title": "TR-WM-EVAL: a Turkish watermark-evaluation benchmark",
+  "description": "<p>Corpora, detector scores and judge annotations for a study of how three LLM watermarking schemes (KGW, EXP, SynthID) behave on Turkish. Contains 4,000 human text windows (Turkish and English Wikipedia, Turkish Wikisource), 384 generated Turkish texts, 3,840 attacked texts across ten attacks, 58,161 detector scores including a length-controlled rescoring and an eight-key sweep, and 788 pairwise LLM-judge verdicts.</p><p><strong>Licensing is not uniform</strong>: Wikimedia-derived text is CC BY-SA with a ShareAlike obligation, round-trip translations are labelled CC BY-NC, generated and laundered texts and judge verdicts are CC BY 4.0, scores and metrics are CC0, code is Apache-2.0. See DATA_LICENSE.md.</p><p>Known limitations are stated up front in BENCHMARK.md: one generator, one watermark key on the attack axis, EXP's structurally fixed-length texts, judge verdicts covering only the KGW arm, and windows matched on words rather than tokens.</p><p>Pre-registrations are commits in the repository history, each made before the corresponding data was collected.</p>",
+  "upload_type": "dataset",
+  "access_right": "open",
+  "license": "cc-by-sa-4.0",
+  "keywords": [
+    "LLM watermarking", "Turkish", "detector calibration", "false-positive rate",
+    "subword fertility", "evaluation benchmark", "language resource", "reproducibility"
+  ],
+  "creators": [
+    {
+      "name": "Çetinkaya, Ali",
+      "affiliation": "Department of Computer Engineering, Faculty of Technology, Selçuk University, Konya, Türkiye",
+      "orcid": "0000-0002-7747-6854"
+    }
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/THU-BPM/MarkLLM",
+      "relation": "isDerivedFrom",
+      "resource_type": "software",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.18653/v1/2024.emnlp-demo.7",
+      "relation": "cites",
+      "resource_type": "publication-conferencepaper",
+      "scheme": "doi"
+    }
+  ],
+  "language": "eng"
+}
