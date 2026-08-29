@@ -294,6 +294,33 @@ def main() -> None:
         "n_hucre": int(len(dm)),
     }
 
+    # E6: uzunluk-artefakti savunmasi §3.2'de YALNIZ KGW kolundan hesaplaniyordu
+    # ve bu beyan edilmiyordu. Havuz degerlerini de uretiyoruz ki metin hangi
+    # kolun rakamini verdigini soyleyebilsin ve kuyrugu gizlemesin.
+    import glob as _glob
+    import statistics as _st
+    uz: dict = {}
+    for _sal in ("para", "rtt", "launder", "launder_api"):
+        _kollar, _havuz = {}, []
+        for _yol in sorted(_glob.glob(str(C.RESULTS / f"att_*_{_sal}.jsonl"))):
+            _kol = Path(_yol).name.split("att_")[1].rsplit(f"_{_sal}", 1)[0]
+            _o = [json.loads(l).get("uzunluk_orani")
+                  for l in open(_yol, encoding="utf-8")]
+            _o = [x for x in _o if x is not None]
+            if not _o:
+                continue
+            _kollar[_kol] = {"n": len(_o), "medyan": float(_st.median(_o)),
+                             "min": float(min(_o))}
+            _havuz += [(x, _kol) for x in _o]
+        if _havuz:
+            _mn = min(_havuz)
+            uz[_sal] = {"kollar": _kollar,
+                        "havuz": {"n": len(_havuz),
+                                  "medyan": float(_st.median(x for x, _ in _havuz)),
+                                  "min": _mn[0], "min_kol": _mn[1]}}
+    if uz:
+        n["uzunluk_orani_kol"] = uz
+
     # E1/E14: S2 yargilarinin kaynak kolu (makine-okunur kayit yoktu)
     n["s2_kaynak_kol"] = {
         "kol": "pos_KGW",

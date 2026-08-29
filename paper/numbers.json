@@ -2075,6 +2075,128 @@
     "_not": "Bolum 3.3 bu tabloyu vaat ediyor; makaleye eklenmeliydi. Veri results/summary.md ve detection_metrics.csv'de mevcut.",
     "n_hucre": 33
   },
+  "uzunluk_orani_kol": {
+    "para": {
+      "kollar": {
+        "neg": {
+          "n": 96,
+          "medyan": 0.9975,
+          "min": 0.925
+        },
+        "pos_EXP": {
+          "n": 96,
+          "medyan": 0.945,
+          "min": 0.753
+        },
+        "pos_KGW": {
+          "n": 96,
+          "medyan": 0.9915,
+          "min": 0.669
+        },
+        "pos_SynthID": {
+          "n": 96,
+          "medyan": 0.9904999999999999,
+          "min": 0.929
+        }
+      },
+      "havuz": {
+        "n": 384,
+        "medyan": 0.9875,
+        "min": 0.669,
+        "min_kol": "pos_KGW"
+      }
+    },
+    "rtt": {
+      "kollar": {
+        "neg": {
+          "n": 96,
+          "medyan": 0.894,
+          "min": 0.786
+        },
+        "pos_EXP": {
+          "n": 96,
+          "medyan": 0.9145000000000001,
+          "min": 0.818
+        },
+        "pos_KGW": {
+          "n": 96,
+          "medyan": 0.899,
+          "min": 0.781
+        },
+        "pos_SynthID": {
+          "n": 96,
+          "medyan": 0.8905000000000001,
+          "min": 0.321
+        }
+      },
+      "havuz": {
+        "n": 384,
+        "medyan": 0.8975,
+        "min": 0.321,
+        "min_kol": "pos_SynthID"
+      }
+    },
+    "launder": {
+      "kollar": {
+        "neg": {
+          "n": 96,
+          "medyan": 0.9855,
+          "min": 0.806
+        },
+        "pos_EXP": {
+          "n": 96,
+          "medyan": 0.944,
+          "min": 0.583
+        },
+        "pos_KGW": {
+          "n": 96,
+          "medyan": 0.967,
+          "min": 0.273
+        },
+        "pos_SynthID": {
+          "n": 96,
+          "medyan": 0.9724999999999999,
+          "min": 0.192
+        }
+      },
+      "havuz": {
+        "n": 384,
+        "medyan": 0.9695,
+        "min": 0.192,
+        "min_kol": "pos_SynthID"
+      }
+    },
+    "launder_api": {
+      "kollar": {
+        "neg": {
+          "n": 96,
+          "medyan": 0.976,
+          "min": 0.826
+        },
+        "pos_EXP": {
+          "n": 96,
+          "medyan": 0.98,
+          "min": 0.751
+        },
+        "pos_KGW": {
+          "n": 96,
+          "medyan": 0.9764999999999999,
+          "min": 0.541
+        },
+        "pos_SynthID": {
+          "n": 96,
+          "medyan": 0.9884999999999999,
+          "min": 0.146
+        }
+      },
+      "havuz": {
+        "n": 384,
+        "medyan": 0.9815,
+        "min": 0.146,
+        "min_kol": "pos_SynthID"
+      }
+    }
+  },
   "s2_kaynak_kol": {
     "kol": "pos_KGW",
     "_kaynak": "pilot/dev_s2_fayda.py KAYNAK sabiti",
