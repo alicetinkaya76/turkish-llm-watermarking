@@ -1,3 +1,32 @@
+# Watermarking Turkish LLM Output
+
+**This is a research fork of [MarkLLM](https://github.com/THU-BPM/MarkLLM), not the
+toolkit itself.** It holds the code, corpora and measurements for a study of how
+three LLM watermarking schemes (KGW, EXP, SynthID) behave on Turkish. The upstream
+MarkLLM README follows below, unchanged.
+
+| Start here | |
+|---|---|
+| [`BENCHMARK.md`](BENCHMARK.md) | What the released resource contains, its provenance, and its known limitations |
+| [`DATA_LICENSE.md`](DATA_LICENSE.md) | Per-component licensing — the data is **not** uniformly licensed |
+| [`ATTRIBUTION.md`](ATTRIBUTION.md) | Attribution for the Wikimedia-derived text (CC BY-SA) |
+| [`paper/paper.md`](paper/paper.md) | The manuscript |
+| [`paper/numbers.json`](paper/numbers.json) | Every number in the paper, regenerated from data by `pilot/make_paper_numbers.py` |
+
+Our work lives in `pilot/` (experiments), `hpc/` (cluster runner), `paper/`
+(manuscript and figure generation), and the `results*/` directories (data).
+Everything under `watermark/`, `evaluation/`, `visualize/` and `dataset/` is
+upstream MarkLLM code, used at commit `c45ddc40`.
+
+The pre-registrations for this study are commits in this repository's history,
+each made before the corresponding data was collected: `8f8df72` (S1 hypotheses),
+`cbcb988` (S2 protocol and decision rule), `5c4f323` (second register).
+
+Upstream MarkLLM is Apache-2.0 and so is the code added here; see `LICENSE` and
+the citation for Pan et al. (2024) in the upstream README below.
+
+---
+
 <div align="center">
 
 <img src="images/markllm-color-1.jpg" style="width: 40%;"/>
