@@ -2072,8 +2072,313 @@
     }
   ],
   "fpr_33": {
-    "_not": "Bolum 3.3 bu tabloyu vaat ediyor; makaleye eklenmeliydi. Veri results/summary.md ve detection_metrics.csv'de mevcut.",
-    "n_hucre": 33
+    "n_hucre": 33,
+    "satirlar": [
+      {
+        "scheme": "EXP",
+        "condition": "clean",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "dia100",
+        "tpr": 0.9166666666666666,
+        "gercek_fpr": 0.041666666666666664,
+        "n_gecen": "4/96",
+        "fpr_ci_hi": 0.1032574444498188,
+        "ayni_donusum_auroc": 0.9817708333333334
+      },
+      {
+        "scheme": "EXP",
+        "condition": "dia50",
+        "tpr": 1.0,
+        "gercek_fpr": 0.03125,
+        "n_gecen": "3/96",
+        "fpr_ci_hi": 0.08861809966159956,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph+dia",
+        "tpr": 0.875,
+        "gercek_fpr": 0.041666666666666664,
+        "n_gecen": "4/96",
+        "fpr_ci_hi": 0.1032574444498188,
+        "ayni_donusum_auroc": 0.9813368055555556
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph_v1",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph_v1+dia",
+        "tpr": 0.9166666666666666,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9800347222222223
+      },
+      {
+        "scheme": "EXP",
+        "condition": "rtt",
+        "tpr": 0.7916666666666666,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9600694444444444
+      },
+      {
+        "scheme": "EXP",
+        "condition": "para",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "launder",
+        "tpr": 0.9895833333333334,
+        "gercek_fpr": 0.03125,
+        "n_gecen": "3/96",
+        "fpr_ci_hi": 0.08861809966159956,
+        "ayni_donusum_auroc": 0.9964192708333333
+      },
+      {
+        "scheme": "EXP",
+        "condition": "launder_api",
+        "tpr": 0.4895833333333333,
+        "gercek_fpr": 0.0625,
+        "n_gecen": "6/96",
+        "fpr_ci_hi": 0.13108503580194256,
+        "ayni_donusum_auroc": 0.839626736111111
+      },
+      {
+        "scheme": "KGW",
+        "condition": "clean",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "KGW",
+        "condition": "dia100",
+        "tpr": 0.8645833333333334,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.9934895833333334
+      },
+      {
+        "scheme": "KGW",
+        "condition": "dia50",
+        "tpr": 0.9791666666666666,
+        "gercek_fpr": 0.0,
+        "n_gecen": "0/96",
+        "fpr_ci_hi": 0.037696921623814786,
+        "ayni_donusum_auroc": 0.9991319444444444
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph+dia",
+        "tpr": 0.8645833333333334,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.9935980902777778
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph_v1",
+        "tpr": 1.0,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph_v1+dia",
+        "tpr": 0.84375,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.9945746527777778
+      },
+      {
+        "scheme": "KGW",
+        "condition": "rtt",
+        "tpr": 0.59375,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.961154513888889
+      },
+      {
+        "scheme": "KGW",
+        "condition": "para",
+        "tpr": 0.9895833333333334,
+        "gercek_fpr": 0.0,
+        "n_gecen": "0/96",
+        "fpr_ci_hi": 0.037696921623814786,
+        "ayni_donusum_auroc": 0.9989149305555556
+      },
+      {
+        "scheme": "KGW",
+        "condition": "launder",
+        "tpr": 0.9375,
+        "gercek_fpr": 0.0,
+        "n_gecen": "0/96",
+        "fpr_ci_hi": 0.037696921623814786,
+        "ayni_donusum_auroc": 0.9990234375
+      },
+      {
+        "scheme": "KGW",
+        "condition": "launder_api",
+        "tpr": 0.4270833333333333,
+        "gercek_fpr": 0.0,
+        "n_gecen": "0/96",
+        "fpr_ci_hi": 0.037696921623814786,
+        "ayni_donusum_auroc": 0.9412977430555555
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "clean",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "dia100",
+        "tpr": 0.6770833333333334,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9268663194444446
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "dia50",
+        "tpr": 0.9479166666666666,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.9962022569444445
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph",
+        "tpr": 1.0,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph+dia",
+        "tpr": 0.65625,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9238281250000001
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph_v1",
+        "tpr": 1.0,
+        "gercek_fpr": 0.03125,
+        "n_gecen": "3/96",
+        "fpr_ci_hi": 0.08861809966159956,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph_v1+dia",
+        "tpr": 0.65625,
+        "gercek_fpr": 0.0625,
+        "n_gecen": "6/96",
+        "fpr_ci_hi": 0.13108503580194256,
+        "ayni_donusum_auroc": 0.9146050347222222
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "rtt",
+        "tpr": 0.3125,
+        "gercek_fpr": 0.041666666666666664,
+        "n_gecen": "4/96",
+        "fpr_ci_hi": 0.1032574444498188,
+        "ayni_donusum_auroc": 0.825412326388889
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "para",
+        "tpr": 0.9895833333333334,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.998263888888889
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "launder",
+        "tpr": 0.9479166666666666,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9801432291666665
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "launder_api",
+        "tpr": 0.25,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.806857638888889
+      }
+    ],
+    "en_yuksek_fpr": 0.0625,
+    "nominal": 0.01,
+    "bonferroni_anlamli": [
+      "EXP/launder_api",
+      "SynthID/morph_v1+dia"
+    ],
+    "cozunurluk": 0.010416666666666666
   },
   "uzunluk_orani_kol": {
     "para": {

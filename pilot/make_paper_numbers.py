@@ -288,10 +288,46 @@ def main() -> None:
         kaynak = dm
     else:
         kaynak = None
+    # Bolum 1 ve 3.3 bu tabloyu VAAT EDIYOR. metrics.py onu uretiyordu ama
+    # yalnizca summary.md'ye yaziyordu; makaleye hic girmemisti. Ayni hesap
+    # burada yeniden yapiliyor (esik temiz negatiflerin 1-TPR_AT_FPR
+    # yuzdeligi; gercek FPR o esigin SALDIRILI negatiflerdeki orani).
+    from scipy.stats import binomtest as _bt2
+    from pilot.metrics import auroc as _auroc
+    _sc = pd.read_csv(C.RESULTS / "scores.csv")
+    _sat, _anl = [], []
+    for _s in sorted(_sc.scheme.unique()):
+        _ds = _sc[_sc.scheme == _s]
+        _neg = _ds[(_ds.condition == "clean") & (_ds.wm == 0)]["stat"].to_numpy()
+        _thr = float(np.quantile(_neg, 1 - C.TPR_AT_FPR))
+        for _c in ["clean"] + C.ATTACKS:
+            _an = _ds[(_ds.condition == _c) & (_ds.wm == 0)]["stat"].to_numpy()
+            _po = _ds[(_ds.condition == _c) & (_ds.wm == 1)]["stat"].to_numpy()
+            if not len(_an) or not len(_po):
+                continue
+            _k = int((_an > _thr).sum())
+            _sat.append({
+                "scheme": _s, "condition": _c,
+                "tpr": float((_po > _thr).mean()),
+                "gercek_fpr": float(_an.mean() * 0 + (_an > _thr).mean()),
+                "n_gecen": f"{_k}/{len(_an)}",
+                "fpr_ci_hi": float(_bt2(_k, len(_an)).proportion_ci(0.95).high),
+                "ayni_donusum_auroc": (float(_auroc(_po, _an))
+                                       if len(np.unique(np.r_[_po, _an])) > 1
+                                       else None),
+            })
+    for _r in _sat:
+        _k, _nn = map(int, _r["n_gecen"].split("/"))
+        _pv = _bt2(_k, _nn, C.TPR_AT_FPR, alternative="greater").pvalue
+        if _pv * len(_sat) < 0.05:
+            _anl.append(f"{_r['scheme']}/{_r['condition']}")
     n["fpr_33"] = {
-        "_not": ("Bolum 3.3 bu tabloyu vaat ediyor; makaleye eklenmeliydi. "
-                 "Veri results/summary.md ve detection_metrics.csv'de mevcut."),
-        "n_hucre": int(len(dm)),
+        "n_hucre": len(_sat),
+        "satirlar": _sat,
+        "en_yuksek_fpr": max(r["gercek_fpr"] for r in _sat),
+        "nominal": C.TPR_AT_FPR,
+        "bonferroni_anlamli": _anl,
+        "cozunurluk": 1.0 / 96,
     }
 
     # E6: uzunluk-artefakti savunmasi §3.2'de YALNIZ KGW kolundan hesaplaniyordu
