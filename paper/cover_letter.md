@@ -55,8 +55,6 @@ so their dating can be verified independently of any claim I make. Repository:
 | Affiliation | Department of Computer Engineering, Faculty of Technology, Selçuk University, Konya, Türkiye |
 | E-mail | ali.cetinkaya@selcuk.edu.tr |
 | ORCID | <https://orcid.org/0000-0002-7747-6854> |
-| Institutional page | [[KURUM PROFİL URL'Sİ, Selçuk Üniversitesi personel sayfan; doğrulanmış URL'yi yapıştır]] |
-| CV / publication list | [[CV veya Google Scholar URL'si, doğrulanmış olanı yapıştır]] |
 
 **Declaration on parallel and related submissions.** The manuscript is original, has
 not been published, and is not under consideration by any other journal. Three other
@@ -68,8 +66,9 @@ editorial office can satisfy itself that there is no overlap:
 2. *Natural Language Processing* (Cambridge University Press; the journal was
    titled *Natural Language Engineering* until its 2024 renaming), manuscript
    **NLP-2026-0191**, submitted 8 June 2026, status Under Review.
-3. *Information Processing & Management* (Elsevier), manuscript [[NUMARA, elindeki
-   IPM el yazması numarasını yaz]], status Minor Revision.
+3. *Information Processing & Management* (Elsevier), status Minor Revision. The
+   manuscript number is available on request; I have omitted it here only because
+   the revision is not yet resubmitted.
 
 These three works and the present manuscript **share no corpus, no data, no text and
 no analysis**. They use different materials, address different research questions,

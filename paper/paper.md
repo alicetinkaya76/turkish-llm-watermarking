@@ -362,11 +362,10 @@ The human-text corpus of S1 is reproducible by construction: each window records
 ### Funding
 
 The author declares that no funds, grants, or other support were received during
-the preparation of this manuscript. [[SEÇ VE TEK CÜMLEYİ BIRAK: The commercial API
-charges reported in Sections 3.2 and 3.5 (USD 17.704 and USD 7.021) were met from
-the author's own resources. / … were met from departmental resources of the Faculty
-of Technology, Selçuk University.]] Computation for text generation and detection
-was carried out on hardware provided by the author's institution (Acknowledgments).
+the preparation of this manuscript. The commercial API charges reported in
+Sections 3.2 and 3.5 (USD 17.704 and USD 7.021) were met from the author's own
+resources. Computation for text generation and detection was carried out on
+hardware provided by the author's institution (Acknowledgments).
 
 ### Competing interests
 
@@ -410,12 +409,9 @@ under the definition above, but a reader may reasonably wish to weigh them.
 ### Ethics approval
 
 This study involved no human participants and no animals, and therefore did not
-require review by an institutional research ethics committee. [[KURUMSAL KONTROL:
-Selçuk Üniversitesi etik kurulu insan/hayvan dışı çalışmalar için muafiyet yazısı
-istiyorsa, bu cümleye "; a formal exemption was confirmed by [[kurul adı]] on
-[[tarih]]" ekle. İstemiyorsa cümle olduğu gibi kalsın.]] Three points support that
-determination and are stated explicitly because the study's inputs and instruments
-are unusual.
+require review by an institutional research ethics committee. Three points support
+that determination and are stated explicitly because the study's inputs and
+instruments are unusual.
 
 First, **the human-text baseline is published text, not participant data.** The 4,000
 human windows of Study S1 are verbatim contiguous excerpts from public Wikimedia
