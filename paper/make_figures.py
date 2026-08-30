@@ -138,27 +138,38 @@ def fig2() -> None:
 
 # ---------------------------------------------------------------- Figür 3
 def fig3() -> None:
-    """Sağlamlık–kalibrasyon ödünleşimi."""
+    """Kırılganlık ve gerçekleşen yanlış-pozitif oranı.
+
+    ÖNCEKİ SÜRÜM yatay eksende HAM null standart sapmasını kullanıyordu ve bu
+    kusurluydu: KGW'nin istatistiği nominal N(0,1) z-skoru, EXP'ninki başka bir
+    ölçekte, SynthID'ninki ~0,5 çevresinde bir ortalama g-değeri. Üç ham SD'yi
+    tek eksende karşılaştırmak §3.3'ün kendi kuralını çiğniyordu ("cross-scheme
+    comparisons never compare raw statistics, whose scales are incommensurable").
+    Üçüncü-göz denetiminde yakalandı.
+
+    Yeni yatay eksen ÖLÇÜLEBİLİR: her şemanın KENDİ varsayılan eşiğinde insan
+    Türkçe metninde gerçekleşen yanlış-pozitif oranı. Birim üçü için de aynı --
+    yanlışlıkla işaretlenen pencere oranı -- ve dağıtımın fiilen ödediği maliyet
+    budur. Sıra ham SD'ye göre DEĞİŞİYOR: KGW ile EXP yer değiştiriyor.
+    """
     s1 = json.loads((ROOT / "results_insan" / "insan_fpr_rapor.json").read_text())
     det = pd.read_csv(ROOT / "results" / "detection_metrics.csv")
-    fig, ax = plt.subplots(figsize=(4.0, 3.0))
+    fig, ax = plt.subplots(figsize=(4.2, 3.0))
     for sema in ("KGW", "EXP", "SynthID"):
-        x = s1["tr"][sema]["null_std"]
+        d = s1["tr"][sema]
+        x = 100.0 * d["fpr_config_esigi"]          # yüzde
         r = det[(det.scheme == sema) & (det.condition == "launder_api")].iloc[0]
         ax.errorbar(x, r["auroc"], yerr=[[r["auroc"] - r["ci_lo"]],
                                          [r["ci_hi"] - r["auroc"]]],
                     fmt="o", ms=7, color=RENK[sema], capsize=3, lw=1.4)
-        dx = 1.25 if sema != "KGW" else 0.78
-        ax.annotate(sema, xy=(x, r["auroc"]), xytext=(x * dx, r["auroc"] + 0.012),
-                    fontsize=8.5, color=RENK[sema], fontweight="bold")
-    ax.set_xscale("log")
-    ax.set_xlabel("null std. dev. on human Turkish (log scale)\n"
-                  "← better calibrated")
+        n_isaret = round(d["fpr_config_esigi"] * d["n"])
+        ax.annotate(f"{sema}\n{n_isaret}/{d['n']}", xy=(x, r["auroc"]),
+                    xytext=(x + 0.035, r["auroc"] + 0.010),
+                    fontsize=7.5, color=RENK[sema], fontweight="bold")
+    ax.set_xlabel("false positives on human Turkish at the scheme's own\n"
+                  "shipped threshold (%)   → worse calibrated")
     ax.set_ylabel("AUROC under external laundering\n← more fragile")
-    ax.annotate("cleanest null,\nmost fragile", xy=(s1["tr"]["SynthID"]["null_std"],
-                det[(det.scheme == "SynthID") & (det.condition == "launder_api")]
-                ["auroc"].iloc[0]),
-                xytext=(0.010, 0.775), fontsize=7.5, color=GRI)
+    ax.set_xlim(-0.08, 1.05)
     kaydet(fig, "fig3_tradeoff")
 
 
