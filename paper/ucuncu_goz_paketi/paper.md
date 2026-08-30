@@ -486,9 +486,18 @@ commit `c45ddc40`, the prompt file is content-addressed (SHA-256 prefix
 `paper/numbers.json` by `pilot/make_paper_numbers.py`, and the three
 pre-registrations are commits in the repository history, each made before the
 corresponding data was collected: `8f8df72` (S1 hypotheses), `cbcb988` (S2 protocol
-and decision rule), `5c4f323` (second register). Because the pre-registrations are
-commits rather than documents, their dates can be checked against the data files
-independently of anything the author asserts. The known limitations of the released
+and decision rule), `5c4f323` (second register). We state precisely what this does and
+does not guarantee. The commit hashes bind the registered content cryptographically
+and fix its position in the history, so a reader can verify that no later commit
+silently altered a registration. The wall-clock dates are a different matter. The
+repository was first published on 2026-08-29 and archived at Zenodo on 2026-08-30,
+and those are third-party timestamps; but both postdate the data collection, so
+neither independently separates registration from data. The asserted dates of
+2026-08-23 to 2026-08-25 rest on the author's local repository history, which an
+author can in principle rewrite before first publication. We report this rather than
+letting the phrase "pre-registered" carry more weight than the evidence supports, and
+future registrations in this line of work will be anchored to a third-party timestamp
+at the moment of registration. The known limitations of the released
 resource are stated at its top level in `BENCHMARK.md`.
 
 **The licensing of this release is deliberately not uniform, and users must consult
@@ -503,8 +512,10 @@ externally laundered texts and the judge verdicts are CC BY 4.0; and the detecto
 scores and derived metrics are CC0 1.0 as facts. `DATA_LICENSE.md` gives the
 per-path table, states which readings are contested and why the restrictive one was
 chosen, and explains how to assemble a commercially usable subset. It is the
-authoritative statement; the single-licence field of the archive record cannot
-express this structure.
+authoritative statement. The archive record's licence field is set to "Other (Open)"
+for this reason: no single identifier describes the deposit, and that field is not a
+blanket grant. Users must determine the applicable terms from the component they
+actually reuse.
 
 Because the repository is a fork of MarkLLM, the release and its archived snapshot
 also carry roughly 330 MB of upstream files that this study never reads: C4 excerpts

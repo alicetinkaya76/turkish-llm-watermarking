@@ -42,7 +42,7 @@ through an external commercial model.
   protocol and decision rule), `5c4f323` (second register).
 
 Because the pre-registrations are commits rather than documents, they can be dated
-against the data files independently of anything we assert.
+against the data files. Note the limit of that guarantee: the hashes bind content and ordering, but the repository was first published on 2026-08-29, after the data was collected, so no third-party timestamp separates the registrations from the data. The asserted dates rest on the author's local history.
 
 ## Known limitations of the resource
 

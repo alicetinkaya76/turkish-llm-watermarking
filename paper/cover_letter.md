@@ -42,7 +42,7 @@ top level, `DATA_LICENSE.md` gives per-component licensing (which is deliberatel
 **not** uniform, and says so where a term is genuinely unresolved), and
 `ATTRIBUTION.md` carries the Wikimedia attribution the CC BY-SA licence requires. The
 three pre-registrations are commits made before the corresponding data was collected,
-so their dating can be verified independently of any claim I make. Repository:
+so their content and ordering are cryptographically fixed. I note in Section 7 that the wall-clock dates are not independently anchored, because the repository was first published after the data was collected. Repository:
 <https://github.com/alicetinkaya76/turkish-llm-watermarking>, release tag
 `v1.1.0-paper`; archived at Zenodo under DOI 10.5281/zenodo.22168553
 (<https://doi.org/10.5281/zenodo.22168553>).
