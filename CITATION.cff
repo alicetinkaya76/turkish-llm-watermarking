@@ -1,0 +1,50 @@
+cff-version: 1.2.0
+message: >-
+  If you use this repository or the TR-WM-EVAL benchmark, please cite both the
+  archived release and, once it appears, the paper. Note that the data is not
+  uniformly licensed: read DATA_LICENSE.md before reuse.
+title: >-
+  turkish-llm-watermarking: code and data for TR-WM-EVAL, a Turkish
+  watermark-evaluation benchmark
+abstract: >-
+  Code, corpora, detector scores and LLM-judge annotations behind a study of how
+  three watermarking schemes (KGW, EXP, SynthID) behave on Turkish. TR-WM-EVAL
+  contains 4,000 human text windows across three registers, 384 generated Turkish
+  texts, 3,840 attacked texts across ten removal attacks, 58,161 detector scores
+  including a length-controlled rescoring and an eight-key sweep, and 788 pairwise
+  judge verdicts. Known limitations are stated up front in BENCHMARK.md. This
+  repository is a research fork of MarkLLM and therefore also carries upstream
+  files the study does not use; DATA_LICENSE.md itemises them.
+type: software
+version: 1.1.0-paper
+license: CC-BY-SA-4.0
+repository-code: https://github.com/alicetinkaya76/turkish-llm-watermarking
+authors:
+  - family-names: Çetinkaya
+    given-names: Ali
+    orcid: https://orcid.org/0000-0002-7747-6854
+    affiliation: >-
+      Department of Computer Engineering, Faculty of Technology,
+      Selçuk University, Konya, Türkiye
+keywords:
+  - LLM watermarking
+  - Turkish
+  - detector calibration
+  - false-positive rate
+  - subword fertility
+  - evaluation benchmark
+  - language resource
+  - reproducibility
+  - pre-registration
+references:
+  - type: software
+    title: 'MarkLLM: An Open-Source Toolkit for LLM Watermarking'
+    repository-code: https://github.com/THU-BPM/MarkLLM
+    notes: >-
+      Upstream toolkit this repository forks, used at commit c45ddc40.
+      Licensed Apache-2.0.
+    authors:
+      - family-names: Pan
+        given-names: Leyi
+      - family-names: Liu
+        given-names: Aiwei
