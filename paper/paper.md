@@ -471,9 +471,8 @@ identifiable individual.
 All code, corpora, detector scores, attacked texts and judge annotations behind this
 paper are openly available in the repository
 <https://github.com/alicetinkaya76/turkish-llm-watermarking> (Çetinkaya, 2026), at the release
-tag
-`v1.0.0-paper`, which freezes the exact code and data state from which every reported
-number was produced. An archived snapshot of that release is deposited at Zenodo
+tag `v1.1.0-paper`, which freezes the exact code and data state from which every
+reported number was produced. An archived snapshot of that release is deposited at Zenodo
 under DOI [[10.5281/zenodo.XXXXXXX : DOI HENÜZ ATANMADI; kabul öncesi Zenodo sürümü
 oluşturulup bu satır doldurulacak]].
 

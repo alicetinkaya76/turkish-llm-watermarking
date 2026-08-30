@@ -44,7 +44,7 @@ top level, `DATA_LICENSE.md` gives per-component licensing (which is deliberatel
 three pre-registrations are commits made before the corresponding data was collected,
 so their dating can be verified independently of any claim I make. Repository:
 <https://github.com/alicetinkaya76/turkish-llm-watermarking>, release tag
-`v1.0.0-paper`; a Zenodo archive with a citable DOI will be minted before
+`v1.1.0-paper`; a Zenodo archive with a citable DOI will be minted before
 publication.
 
 **Author identification.** As requested by the journal:
