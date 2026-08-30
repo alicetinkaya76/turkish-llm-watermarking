@@ -110,6 +110,9 @@ function figurYap(rel) {
 const cocuklar = [];
 const satirlar = MD.split("\n");
 let i = 0;
+// APA 7 kaynakçası asılı girinti ister ve iki yana yaslanmaz; "References"
+// başlığından sonraki paragraflar bu biçimi alır.
+let kaynakcada = false;
 while (i < satirlar.length) {
   const l = satirlar[i];
 
@@ -119,6 +122,7 @@ while (i < satirlar.length) {
   const h = l.match(/^(#{1,3})\s+(.*)$/);
   if (h) {
     const seviye = h[1].length;
+    if (seviye === 2) kaynakcada = /^References\s*$/.test(h[2].trim());
     if (seviye === 1) {
       cocuklar.push(new Paragraph({
         children: runlar(h[2], { bold: true, size: 32 }),
@@ -182,7 +186,13 @@ while (i < satirlar.length) {
   while (i < satirlar.length && satirlar[i].trim() && !/^[#|>!]|^\s*[-*]\s|^\*\*(Table|Figure) \d+\./.test(satirlar[i])) {
     par.push(satirlar[i++]);
   }
-  cocuklar.push(P(par.join(" ")));
+  cocuklar.push(kaynakcada
+    ? P(par.join(" "), {
+        alignment: AlignmentType.LEFT,           // yaslama, uzun DOI'lerde
+        indent: { left: 480, hanging: 480 },     // seyrek satır üretiyordu
+        spacing: { after: 100, line: 276 },
+      })
+    : P(par.join(" ")));
 }
 
 const doc = new Document({
