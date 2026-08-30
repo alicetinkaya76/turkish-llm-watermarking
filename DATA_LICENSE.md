@@ -21,6 +21,28 @@ we say so rather than choosing the convenient reading.
 | `results/scores.csv`, `detection_metrics.csv`, `results_insan/skor_*.jsonl`, all `*_rapor.json` | Detector scores and derived metrics | Computed measurements | **CC0 1.0** (facts, below the threshold of originality) |
 | `pilot/`, `hpc/`, `paper/*.py`, `paper/*.js` | Code | This work, on top of MarkLLM | **Apache-2.0** |
 
+## Files inherited from upstream MarkLLM, which this study does not use
+
+This repository is a fork, so it carries upstream files that our study never reads.
+They matter here for one reason only: the archived release, and therefore the Zenodo
+record, contains them. **They are not part of the TR-WM-EVAL benchmark**, and the
+table above does not describe them. Their terms are upstream's, not ours:
+
+| Path | Size | Content | Terms it travels under |
+|---|---|---|---|
+| `dataset/c4/`, `dataset/c4-train/` | 165 MB | Excerpts of the C4 corpus shipped by upstream as evaluation fixtures | **ODC-BY 1.0**, plus the Common Crawl terms of use for the underlying content. Attribution is owed to Allen AI (C4) and Common Crawl, not to us. |
+| `watermark/xsir/dictionary/`, `watermark/xsir/mapping/` | 144 MB | Dictionaries and cluster mappings for the XSIR scheme | Apache-2.0 as redistributed by upstream MarkLLM; the dictionaries derive from third-party lexical resources whose individual terms upstream does not itemise. |
+| `watermark/steal/counts/` | 19 MB | Precomputed token counts for a watermark-stealing baseline | Apache-2.0 as redistributed by upstream MarkLLM. |
+| `watermark/sir/mapping/` | 3.5 MB | Cluster mappings for the SIR scheme | Apache-2.0 as redistributed by upstream MarkLLM. |
+
+We did not relicense any of this and we make no claim over it. We also did not
+verify upstream's own labelling of the XSIR dictionaries; we report that we did not,
+rather than passing their Apache-2.0 header along as if we had checked it.
+
+If you want the benchmark without this material, take the paths in the summary table
+above together with `pilot/`, `paper/`, `BENCHMARK.md`, `ATTRIBUTION*` and this file.
+That subset is roughly 35 MB and is self-contained for every number in the paper.
+
 ## Round-trip translation outputs (`att_*_rtt.jsonl`) — unresolved, restrictively labelled
 
 These files contain Turkish text that was translated to English and back using

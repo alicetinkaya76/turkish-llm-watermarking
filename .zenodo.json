@@ -1,12 +1,20 @@
 {
-  "title": "TR-WM-EVAL: a Turkish watermark-evaluation benchmark",
-  "description": "<p>Corpora, detector scores and judge annotations for a study of how three LLM watermarking schemes (KGW, EXP, SynthID) behave on Turkish. Contains 4,000 human text windows (Turkish and English Wikipedia, Turkish Wikisource), 384 generated Turkish texts, 3,840 attacked texts across ten attacks, 58,161 detector scores including a length-controlled rescoring and an eight-key sweep, and 788 pairwise LLM-judge verdicts.</p><p><strong>Licensing is not uniform</strong>: Wikimedia-derived text is CC BY-SA with a ShareAlike obligation, round-trip translations are labelled CC BY-NC, generated and laundered texts and judge verdicts are CC BY 4.0, scores and metrics are CC0, code is Apache-2.0. See DATA_LICENSE.md.</p><p>Known limitations are stated up front in BENCHMARK.md: one generator, one watermark key on the attack axis, EXP's structurally fixed-length texts, judge verdicts covering only the KGW arm, and windows matched on words rather than tokens.</p><p>Pre-registrations are commits in the repository history, each made before the corresponding data was collected.</p>",
-  "upload_type": "dataset",
+  "title": "turkish-llm-watermarking: code and data for TR-WM-EVAL, a Turkish watermark-evaluation benchmark",
+  "description": "<p>Archived snapshot of the repository behind the study <em>Watermarking Turkish LLM Output: Detector Calibration, Scheme Fragility, and a Released Evaluation Benchmark</em>. It contains the analysis code, the corpora, the detector scores and the judge annotations from which every number in that paper is regenerated.</p><p><strong>TR-WM-EVAL</strong>, the released benchmark, consists of 4,000 human text windows (1,500 Turkish Wikipedia, 1,500 word-matched English Wikipedia, 1,000 Turkish Wikisource), 384 generated Turkish texts, 3,840 attacked texts across ten removal attacks, 58,161 detector scores including a length-controlled rescoring and an eight-key sweep, and 788 pairwise LLM-judge verdicts. Its known limitations are stated up front in BENCHMARK.md: one generator, one watermark key on the attack axis, EXP's structurally fixed-length texts, judge verdicts covering only the KGW arm, and windows matched on words rather than tokens.</p><p><strong>Read DATA_LICENSE.md before reuse; the licence field of this record is a floor, not a description.</strong> Components carry different terms: Wikimedia-derived text is CC BY-SA with a ShareAlike obligation that propagates to adaptations, round-trip translations are labelled CC BY-NC under a deliberately restrictive reading, generated and laundered texts and judge verdicts are CC BY 4.0, scores and metrics are CC0, and code is Apache-2.0.</p><p><strong>This snapshot is a fork of MarkLLM and therefore also carries about 330 MB of upstream files that the study never uses</strong> (C4 excerpts under ODC-BY plus the Common Crawl terms, and XSIR/SIR/steal fixtures redistributed by upstream under Apache-2.0). They are not part of TR-WM-EVAL and are itemised in DATA_LICENSE.md. A self-contained benchmark subset of roughly 35 MB is described there.</p><p>The three pre-registrations are commits in the repository history, each made before the corresponding data was collected: 8f8df72 (S1 hypotheses), cbcb988 (S2 protocol and decision rule), 5c4f323 (second register). Because they are commits rather than documents, their dates can be checked against the data files independently of anything the author asserts.</p>",
+  "upload_type": "software",
   "access_right": "open",
   "license": "cc-by-sa-4.0",
+  "version": "1.0.0-paper",
   "keywords": [
-    "LLM watermarking", "Turkish", "detector calibration", "false-positive rate",
-    "subword fertility", "evaluation benchmark", "language resource", "reproducibility"
+    "LLM watermarking",
+    "Turkish",
+    "detector calibration",
+    "false-positive rate",
+    "subword fertility",
+    "evaluation benchmark",
+    "language resource",
+    "reproducibility",
+    "pre-registration"
   ],
   "creators": [
     {
@@ -26,6 +34,12 @@
       "identifier": "10.18653/v1/2024.emnlp-demo.7",
       "relation": "cites",
       "resource_type": "publication-conferencepaper",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.1038/s41586-024-08025-4",
+      "relation": "cites",
+      "resource_type": "publication-article",
       "scheme": "doi"
     }
   ],

@@ -508,6 +508,16 @@ chosen, and explains how to assemble a commercially usable subset. It is the
 authoritative statement; the single-licence field of the archive record cannot
 express this structure.
 
+Because the repository is a fork of MarkLLM, the release and its archived snapshot
+also carry roughly 330 MB of upstream files that this study never reads: C4 excerpts
+shipped by upstream as evaluation fixtures, under ODC-BY together with the Common
+Crawl terms of use, and dictionaries, cluster mappings and precomputed counts for the
+XSIR, SIR and watermark-stealing components, redistributed by upstream under
+Apache-2.0. These are not part of the released benchmark, we make no claim over them,
+and we did not independently verify upstream's labelling of the XSIR dictionaries.
+`DATA_LICENSE.md` itemises them and describes the roughly 35 MB subset that is
+self-contained for every number reported here.
+
 ### Author contributions
 
 Ali Çetinkaya is the sole author of this manuscript and contributed as follows
@@ -589,7 +599,7 @@ Bamber, D. (1975). The area above the ordinal dominance graph and the area below
 
 Bulat, O. (2022). *zeyrek: Python morphological analyzer and lemmatizer for Turkish* (Version 0.1.3) [Computer software]. Python Package Index. https://pypi.org/project/zeyrek/0.1.3/
 
-Çetinkaya, A. (2026). *turkish-llm-watermarking* (Version 1.0.0-paper) [Computer software]. Zenodo. https://doi.org/[[10.5281/zenodo.XXXXXXX : DOI HENÜZ ATANMADI]]
+Çetinkaya, A. (2026). *turkish-llm-watermarking: Code and data for TR-WM-EVAL, a Turkish watermark-evaluation benchmark* (Version 1.0.0-paper) [Computer software]. Zenodo. https://doi.org/[[10.5281/zenodo.XXXXXXX : DOI HENÜZ ATANMADI]]
 
 Dathathri, S., See, A., Ghaisas, S., Huang, P.-S., McAdam, R., Welbl, J., Bachani, V., Kaskasoli, A., Stanforth, R., Matejovicova, T., Hayes, J., Vyas, N., Al Merey, M., Brown-Cohen, J., Bunel, R., Balle, B., Cemgil, T., Ahmed, Z., Stacpoole, K., … Kohli, P. (2024). Scalable watermarking for identifying large language model outputs. *Nature*, *634*(8035), 818–823. https://doi.org/10.1038/s41586-024-08025-4
 

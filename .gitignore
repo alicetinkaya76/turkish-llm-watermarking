@@ -185,3 +185,4 @@ denetim_paketi_*.zip
 # HPC'ye gönderilen geçici tarball
 pilot.tar.gz
 hpc.tar.gz
+paper/paper_onizleme.pdf
