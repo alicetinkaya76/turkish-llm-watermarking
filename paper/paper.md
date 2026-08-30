@@ -473,8 +473,9 @@ paper are openly available in the repository
 <https://github.com/alicetinkaya76/turkish-llm-watermarking> (Çetinkaya, 2026), at the release
 tag `v1.1.0-paper`, which freezes the exact code and data state from which every
 reported number was produced. An archived snapshot of that release is deposited at Zenodo
-under DOI [[10.5281/zenodo.XXXXXXX : DOI HENÜZ ATANMADI; kabul öncesi Zenodo sürümü
-oluşturulup bu satır doldurulacak]].
+under DOI 10.5281/zenodo.22168553 (<https://doi.org/10.5281/zenodo.22168553>).
+That DOI names this specific release; the concept DOI 10.5281/zenodo.22168552
+always resolves to the latest version.
 
 The release contains 4,000 human text windows (1,500 Turkish Wikipedia, 1,500
 word-matched English Wikipedia, 1,000 Turkish Wikisource), 384 generated Turkish
@@ -598,7 +599,7 @@ Bamber, D. (1975). The area above the ordinal dominance graph and the area below
 
 Bulat, O. (2022). *zeyrek: Python morphological analyzer and lemmatizer for Turkish* (Version 0.1.3) [Computer software]. Python Package Index. https://pypi.org/project/zeyrek/0.1.3/
 
-Çetinkaya, A. (2026). *turkish-llm-watermarking: Code and data for TR-WM-EVAL, a Turkish watermark-evaluation benchmark* (Version 1.0.0-paper) [Computer software]. Zenodo. https://doi.org/[[10.5281/zenodo.XXXXXXX : DOI HENÜZ ATANMADI]]
+Çetinkaya, A. (2026). *turkish-llm-watermarking: Code and data for TR-WM-EVAL, a Turkish watermark-evaluation benchmark* (Version 1.1.0-paper) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.22168553
 
 Dathathri, S., See, A., Ghaisas, S., Huang, P.-S., McAdam, R., Welbl, J., Bachani, V., Kaskasoli, A., Stanforth, R., Matejovicova, T., Hayes, J., Vyas, N., Al Merey, M., Brown-Cohen, J., Bunel, R., Balle, B., Cemgil, T., Ahmed, Z., Stacpoole, K., … Kohli, P. (2024). Scalable watermarking for identifying large language model outputs. *Nature*, *634*(8035), 818–823. https://doi.org/10.1038/s41586-024-08025-4
 

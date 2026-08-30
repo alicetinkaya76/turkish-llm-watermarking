@@ -1,4 +1,4 @@
-[[TARİH]]
+30 August 2026
 
 To the Editors-in-Chief
 *Language Resources and Evaluation*
@@ -44,8 +44,8 @@ top level, `DATA_LICENSE.md` gives per-component licensing (which is deliberatel
 three pre-registrations are commits made before the corresponding data was collected,
 so their dating can be verified independently of any claim I make. Repository:
 <https://github.com/alicetinkaya76/turkish-llm-watermarking>, release tag
-`v1.1.0-paper`; a Zenodo archive with a citable DOI will be minted before
-publication.
+`v1.1.0-paper`; archived at Zenodo under DOI 10.5281/zenodo.22168553
+(<https://doi.org/10.5281/zenodo.22168553>).
 
 **Author identification.** As requested by the journal:
 
@@ -65,8 +65,9 @@ editorial office can satisfy itself that there is no overlap:
 
 1. ACM *Transactions on Asian and Low-Resource Language Information Processing*,
    manuscript **TALLIP-26-0165**, submitted 24 March 2026, status Under Review.
-2. [[DERGİ ADINI DOĞRULA: Natural Language Engineering]] (Cambridge University
-   Press), manuscript **NLP-2026-0191**, submitted 8 June 2026, status Under Review.
+2. *Natural Language Processing* (Cambridge University Press; the journal was
+   titled *Natural Language Engineering* until its 2024 renaming), manuscript
+   **NLP-2026-0191**, submitted 8 June 2026, status Under Review.
 3. *Information Processing & Management* (Elsevier), manuscript [[NUMARA, elindeki
    IPM el yazması numarasını yaz]], status Minor Revision.
 

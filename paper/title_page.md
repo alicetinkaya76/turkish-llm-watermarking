@@ -76,7 +76,7 @@ Project administration. The author read and approved the final manuscript.
 - **Consent to participate / Consent to publish.** Not applicable.
 - **Data, material and code availability.** Openly available at
   <https://github.com/alicetinkaya76/turkish-llm-watermarking> (release tag
-  `v1.1.0-paper`); archived at Zenodo, DOI [[10.5281/zenodo.XXXXXXX, atanmadı]].
+  `v1.1.0-paper`); archived at Zenodo, DOI 10.5281/zenodo.22168553.
   **Licensing is not uniform across components; see `DATA_LICENSE.md`.**
 - **Generative AI use.** Declared in full in the manuscript. No AI system is an
   author.
