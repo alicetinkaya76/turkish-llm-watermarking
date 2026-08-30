@@ -181,12 +181,20 @@ while (i < satirlar.length) {
   }
 
   // paragraf (ardışık satırları birleştir)
+  // Devam satırlarının baştaki boşluğu ATILIR: numaralı madde gövdeleri
+  // kaynakta 3 boşlukla girintili ve düz join onları "kelime" + " " +
+  // "   kelime" hâline getirip metnin ortasında 4 boşluk bırakıyordu
+  // (§"Competing interests" render kontrolünde yakalandı).
   const par = [l];
   i++;
   while (i < satirlar.length && satirlar[i].trim() && !/^[#|>!]|^\s*[-*]\s|^\*\*(Table|Figure) \d+\./.test(satirlar[i])) {
-    par.push(satirlar[i++]);
+    par.push(satirlar[i++].replace(/^\s+/, ""));
   }
-  cocuklar.push(kaynakcada
+  // "1. ", "2. " ile başlayan madde: asılı girinti, numara dışarıda kalsın
+  const numarali = /^\d+\.\s/.test(par[0]);
+  cocuklar.push(numarali && !kaynakcada
+    ? P(par.join(" "), { indent: { left: 360, hanging: 360 }, spacing: { after: 120, line: 276 } })
+    : kaynakcada
     ? P(par.join(" "), {
         alignment: AlignmentType.LEFT,           // yaslama, uzun DOI'lerde
         indent: { left: 480, hanging: 480 },     // seyrek satır üretiyordu
