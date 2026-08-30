@@ -600,7 +600,7 @@
     }
   },
   "sema_karsilastirma_md": [
-    "| kosul | cift | ort_fark | n_istem | p | holm_esik | holm |\n|---|---|---|---|---|---|---|\n| rtt | EXP vs SynthID | 0.479 | 24 | 0.001 | 0.008 | ANLAMLI |\n| rtt | KGW vs SynthID | 0.281 | 24 | 0.001 | 0.010 | ANLAMLI |\n| launder_api | EXP vs SynthID | 0.240 | 24 | 0.003 | 0.013 | ANLAMLI |\n| launder_api | KGW vs SynthID | 0.177 | 24 | 0.013 | 0.017 | ANLAMLI |\n| rtt | KGW vs EXP | -0.198 | 24 | 0.104 | 0.025 | — |\n| launder_api | KGW vs EXP | -0.062 | 24 | 0.513 | 0.050 | — |"
+    "| kosul | cift | ort_fark | n_istem | p | holm_esik | holm |\n|---|---|---|---|---|---|---|\n| rtt | EXP vs SynthID | 0.479 | 24 | 0.000 | 0.008 | ANLAMLI |\n| rtt | KGW vs SynthID | 0.281 | 24 | 0.001 | 0.010 | ANLAMLI |\n| launder_api | EXP vs SynthID | 0.240 | 24 | 0.003 | 0.013 | ANLAMLI |\n| launder_api | KGW vs SynthID | 0.177 | 24 | 0.013 | 0.017 | ANLAMLI |\n| rtt | KGW vs EXP | -0.198 | 24 | 0.104 | 0.025 | — |\n| launder_api | KGW vs EXP | -0.062 | 24 | 0.513 | 0.050 | — |"
   ],
   "kgw_model_negatif": {
     "n": 96,
@@ -675,7 +675,7 @@
     "en_z4_ustu": 3,
     "en_n": 1500,
     "tr_z_maks": 5.077367528252131,
-    "levene_tr_en_p": 0.00039173395611149836,
+    "levene_tr_en_p": 0.00039173395611086524,
     "dump": "wikimedia/wikipedia 20231101",
     "ampirik_oran_tr": 0.002,
     "ampirik_kat_tr": 63.1487710692961
@@ -892,5 +892,1619 @@
       "mean": 0.7472873263888888,
       "weighted_mean": 0.7731119791666666
     }
+  },
+  "h2_token": {
+    "T_listesi": [
+      300,
+      400,
+      500,
+      800
+    ],
+    "korpus": {
+      "tr": {
+        "300": {
+          "n": 1500,
+          "mean": -0.008713278308291356,
+          "std": 1.1768256909415018,
+          "z_max": 6.1879697720387705,
+          "n_z4": 2,
+          "fpr": 0.0013333333333333333,
+          "fpr_ci": [
+            0.00016151365947254988,
+            0.004808077576343002
+          ]
+        },
+        "400": {
+          "n": 1500,
+          "mean": -0.013016280532365726,
+          "std": 1.2287076972898636,
+          "z_max": 6.157701944157634,
+          "n_z4": 2,
+          "fpr": 0.0013333333333333333,
+          "fpr_ci": [
+            0.00016151365947254988,
+            0.004808077576343002
+          ]
+        },
+        "500": {
+          "n": 1500,
+          "mean": -0.02202494486696358,
+          "std": 1.2814760361821242,
+          "z_max": 6.3120268826054176,
+          "n_z4": 3,
+          "fpr": 0.002,
+          "fpr_ci": [
+            0.0004126381428911079,
+            0.00583362185861689
+          ]
+        },
+        "800": {
+          "n": 1495,
+          "mean": -0.0309286529412754,
+          "std": 1.3826474260893147,
+          "z_max": 6.049545127140274,
+          "n_z4": 2,
+          "fpr": 0.0013377926421404682,
+          "fpr_ci": [
+            0.0001620539759121613,
+            0.004824130004492632
+          ]
+        }
+      },
+      "en": {
+        "300": {
+          "n": 1500,
+          "mean": 0.208424701480633,
+          "std": 1.206023223598516,
+          "z_max": 4.45302497614005,
+          "n_z4": 1,
+          "fpr": 0.0006666666666666666,
+          "fpr_ci": [
+            1.6878396215487235e-05,
+            0.003708773520634729
+          ]
+        },
+        "400": {
+          "n": 1499,
+          "mean": 0.23708773926018456,
+          "std": 1.2529798821783247,
+          "z_max": 3.9549467771418954,
+          "n_z4": 0,
+          "fpr": 0.0,
+          "fpr_ci": [
+            0.0,
+            0.0024578680488832796
+          ]
+        },
+        "500": {
+          "n": 1111,
+          "mean": 0.3043372786916057,
+          "std": 1.301099959396468,
+          "z_max": 4.700445550876375,
+          "n_z4": 2,
+          "fpr": 0.0018001800180018,
+          "fpr_ci": [
+            0.00021808455028645628,
+            0.006487596651413135
+          ]
+        },
+        "800": {
+          "n": 73,
+          "mean": -0.012115567425979877,
+          "std": 1.7956379876958561,
+          "z_max": 6.403319695978887,
+          "n_z4": 1,
+          "fpr": 0.0136986301369863,
+          "fpr_ci": [
+            0.0003467591524173196,
+            0.07397632317834403
+          ]
+        }
+      },
+      "tr_wikisource": {
+        "300": {
+          "n": 1000,
+          "mean": -0.14770163362417776,
+          "std": 1.2138079741151193,
+          "z_max": 3.7590470577805615,
+          "n_z4": 0,
+          "fpr": 0.0,
+          "fpr_ci": [
+            0.0,
+            0.0036820838966395257
+          ]
+        },
+        "400": {
+          "n": 1000,
+          "mean": -0.15379236075164435,
+          "std": 1.2366875526460948,
+          "z_max": 3.754696307413192,
+          "n_z4": 0,
+          "fpr": 0.0,
+          "fpr_ci": [
+            0.0,
+            0.0036820838966395257
+          ]
+        },
+        "500": {
+          "n": 1000,
+          "mean": -0.1645603604287767,
+          "std": 1.2678047246330035,
+          "z_max": 3.8946548850118536,
+          "n_z4": 0,
+          "fpr": 0.0,
+          "fpr_ci": [
+            0.0,
+            0.0036820838966395257
+          ]
+        },
+        "800": {
+          "n": 983,
+          "mean": -0.13866667484589768,
+          "std": 1.384734393348559,
+          "z_max": 4.422182110482656,
+          "n_z4": 4,
+          "fpr": 0.004069175991861648,
+          "fpr_ci": [
+            0.0011097925218731095,
+            0.01038566964027744
+          ]
+        }
+      }
+    },
+    "karsilastirma": {
+      "300": {
+        "n_tr": 1500,
+        "n_en": 1500,
+        "std_tr": 1.1768256909415018,
+        "std_en": 1.206023223598516,
+        "oran": 0.9757902401166911,
+        "levene_p": 0.21473212638625683,
+        "yon": "EN>=TR",
+        "H2_ayakta": false
+      },
+      "400": {
+        "n_tr": 1500,
+        "n_en": 1499,
+        "std_tr": 1.2287076972898636,
+        "std_en": 1.2529798821783247,
+        "oran": 0.9806284320812371,
+        "levene_p": 0.25644372518263997,
+        "yon": "EN>=TR",
+        "H2_ayakta": false
+      },
+      "500": {
+        "n_tr": 1500,
+        "n_en": 1111,
+        "std_tr": 1.2814760361821242,
+        "std_en": 1.301099959396468,
+        "oran": 0.9849174361488362,
+        "levene_p": 0.6051021243916376,
+        "yon": "EN>=TR",
+        "H2_ayakta": false
+      },
+      "800": {
+        "n_tr": 1495,
+        "n_en": 73,
+        "std_tr": 1.3826474260893147,
+        "std_en": 1.7956379876958561,
+        "oran": 0.7700034392029729,
+        "levene_p": 0.005749617360614043,
+        "yon": "EN>=TR",
+        "H2_ayakta": false
+      }
+    },
+    "token_uzunluk": {
+      "tr": {
+        "n": 1500,
+        "medyan": 1017.0,
+        "ort": 1048.648,
+        "p10": 917.9,
+        "p90": 1167.0
+      },
+      "en": {
+        "n": 1500,
+        "medyan": 529.0,
+        "ort": 557.7333333333333,
+        "p10": 474.0,
+        "p90": 650.0
+      },
+      "tr_wikisource": {
+        "n": 1000,
+        "medyan": 1000.0,
+        "ort": 1136.367,
+        "p10": 909.0,
+        "p90": 1217.1
+      }
+    }
+  },
+  "anahtar_supurme": {
+    "kosu_anahtari": 15485863,
+    "anahtarlar": [
+      15485863,
+      287335975,
+      276102408,
+      1711717682,
+      1072191045,
+      1267085885,
+      1291707886,
+      1529378281
+    ],
+    "korpus": {
+      "tr": {
+        "satirlar": [
+          {
+            "hash_key": 15485863,
+            "n": 1500,
+            "mean": -0.05531915786288738,
+            "std": 1.478662740868063,
+            "z_max": 5.077367528252131,
+            "n_z4": 3,
+            "fpr": 0.002,
+            "fpr_ci": [
+              0.0004126381428911079,
+              0.00583362185861689
+            ],
+            "kosu_anahtari_mi": true
+          },
+          {
+            "hash_key": 287335975,
+            "n": 1500,
+            "mean": 0.27877092884882937,
+            "std": 1.4645494169879703,
+            "z_max": 5.009849453755649,
+            "n_z4": 6,
+            "fpr": 0.004,
+            "fpr_ci": [
+              0.0014693009115840925,
+              0.00868584224535126
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 276102408,
+            "n": 1500,
+            "mean": -0.30750746736033785,
+            "std": 1.6186971732060482,
+            "z_max": 9.697651491183029,
+            "n_z4": 8,
+            "fpr": 0.005333333333333333,
+            "fpr_ci": [
+              0.002305282466757476,
+              0.01048161262641434
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1711717682,
+            "n": 1500,
+            "mean": -1.0498700074946934,
+            "std": 2.5325595159030394,
+            "z_max": 8.983034857676847,
+            "n_z4": 5,
+            "fpr": 0.0033333333333333335,
+            "fpr_ci": [
+              0.0010831828328138286,
+              0.007761609956732461
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1072191045,
+            "n": 1500,
+            "mean": 0.4905285163319355,
+            "std": 1.7746251288959958,
+            "z_max": 8.32082813814362,
+            "n_z4": 54,
+            "fpr": 0.036,
+            "fpr_ci": [
+              0.027157771885031916,
+              0.046713186863511544
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1267085885,
+            "n": 1500,
+            "mean": -0.705415377975573,
+            "std": 1.5715486311707079,
+            "z_max": 4.6632793335248754,
+            "n_z4": 4,
+            "fpr": 0.0026666666666666666,
+            "fpr_ci": [
+              0.0007270400447453692,
+              0.00681353173292647
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1291707886,
+            "n": 1500,
+            "mean": 0.6160724697247281,
+            "std": 1.758199566238546,
+            "z_max": 9.122835669530955,
+            "n_z4": 53,
+            "fpr": 0.035333333333333335,
+            "fpr_ci": [
+              0.026576912587346537,
+              0.045964124420087196
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1529378281,
+            "n": 1500,
+            "mean": 1.2648415491117782,
+            "std": 2.0767121858655284,
+            "z_max": 9.399639372815484,
+            "n_z4": 143,
+            "fpr": 0.09533333333333334,
+            "fpr_ci": [
+              0.08094170314123364,
+              0.11133092187147321
+            ],
+            "kosu_anahtari_mi": false
+          }
+        ],
+        "std_min": 1.4645494169879703,
+        "std_max": 2.5325595159030394,
+        "std_medyan": 1.688448369722297,
+        "z4_min": 3,
+        "z4_max": 143,
+        "z4_medyan": 7.0,
+        "hepsi_std_1_ustu": true,
+        "kosu_std_siralamasi": 2,
+        "kosu_z4_siralamasi": 1,
+        "n_anahtar": 8
+      },
+      "en": {
+        "satirlar": [
+          {
+            "hash_key": 15485863,
+            "n": 1500,
+            "mean": 0.27800260861199977,
+            "std": 1.3211500985064275,
+            "z_max": 6.241911601925124,
+            "n_z4": 3,
+            "fpr": 0.002,
+            "fpr_ci": [
+              0.0004126381428911079,
+              0.00583362185861689
+            ],
+            "kosu_anahtari_mi": true
+          },
+          {
+            "hash_key": 287335975,
+            "n": 1500,
+            "mean": 0.5245571135605716,
+            "std": 1.3172973364951803,
+            "z_max": 6.453558075134578,
+            "n_z4": 12,
+            "fpr": 0.008,
+            "fpr_ci": [
+              0.004140350842823103,
+              0.013932651519892581
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 276102408,
+            "n": 1500,
+            "mean": 0.018268714002066467,
+            "std": 1.3076092153235652,
+            "z_max": 4.48088385151924,
+            "n_z4": 3,
+            "fpr": 0.002,
+            "fpr_ci": [
+              0.0004126381428911079,
+              0.00583362185861689
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1711717682,
+            "n": 1500,
+            "mean": -0.013112175949196654,
+            "std": 1.4018814990775565,
+            "z_max": 4.992885200714272,
+            "n_z4": 2,
+            "fpr": 0.0013333333333333333,
+            "fpr_ci": [
+              0.00016151365947254988,
+              0.004808077576343002
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1072191045,
+            "n": 1500,
+            "mean": -0.11138768907393352,
+            "std": 1.4464549780273084,
+            "z_max": 10.037533554957042,
+            "n_z4": 11,
+            "fpr": 0.007333333333333333,
+            "fpr_ci": [
+              0.0036662916253218207,
+              0.013083394514520974
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1267085885,
+            "n": 1500,
+            "mean": 0.2165079120513458,
+            "std": 1.3839182107718302,
+            "z_max": 11.191273044032563,
+            "n_z4": 5,
+            "fpr": 0.0033333333333333335,
+            "fpr_ci": [
+              0.0010831828328138286,
+              0.007761609956732461
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1291707886,
+            "n": 1500,
+            "mean": 0.3621251643469623,
+            "std": 1.4986874086875717,
+            "z_max": 6.584983764079024,
+            "n_z4": 33,
+            "fpr": 0.022,
+            "fpr_ci": [
+              0.01519102310259626,
+              0.03075843524257967
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1529378281,
+            "n": 1500,
+            "mean": 0.3173404466764094,
+            "std": 1.49373231785537,
+            "z_max": 6.837132796141969,
+            "n_z4": 32,
+            "fpr": 0.021333333333333333,
+            "fpr_ci": [
+              0.014636644287091216,
+              0.02998375942567442
+            ],
+            "kosu_anahtari_mi": false
+          }
+        ],
+        "std_min": 1.3076092153235652,
+        "std_max": 1.4986874086875717,
+        "std_medyan": 1.3928998549246934,
+        "z4_min": 2,
+        "z4_max": 33,
+        "z4_medyan": 8.0,
+        "hepsi_std_1_ustu": true,
+        "kosu_std_siralamasi": 3,
+        "kosu_z4_siralamasi": 2,
+        "n_anahtar": 8
+      },
+      "tr_wikisource": {
+        "satirlar": [
+          {
+            "hash_key": 15485863,
+            "n": 1000,
+            "mean": -0.17372299973150523,
+            "std": 1.4199378722503972,
+            "z_max": 5.564254813571456,
+            "n_z4": 4,
+            "fpr": 0.004,
+            "fpr_ci": [
+              0.0010909079880819287,
+              0.01020966468392991
+            ],
+            "kosu_anahtari_mi": true
+          },
+          {
+            "hash_key": 287335975,
+            "n": 1000,
+            "mean": 0.20184557536417577,
+            "std": 1.575741162663304,
+            "z_max": 9.1104335791443,
+            "n_z4": 6,
+            "fpr": 0.006,
+            "fpr_ci": [
+              0.0022049824851513764,
+              0.01301342327097445
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 276102408,
+            "n": 1000,
+            "mean": 0.2531050137353005,
+            "std": 1.4504607243265324,
+            "z_max": 8.309959049044036,
+            "n_z4": 8,
+            "fpr": 0.008,
+            "fpr_ci": [
+              0.0034599761653291415,
+              0.01570204917607462
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1711717682,
+            "n": 1000,
+            "mean": -0.029588918907275427,
+            "std": 1.4430247735292512,
+            "z_max": 4.0888639245722675,
+            "n_z4": 2,
+            "fpr": 0.002,
+            "fpr_ci": [
+              0.00024230111688164872,
+              0.007205838911937376
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1072191045,
+            "n": 1000,
+            "mean": -0.051008635675614894,
+            "std": 1.4921585296598463,
+            "z_max": 7.949271464787657,
+            "n_z4": 7,
+            "fpr": 0.007,
+            "fpr_ci": [
+              0.002818858759618014,
+              0.014369194979269567
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1267085885,
+            "n": 1000,
+            "mean": -0.017955447393133324,
+            "std": 1.5096055519908569,
+            "z_max": 7.072305573654499,
+            "n_z4": 7,
+            "fpr": 0.007,
+            "fpr_ci": [
+              0.002818858759618014,
+              0.014369194979269567
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1291707886,
+            "n": 1000,
+            "mean": 0.3105887010730719,
+            "std": 1.4213588132166308,
+            "z_max": 6.1709131233854935,
+            "n_z4": 5,
+            "fpr": 0.005,
+            "fpr_ci": [
+              0.0016254195173733025,
+              0.011629470559812206
+            ],
+            "kosu_anahtari_mi": false
+          },
+          {
+            "hash_key": 1529378281,
+            "n": 1000,
+            "mean": -0.14330786553495833,
+            "std": 1.5275604958529823,
+            "z_max": 5.487862625598474,
+            "n_z4": 2,
+            "fpr": 0.002,
+            "fpr_ci": [
+              0.00024230111688164872,
+              0.007205838911937376
+            ],
+            "kosu_anahtari_mi": false
+          }
+        ],
+        "std_min": 1.4199378722503972,
+        "std_max": 1.575741162663304,
+        "std_medyan": 1.4713096269931893,
+        "z4_min": 2,
+        "z4_max": 8,
+        "z4_medyan": 5.5,
+        "hepsi_std_1_ustu": true,
+        "kosu_std_siralamasi": 1,
+        "kosu_z4_siralamasi": 3,
+        "n_anahtar": 8
+      }
+    },
+    "kat_araligi_tr": {
+      "kosu": null,
+      "_not": "kosu anahtarinin kati asagidaki satirlardan okunur",
+      "medyan_kat": 147.21345951629866,
+      "en_dusuk_kat": 63.09148264984228,
+      "en_yuksek_kat": 3007.3606729758153,
+      "nominal": 3.17e-05
+    }
+  },
+  "dejenere": {
+    "_amac": "AUROC=1.000 hucrelerinde Clopper-Pearson yerine raporlanacak dogrudan kanit: sayilan tam ayrisma + marj + tam permutasyon p.",
+    "_cp_neden_geri_cekildi": "CP sinirir bir Bernoulli oraninin alt sinirir; AUROC ikili siralama U-istatistigidir. Kume-duzeyi bir olayin olasiligi ile populasyon AUROC'u arasinda genel bir esitsizlik yoktur, dolayisiyla 'zero failures in 24 clusters bounds AUROC at 0.883' turetimi gecersizdir. Ayrica 24 olay ortak negatif havuzunu paylastigi icin bagimsiz Bernoulli denemeleri de degildir.",
+    "n_dejenere_hucre": 11,
+    "hucreler": [
+      {
+        "scheme": "EXP",
+        "condition": "clean",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 53.23212725383173,
+        "poz_min_stat": 21.95969479397924,
+        "neg_maks_stat": 1.6382900523030854,
+        "neg_std": 0.38175075447907053,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "EXP",
+        "condition": "dia50",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 4.74349679580002,
+        "poz_min_stat": 3.449123532968797,
+        "neg_maks_stat": 1.6382900523030854,
+        "neg_std": 0.38175075447907053,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 53.23212725383173,
+        "poz_min_stat": 21.95969479397924,
+        "neg_maks_stat": 1.6382900523030854,
+        "neg_std": 0.38175075447907053,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph_v1",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 51.302375047698895,
+        "poz_min_stat": 21.22301043333038,
+        "neg_maks_stat": 1.6382900523030854,
+        "neg_std": 0.38175075447907053,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "EXP",
+        "condition": "para",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 8.865639138836826,
+        "poz_min_stat": 5.022754482493221,
+        "neg_maks_stat": 1.6382900523030854,
+        "neg_std": 0.38175075447907053,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "KGW",
+        "condition": "clean",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 0.7377836740195802,
+        "poz_min_stat": 4.76999046002862,
+        "neg_maks_stat": 3.801527706491932,
+        "neg_std": 1.3126649282713527,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 0.7377836740195802,
+        "poz_min_stat": 4.76999046002862,
+        "neg_maks_stat": 3.801527706491932,
+        "neg_std": 1.3126649282713527,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph_v1",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 0.7221769597457801,
+        "poz_min_stat": 4.74950407355585,
+        "neg_maks_stat": 3.801527706491932,
+        "neg_std": 1.3126649282713527,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "clean",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 3.7948694215397247,
+        "poz_min_stat": 0.5190659811482433,
+        "neg_maks_stat": 0.5079328756674294,
+        "neg_std": 0.002933725576332687,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 3.7948694215397247,
+        "poz_min_stat": 0.5190659811482433,
+        "neg_maks_stat": 0.5079328756674294,
+        "neg_std": 0.002933725576332687,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph_v1",
+        "auroc": 1.0,
+        "cp_geri_cekilen": 0.8826538438450512,
+        "n_kume": 24,
+        "kume_ayrisan": 24,
+        "kume_toplam": 24,
+        "global_tam_ayrisma": true,
+        "marj_negatif_sd": 3.445571572038003,
+        "poz_min_stat": 0.5180412371134021,
+        "neg_maks_stat": 0.5079328756674294,
+        "neg_std": 0.002933725576332687,
+        "m_poz_per_istem": 4,
+        "k_neg_per_istem": 4,
+        "log10_p_tam_permutasyon": -44.282352960342166,
+        "log10_p_isaret_cevirme": -7.224719895935548
+      }
+    ],
+    "marj_min": 0.7221769597457801,
+    "marj_maks": 53.23212725383173,
+    "hepsi_global_ayrisiyor": true,
+    "hepsi_tum_kumeler_ayrisiyor": true
+  },
+  "s1_belirsizlik": {
+    "tr": {
+      "k": 3,
+      "n": 1500,
+      "oran": 0.002,
+      "ci": [
+        0.0004126381428911079,
+        0.00583362185861689
+      ],
+      "kat": 63.09148264984228,
+      "kat_ci": [
+        13.016976116438736,
+        184.02592613933408
+      ]
+    },
+    "en": {
+      "k": 3,
+      "n": 1500,
+      "oran": 0.002,
+      "ci": [
+        0.0004126381428911079,
+        0.00583362185861689
+      ],
+      "kat": 63.09148264984228,
+      "kat_ci": [
+        13.016976116438736,
+        184.02592613933408
+      ]
+    },
+    "tr_wikisource": {
+      "k": 4,
+      "n": 1000,
+      "oran": 0.004,
+      "ci": [
+        0.0010909079880819287,
+        0.01020966468392991
+      ],
+      "kat": 126.18296529968455,
+      "kat_ci": [
+        34.413501201322674,
+        322.07144113343566
+      ]
+    }
+  },
+  "tpr_ci": [
+    {
+      "scheme": "EXP",
+      "condition": "clean",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "dia100",
+      "tpr": 0.9166666666666666,
+      "ci": [
+        0.8322916666666668,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "dia50",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "morph",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "morph+dia",
+      "tpr": 0.875,
+      "ci": [
+        0.75,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "morph_v1",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "morph_v1+dia",
+      "tpr": 0.9166666666666666,
+      "ci": [
+        0.7916666666666666,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "rtt",
+      "tpr": 0.7916666666666666,
+      "ci": [
+        0.6666666666666666,
+        0.9583333333333334
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "para",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "launder",
+      "tpr": 0.9895833333333334,
+      "ci": [
+        0.96875,
+        1.0
+      ]
+    },
+    {
+      "scheme": "EXP",
+      "condition": "launder_api",
+      "tpr": 0.4895833333333333,
+      "ci": [
+        0.34375,
+        0.6979166666666666
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "clean",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "dia100",
+      "tpr": 0.8645833333333334,
+      "ci": [
+        0.7083333333333334,
+        1.0
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "dia50",
+      "tpr": 0.9791666666666666,
+      "ci": [
+        0.9270833333333334,
+        1.0
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "morph",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "morph+dia",
+      "tpr": 0.8645833333333334,
+      "ci": [
+        0.7083333333333334,
+        1.0
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "morph_v1",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "morph_v1+dia",
+      "tpr": 0.84375,
+      "ci": [
+        0.65625,
+        0.9895833333333334
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "rtt",
+      "tpr": 0.59375,
+      "ci": [
+        0.38515625,
+        0.84375
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "para",
+      "tpr": 0.9895833333333334,
+      "ci": [
+        0.9270833333333334,
+        1.0
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "launder",
+      "tpr": 0.9375,
+      "ci": [
+        0.8854166666666666,
+        1.0
+      ]
+    },
+    {
+      "scheme": "KGW",
+      "condition": "launder_api",
+      "tpr": 0.4270833333333333,
+      "ci": [
+        0.1979166666666666,
+        0.7291666666666666
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "clean",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "dia100",
+      "tpr": 0.6770833333333334,
+      "ci": [
+        0.4583333333333333,
+        0.7916666666666666
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "dia50",
+      "tpr": 0.9479166666666666,
+      "ci": [
+        0.8541666666666666,
+        0.9895833333333334
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "morph",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "morph+dia",
+      "tpr": 0.65625,
+      "ci": [
+        0.4375,
+        0.7604166666666666
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "morph_v1",
+      "tpr": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "morph_v1+dia",
+      "tpr": 0.65625,
+      "ci": [
+        0.40625,
+        0.75
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "rtt",
+      "tpr": 0.3125,
+      "ci": [
+        0.1458333333333333,
+        0.4377604166666664
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "para",
+      "tpr": 0.9895833333333334,
+      "ci": [
+        0.96875,
+        1.0
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "launder",
+      "tpr": 0.9479166666666666,
+      "ci": [
+        0.8854166666666666,
+        0.9791666666666666
+      ]
+    },
+    {
+      "scheme": "SynthID",
+      "condition": "launder_api",
+      "tpr": 0.25,
+      "ci": [
+        0.0729166666666666,
+        0.3854166666666667
+      ]
+    }
+  ],
+  "fpr_33": {
+    "n_hucre": 33,
+    "satirlar": [
+      {
+        "scheme": "EXP",
+        "condition": "clean",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "dia100",
+        "tpr": 0.9166666666666666,
+        "gercek_fpr": 0.041666666666666664,
+        "n_gecen": "4/96",
+        "fpr_ci_hi": 0.1032574444498188,
+        "ayni_donusum_auroc": 0.9817708333333334
+      },
+      {
+        "scheme": "EXP",
+        "condition": "dia50",
+        "tpr": 1.0,
+        "gercek_fpr": 0.03125,
+        "n_gecen": "3/96",
+        "fpr_ci_hi": 0.08861809966159956,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph+dia",
+        "tpr": 0.875,
+        "gercek_fpr": 0.041666666666666664,
+        "n_gecen": "4/96",
+        "fpr_ci_hi": 0.1032574444498188,
+        "ayni_donusum_auroc": 0.9813368055555556
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph_v1",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "morph_v1+dia",
+        "tpr": 0.9166666666666666,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9800347222222223
+      },
+      {
+        "scheme": "EXP",
+        "condition": "rtt",
+        "tpr": 0.7916666666666666,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9600694444444444
+      },
+      {
+        "scheme": "EXP",
+        "condition": "para",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "EXP",
+        "condition": "launder",
+        "tpr": 0.9895833333333334,
+        "gercek_fpr": 0.03125,
+        "n_gecen": "3/96",
+        "fpr_ci_hi": 0.08861809966159956,
+        "ayni_donusum_auroc": 0.9964192708333333
+      },
+      {
+        "scheme": "EXP",
+        "condition": "launder_api",
+        "tpr": 0.4895833333333333,
+        "gercek_fpr": 0.0625,
+        "n_gecen": "6/96",
+        "fpr_ci_hi": 0.13108503580194256,
+        "ayni_donusum_auroc": 0.839626736111111
+      },
+      {
+        "scheme": "KGW",
+        "condition": "clean",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "KGW",
+        "condition": "dia100",
+        "tpr": 0.8645833333333334,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.9934895833333334
+      },
+      {
+        "scheme": "KGW",
+        "condition": "dia50",
+        "tpr": 0.9791666666666666,
+        "gercek_fpr": 0.0,
+        "n_gecen": "0/96",
+        "fpr_ci_hi": 0.037696921623814786,
+        "ayni_donusum_auroc": 0.9991319444444444
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph+dia",
+        "tpr": 0.8645833333333334,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.9935980902777778
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph_v1",
+        "tpr": 1.0,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "KGW",
+        "condition": "morph_v1+dia",
+        "tpr": 0.84375,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.9945746527777778
+      },
+      {
+        "scheme": "KGW",
+        "condition": "rtt",
+        "tpr": 0.59375,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.961154513888889
+      },
+      {
+        "scheme": "KGW",
+        "condition": "para",
+        "tpr": 0.9895833333333334,
+        "gercek_fpr": 0.0,
+        "n_gecen": "0/96",
+        "fpr_ci_hi": 0.037696921623814786,
+        "ayni_donusum_auroc": 0.9989149305555556
+      },
+      {
+        "scheme": "KGW",
+        "condition": "launder",
+        "tpr": 0.9375,
+        "gercek_fpr": 0.0,
+        "n_gecen": "0/96",
+        "fpr_ci_hi": 0.037696921623814786,
+        "ayni_donusum_auroc": 0.9990234375
+      },
+      {
+        "scheme": "KGW",
+        "condition": "launder_api",
+        "tpr": 0.4270833333333333,
+        "gercek_fpr": 0.0,
+        "n_gecen": "0/96",
+        "fpr_ci_hi": 0.037696921623814786,
+        "ayni_donusum_auroc": 0.9412977430555555
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "clean",
+        "tpr": 1.0,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "dia100",
+        "tpr": 0.6770833333333334,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9268663194444446
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "dia50",
+        "tpr": 0.9479166666666666,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.9962022569444445
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph",
+        "tpr": 1.0,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph+dia",
+        "tpr": 0.65625,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9238281250000001
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph_v1",
+        "tpr": 1.0,
+        "gercek_fpr": 0.03125,
+        "n_gecen": "3/96",
+        "fpr_ci_hi": 0.08861809966159956,
+        "ayni_donusum_auroc": 1.0
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "morph_v1+dia",
+        "tpr": 0.65625,
+        "gercek_fpr": 0.0625,
+        "n_gecen": "6/96",
+        "fpr_ci_hi": 0.13108503580194256,
+        "ayni_donusum_auroc": 0.9146050347222222
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "rtt",
+        "tpr": 0.3125,
+        "gercek_fpr": 0.041666666666666664,
+        "n_gecen": "4/96",
+        "fpr_ci_hi": 0.1032574444498188,
+        "ayni_donusum_auroc": 0.825412326388889
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "para",
+        "tpr": 0.9895833333333334,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.998263888888889
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "launder",
+        "tpr": 0.9479166666666666,
+        "gercek_fpr": 0.020833333333333332,
+        "n_gecen": "2/96",
+        "fpr_ci_hi": 0.07323683079499649,
+        "ayni_donusum_auroc": 0.9801432291666665
+      },
+      {
+        "scheme": "SynthID",
+        "condition": "launder_api",
+        "tpr": 0.25,
+        "gercek_fpr": 0.010416666666666666,
+        "n_gecen": "1/96",
+        "fpr_ci_hi": 0.0566747069883159,
+        "ayni_donusum_auroc": 0.806857638888889
+      }
+    ],
+    "en_yuksek_fpr": 0.0625,
+    "nominal": 0.01,
+    "bonferroni_anlamli": [
+      "EXP/launder_api",
+      "SynthID/morph_v1+dia"
+    ],
+    "cozunurluk": 0.010416666666666666
+  },
+  "uzunluk_orani_kol": {
+    "para": {
+      "kollar": {
+        "neg": {
+          "n": 96,
+          "medyan": 0.9975,
+          "min": 0.925
+        },
+        "pos_EXP": {
+          "n": 96,
+          "medyan": 0.945,
+          "min": 0.753
+        },
+        "pos_KGW": {
+          "n": 96,
+          "medyan": 0.9915,
+          "min": 0.669
+        },
+        "pos_SynthID": {
+          "n": 96,
+          "medyan": 0.9904999999999999,
+          "min": 0.929
+        }
+      },
+      "havuz": {
+        "n": 384,
+        "medyan": 0.9875,
+        "min": 0.669,
+        "min_kol": "pos_KGW"
+      }
+    },
+    "rtt": {
+      "kollar": {
+        "neg": {
+          "n": 96,
+          "medyan": 0.894,
+          "min": 0.786
+        },
+        "pos_EXP": {
+          "n": 96,
+          "medyan": 0.9145000000000001,
+          "min": 0.818
+        },
+        "pos_KGW": {
+          "n": 96,
+          "medyan": 0.899,
+          "min": 0.781
+        },
+        "pos_SynthID": {
+          "n": 96,
+          "medyan": 0.8905000000000001,
+          "min": 0.321
+        }
+      },
+      "havuz": {
+        "n": 384,
+        "medyan": 0.8975,
+        "min": 0.321,
+        "min_kol": "pos_SynthID"
+      }
+    },
+    "launder": {
+      "kollar": {
+        "neg": {
+          "n": 96,
+          "medyan": 0.9855,
+          "min": 0.806
+        },
+        "pos_EXP": {
+          "n": 96,
+          "medyan": 0.944,
+          "min": 0.583
+        },
+        "pos_KGW": {
+          "n": 96,
+          "medyan": 0.967,
+          "min": 0.273
+        },
+        "pos_SynthID": {
+          "n": 96,
+          "medyan": 0.9724999999999999,
+          "min": 0.192
+        }
+      },
+      "havuz": {
+        "n": 384,
+        "medyan": 0.9695,
+        "min": 0.192,
+        "min_kol": "pos_SynthID"
+      }
+    },
+    "launder_api": {
+      "kollar": {
+        "neg": {
+          "n": 96,
+          "medyan": 0.976,
+          "min": 0.826
+        },
+        "pos_EXP": {
+          "n": 96,
+          "medyan": 0.98,
+          "min": 0.751
+        },
+        "pos_KGW": {
+          "n": 96,
+          "medyan": 0.9764999999999999,
+          "min": 0.541
+        },
+        "pos_SynthID": {
+          "n": 96,
+          "medyan": 0.9884999999999999,
+          "min": 0.146
+        }
+      },
+      "havuz": {
+        "n": 384,
+        "medyan": 0.9815,
+        "min": 0.146,
+        "min_kol": "pos_SynthID"
+      }
+    }
+  },
+  "s2_kaynak_kol": {
+    "kol": "pos_KGW",
+    "_kaynak": "pilot/dev_s2_fayda.py KAYNAK sabiti",
+    "_sinir": "Anlam korunumu yalnizca KGW kolundan uretilen metinlerde olculdu; EXP ve SynthID satirlarinda ayni yargi yeniden kullanildi. 'Uc semaya karsi basarili' bilesik hukmu bu yuzden bir kol-arasi tasinabilirlik varsayimina dayanir."
   }
 }
