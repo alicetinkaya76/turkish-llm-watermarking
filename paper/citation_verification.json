@@ -1,68 +1,22 @@
 {
-  "_tarih": "2026-08-25",
-  "_yontem": "OpenAlex title.search (mailto'lu nazik havuz); her giriş için başlık+ilk yazar+yıl+DOI eşleşmesi kontrol edildi. Crossref bibliyografik arama PMLR/TMLR/arXiv girişlerinde isabetsizdi, OpenAlex kullanıldı. YALNIZ bibliyografik kimlik doğrulandı; içerik iddiaları için makaleler OKUNMADI -- metindeki atıflar bu yüzden jeneriktir.",
-  "dogrulanan": {
-    "KGW": {
-      "doi": "10.48550/arXiv.2301.10226",
-      "ilk_yazar": "John Kirchenbauer",
-      "yil": 2023
-    },
-    "EXP-K": {
-      "doi": "10.48550/arXiv.2307.15593",
-      "ilk_yazar": "Rohith Kuditipudi",
-      "yil": 2023
-    },
-    "SYNTHID": {
-      "doi": "10.1038/s41586-024-08025-4",
-      "venue": "Nature",
-      "yil": 2024
-    },
-    "MARKLLM": {
-      "doi": "10.18653/v1/2024.emnlp-demo.7",
-      "ilk_yazar": "Leyi Pan",
-      "yil": 2024
-    },
-    "QWEN3": {
-      "doi": "10.48550/arXiv.2505.09388",
-      "yil": 2025
-    },
-    "NLLB": {
-      "doi": "10.48550/arXiv.2207.04672",
-      "yil": 2022
-    },
-    "E5": {
-      "doi": "10.48550/arXiv.2402.05672",
-      "ilk_yazar": "Liang Wang",
-      "yil": 2024
-    },
-    "XLING": {
-      "doi": "10.18653/v1/2024.acl-long.226",
-      "ilk_yazar": "Zhiwei He",
-      "yil": 2024
-    },
-    "DIPPER": {
-      "doi": "10.48550/arXiv.2303.13408",
-      "ilk_yazar": "Kalpesh Krishna",
-      "yil": 2023
-    },
-    "SADASIVAN": {
-      "doi": "10.48550/arXiv.2303.11156",
-      "yil": 2023
-    },
-    "TOKENIZER": {
-      "doi": "10.18653/v1/2021.acl-long.243",
-      "ilk_yazar": "Phillip Rust",
-      "yil": 2021
-    },
-    "XLING-ROB": {
-      "doi": "10.48550/arXiv.2502.16699",
-      "yil": 2025,
-      "not": "preprint"
-    }
-  },
-  "doi_siz": {
-    "EXP-A": "Aaronson konuşma/blog — arşivsel değil",
-    "ZEYREK": "yazılım",
-    "WIKIDUMP": "veri kümesi, sürümle atıflı"
-  }
+ "_tarih": "2026-08-30",
+ "_yontem": "33 kaynagin tamami 7 paralel ajanla birincil kaynaga karsi dogrulandi (Crossref API, ACL Anthology, OpenReview, arXiv API, yayinci sayfasi). HER BULGU ayrica bagimsiz bir ikinci ajan tarafindan CURUTULMEYE calisildi; yalnizca curutulemeyenler kabul edildi. ONCEKI KAYITTAN FARK: bu tur yalnizca bibliyografik kimligi degil, METIN ICI IDDIA ESLEMESINI de denetledi (kaynak, kendisine atfedileni gercekten soyluyor mu).",
+ "_kapsam": {
+  "kaynak": 33,
+  "metin_ici_atif_baglami": 79,
+  "temiz": 23,
+  "duzeltilen": 8
+ },
+ "_curutme_turunde_dusen": "1 bulgu (Han 2025 ciddiyeti 'onemli'den 'kucuk'e indirildi; savi etkilemedigi icin)",
+ "_dogrulanamayan": "3 curutme ajani kimlik dogrulama hatasiyla dustu (Liu 2024, Rust 2021, Pan 2024). Bu ucu ELLE dogrulandi: Rust 2021 PDF'i indirilip tarandi (18 sayfa: 'suffix' 0, 'affix' 0, 'agglutinat' 0, 'vowel harmon' 0, 'inflect' 0; buna karsilik 'fertility' 30, 'continued word' 18); SIR'in token duzeyi oldugu arXiv 2310.06356 ozetinden dogrulandi; MarkLLM bildirisinde SynthID'nin gecmedigi ACL Anthology sayfasindan dogrulandi.",
+ "duzeltilenler": {
+  "Kuditipudi 2024": "YANLIS ATIF (onemli). Kosturulan EXP kolunun kaynagi gibi gosteriliyordu; MarkLLM'de EXP/EXPGumbel Aaronson'un ders notuna baglanir, Kuditipudi ve ark. ayri iki algoritmadir (EXP-Edit, ITS-Edit) ve HIC KOSTURULMADI. Uc yerde atif ucluşu daraltildi; 'we also test' ifadesi duzeltildi.",
+  "Rust 2021": "IDDIA UYUSMAZLIGI (onemli). 'tekrarlayan ek tokenlari' atfediliyordu; kaynak bunu hic olcmuyor (tam metinde 'suffix' 0 kez). Kaynagin fiilen olctugu seye cevrildi: subword fertility ve coklu alt-tokena bolunen sozcuk orani. Ek tekrari sorusu artik makalenin KENDI olcumune birakildi.",
+  "Liu 2024 (SIR)": "IDDIA UYUSMAZLIGI (onemli). SIR iki yerde 'cumle duzeyi anlamsal sema' diye siniflandirilmisti; SIR token duzeyidir, anlamsal olan sey tohumdur. Ayirici eksen 'token-level vs sentence-level'den 'yuzey-baglam tohumlu vs anlamsal tohumlu / cumle duzeyi'ne cevrildi.",
+  "Bulat 2022 (zeyrek)": "IDDIA UYUSMAZLIGI (onemli). §2 zeyrek'i 'edit'lerin DILBILGISEL oldugunu dogrulamak' icin kullandigimizi soyluyordu; bu hem aracin yetenegini asiyor hem de §3.2'nin kendi cumlesiyle celisiyordu. Sozcuk duzeyi cozumlenebilirlikle sinirlandi, alfa-asama portu oldugu belirtildi, yan-cumle varyantinda denetim OLMADIGI yazildi.",
+  "Han 2025": "BIBLIYOGRAFIK (kucuk). Preprint olarak birakilmisti; TrustCom 2025'te yayimlanmis (s. 942-949, DOI 10.1109/TrustCom66490.2025.00109). Kunye guncellendi.",
+  "Park 2025 -> 2026": "BIBLIYOGRAFIK (kucuk). Preprint olarak birakilmisti; ACL 2026'da yayimlanmis (s. 45629-45647, DOI 10.18653/v1/2026.acl-long.2115). YIL DEGISTI, metin ici atif da 2026 yapildi.",
+  "NLLB Team 2024": "YANLIS ATIF (kucuk). Atif, makalenin KENDI yargic verisinden cikan akicilik bulgusuna ilistirilmisti; NLLB makalesi gidis-donus ceviriden hic soz etmiyor. Atif sonuca degil kullanilan ceviri sistemine baglandi.",
+  "Pan 2024": "IDDIA UYUSMAZLIGI (kucuk). Yayimlanan EMNLP 2024 demo bildirisi dokuz algoritmayi iki ailede kapsiyor ve SynthID'yi HIC anmiyor; SynthID depoya yayimdan sonra eklendi. Cumle, bildirinin kapsadigi ile deponun sundugunu ayiracak sekilde yeniden yazildi."
+ }
 }

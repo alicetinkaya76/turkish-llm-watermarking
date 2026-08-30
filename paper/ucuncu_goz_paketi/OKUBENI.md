@@ -27,7 +27,7 @@ ihtiyaç duymadan makalenin editör, hakem ve atıf denetimini yaptırabilirsin.
 | `insan_fpr_rapor.json` | S1 insan-metni yanlış-pozitif ölçümleri |
 | `register2_rapor.json` | ikinci register (Vikikaynak) ölçümü |
 | `s2_rapor.json` | S2 yargıç ölçümleri |
-| `citation_verification.json` | **ESKİ** atıf doğrulama kaydı — prompt bunu sınanacak bir iddia olarak veriyor |
+| `citation_verification.json` | 30 Ağustos atıf denetiminin kaydı — prompt bunu **sınanacak bir iddia** olarak veriyor, kanıt olarak değil |
 | `BENCHMARK.md` | yayımlanan kaynağın kapsamı ve bilinen sınırları |
 | `DATA_LICENSE.md` | bileşen bazlı lisanslama |
 
@@ -41,9 +41,12 @@ Bunları prompta koymadım çünkü denetimi kirletirler. Sonucu okurken aklınd
 - Üç paralel gönderim kapak mektubunda beyan edildi (TALLIP-26-0165,
   NLP-2026-0191, IPM). Denetçiden bu beyanın yeterli olup olmadığını
   değerlendirmesini istedim.
-- `citation_verification.json` bilerek eski hâliyle konuldu. Denetçi onu
-  sınamazsa, promptun 3. rolü işlemiyor demektir; bu, denetimin kalitesini
-  ölçmenin ucuz bir yolu.
+- `citation_verification.json` 30 Ağustos'ta koşturduğumuz denetimin kaydı. O tur
+  33 kaynağı ve 79 atıf bağlamını taradı, **sekiz kusur buldu ve hepsi düzeltildi**
+  (iki yanlış atıf, iki iddia uyuşmazlığı, iki künye, iki küçük). Prompt bu kaydı
+  "sınanacak bir iddia, kanıt değil" diye veriyor ve elle doğrulanan üç girdiyi
+  işaretliyor. Denetçi kaydı sorgusuz onaylarsa 3. rol işlemiyor demektir —
+  denetimin kalitesini ölçmenin ucuz yolu.
 
 ## Sonucu nasıl okumalı
 

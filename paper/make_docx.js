@@ -185,9 +185,15 @@ while (i < satirlar.length) {
   // kaynakta 3 boşlukla girintili ve düz join onları "kelime" + " " +
   // "   kelime" hâline getirip metnin ortasında 4 boşluk bırakıyordu
   // (§"Competing interests" render kontrolünde yakalandı).
+  // Girintisiz "N. " YENİ bir madde başlatır ve paragrafı bitirir. Bu olmadan
+  // aralarında boş satır bulunmayan numaralı listeler (§1'in dört katkı
+  // maddesi, kaynakta satır 28-31) tek paragrafa yapışıyordu; okuyucu
+  // 1. maddenin ortasında "2." görüyordu (render kontrolünde yakalandı).
+  // Girintili devam satırları bundan etkilenmez: onlar madde gövdesidir.
   const par = [l];
   i++;
-  while (i < satirlar.length && satirlar[i].trim() && !/^[#|>!]|^\s*[-*]\s|^\*\*(Table|Figure) \d+\./.test(satirlar[i])) {
+  while (i < satirlar.length && satirlar[i].trim()
+         && !/^[#|>!]|^\s*[-*]\s|^\*\*(Table|Figure) \d+\.|^\d+\.\s/.test(satirlar[i])) {
     par.push(satirlar[i++].replace(/^\s+/, ""));
   }
   // "1. ", "2. " ile başlayan madde: asılı girinti, numara dışarıda kalsın

@@ -15,7 +15,7 @@ bu satırların üstünü verme.
 | `detection_metrics.csv` | AUROC / TPR / GA tablosunun ham kaynağı |
 | `insan_fpr_rapor.json`, `register2_rapor.json` | S1 insan-metni ölçümleri |
 | `s2_rapor.json` | S2 yargıç ölçümleri |
-| `citation_verification.json` | önceki atıf doğrulama kaydı (ESKİ — §3'te sınanacak) |
+| `citation_verification.json` | 30 Ağu atıf denetimi kaydı — §3'te **sınanacak bir iddia**, kanıt değil |
 | `BENCHMARK.md`, `DATA_LICENSE.md` | yayımlanan kaynağın kapsamı ve lisansı |
 
 ---
@@ -175,10 +175,12 @@ This is the role the authors most want executed carefully. A previous review of 
 earlier version of this work found four incorrect citations and missed a fifth.
 Assume nothing is verified.
 
-**Do not trust `citation_verification.json`.** It is dated 2026-08-25, it covers an
-older 15-entry reference list, and it verified *bibliographic identity only* — it
-never checked whether the cited works say what the manuscript attributes to them.
-Treat it as a claim to be tested, and report any entry where it is now wrong.
+**Do not trust `citation_verification.json`.** It records an audit the authors ran
+on 2026-08-30 which found and fixed eight defects, including two wrong attributions
+and two claim mismatches. It is a **claim to be tested, not evidence**. Three of its
+entries were verified by hand after an automated check failed; those are the ones
+most worth re-testing. If that record is wrong anywhere, or if it missed something,
+say so — an audit that only confirms a previous audit has told you nothing.
 
 ## 3.1 Per-reference bibliographic check
 
