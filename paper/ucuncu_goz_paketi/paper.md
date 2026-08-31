@@ -7,7 +7,7 @@ Tel: +90 332 241 11 02 · ORCID: 0000-0002-7747-6854
 
 ## Abstract
 
-Statistical watermarks for large language model (LLM) output are designed and evaluated predominantly on English. We measure three schemes (KGW, EXP, SynthID) on Turkish with MarkLLM and Qwen3-14B: 384 generated texts under ten removal attacks, a pre-registered false-positive study on 4,000 human windows, and a two-judge meaning-preservation study. First, KGW's detector is miscalibrated on human text: its null standard deviation is 1.479 in Turkish against a theoretical 1, and the shipped z = 4 threshold gives 3 exceedances in 1,500 windows, about 63 times nominal (exact interval 13 to 184). The inflation holds across eight keys though the tail count does not (3 to 143), and it is not Turkish-specific: English shows the same tail count, and at matched token length the two are indistinguishable. Turkish contributes exposure, not mechanism: its subword fertility turns a given reading length into twice as many tokens, and inflation grows with tokens scored. Second, the best-behaved detector is the most fragile: at its own shipped threshold SynthID falsely flags none of the 1,500 human windows against KGW's 3 and EXP's 13, yet loses the most AUROC under both headline attacks. With three schemes this is an observed pattern, not an established trade-off. Third, laundering through an external LLM is the only attack that both degrades detection for all three schemes and preserves meaning, though meaning was judged on KGW text. A planned morphological attack did not fire; we report it with its coverage and release the corpus, scores and judge annotations as a benchmark.
+Statistical watermarks for large language model (LLM) output are designed and evaluated predominantly on English. We measure three schemes (KGW, EXP, SynthID) on Turkish with MarkLLM and Qwen3-14B: 384 generated texts under ten removal attacks, a pre-registered false-positive study on 4,000 human windows, and a two-judge meaning-preservation study. First, KGW's detector is miscalibrated on human text: its null standard deviation is 1.479 against a theoretical 1, and the shipped z = 4 threshold gives 3 exceedances in 1,500 windows, about 63 times nominal (exact interval 13 to 184). The inflation holds across eight keys though the tail count does not (3 to 143), and it is not Turkish-specific: English shows the same tail count, and at matched token length the two are indistinguishable. Turkish contributes exposure, not mechanism: its subword fertility turns a given reading length into twice as many tokens, and inflation grows with tokens scored. Second, the best-behaved detector is the most fragile: at its own shipped threshold SynthID flags none of the 1,500 human windows against KGW's 3 and EXP's 13, yet loses the most AUROC under both attacks. With three schemes this is an observed pattern, not a trade-off. Third, laundering through an external LLM is the only attack that both degrades detection for all three schemes and preserves meaning, though meaning was judged on KGW text. A planned morphological attack did not fire; we report it with its coverage and release the corpus, scores and judge annotations.
 
 **Keywords:** LLM watermarking; Turkish; detector calibration; false-positive rate; subword fertility; evaluation benchmark
 
@@ -17,7 +17,13 @@ Statistical watermarking embeds a detectable but, ideally, quality-neutral signa
 
 These schemes were developed and are evaluated mostly on English (Al Ghanim et al., 2025; He et al., 2024). Turkish differs from English in a way that plausibly reaches into watermark internals: it is agglutinative, expressing through chains of suffixes what English expresses through separate function words. Under a subword tokenizer these suffixes surface as a small set of high-frequency subtokens; on our corpus the generator's tokenizer produces 2.552 tokens per word. For a green-list scheme whose pseudo-random vocabulary partition is keyed on a context window of a single preceding token (prefix_length = 1, the MarkLLM default configuration we test), recurring suffix subtokens mean that successive green-list decisions revisit the same partitions rather than behaving independently. We put this forward as a proposed mechanism for the calibration results below; we explicitly do not claim to have established it causally.
 
-This paper reports a pilot-scale but tightly instrumented measurement of the three schemes on Turkish. Using MarkLLM (Pan et al., 2024) at a fixed commit (c45ddc40) with Qwen3-14B (Yang et al., 2025) as generator, we build a corpus of 24 Turkish prompts × 4 seeds × {no watermark, KGW, EXP, SynthID} = 384 texts and subject it to ten removal attacks: diacritic stripping at two intensities, two morphological-transform variants built on the zeyrek analyzer (Bulat, 2022) together with their diacritic combinations, round-trip translation through English with NLLB (NLLB Team et al., 2024), self-paraphrase and self-laundering by the generator itself, and laundering through an external, closed-weight LLM outside the defender's control (Claude Opus 5). Two studies were pre-registered before their data were collected: S1 measures false-positive rates on 1,500 Turkish and 1,500 English human-written Wikipedia excerpts (Wikimedia Foundation, 2023a) (commit 8f8df72), and S2 measures whether attacks preserve meaning, using two LLM judges from different model families, blind calibration pairs, and a decision rule declared before the run (commit cbcb988); corpus acceptance thresholds were fixed before Phase 1. The measurement protocol takes the corpus's dependence structure seriously: because EXP is deterministic given prompt and key, its four seeds are not independent replicates, so all confidence intervals are prompt-clustered bootstrap intervals (effective n = 24 prompts); for degenerate AUROC = 1.000 cells we report counted separation, its margin, and an exact permutation p-value rather than the Clopper–Pearson bound an earlier version of this analysis used and Section 3.3 withdraws; and we report the full realized false-positive table rather than assuming that a threshold calibrated on clean negatives keeps its nominal rate under attack.
+This paper reports a pilot-scale but tightly instrumented measurement of the three schemes on Turkish. Using MarkLLM (Pan et al., 2024) at a fixed commit (c45ddc40) with Qwen3-14B (Yang et al., 2025) as generator, we build a corpus of 24 Turkish prompts × 4 seeds × {no watermark, KGW, EXP, SynthID} = 384 texts and subject it to ten removal attacks: diacritic stripping at two intensities, two morphological-transform variants built on the zeyrek analyzer (Bulat, 2022) together with their diacritic combinations, round-trip translation through English with NLLB (NLLB Team et al., 2024), self-paraphrase and self-laundering by the generator itself, and laundering through an external, closed-weight LLM outside the defender's control (Claude Opus 5). Two studies were pre-registered before their data were collected. We use that term in
+a specific and limited sense throughout, and Section 7 gives the full statement: the
+hypotheses, protocol and decision rule were committed to version control before the
+corresponding data existed, and the commit hashes bind their content and ordering, but
+no independent third-party timestamp anchors the dates, so this is not a registry
+entry in the sense the term carries in clinical or psychological research. The two
+studies are: S1 measures false-positive rates on 1,500 Turkish and 1,500 English human-written Wikipedia excerpts (Wikimedia Foundation, 2023a) (commit 8f8df72), and S2 measures whether attacks preserve meaning, using two LLM judges from different model families, blind calibration pairs, and a decision rule declared before the run (commit cbcb988); corpus acceptance thresholds were fixed before Phase 1. The measurement protocol takes the corpus's dependence structure seriously: because EXP is deterministic given prompt and key, its four seeds are not independent replicates, so all confidence intervals are prompt-clustered bootstrap intervals (effective n = 24 prompts); for degenerate AUROC = 1.000 cells we report counted separation, its margin, and an exact permutation p-value rather than the Clopper–Pearson bound an earlier version of this analysis used and Section 3.3 withdraws; and we report the full realized false-positive table rather than assuming that a threshold calibrated on clean negatives keeps its nominal rate under attack.
 
 The headline finding is a calibration failure. On human Turkish, the KGW null standard deviation is 1.479 against a theoretical value of 1; at the shipped z = 4 threshold, 3 of 1,500 Turkish excerpts cross the line, an empirical false-positive rate of 0.002 or approximately 63× the nominal 3.17 × 10⁻⁵, with an exact binomial interval spanning 13× to 184×. Two of the three pre-registered S1 hypotheses are confirmed. The third, which attributed the inflation to Turkish rather than to English, does not survive a control for sequence length that we added after pre-registration and that we report in full: matched on tokens rather than words, the two languages are indistinguishable, and the inflation tracks how many tokens are scored. Turkish still matters in deployment, because its subword fertility turns a given reading length into roughly twice as many tokens, but it worsens a failure common to both languages instead of creating a Turkish-specific one. An exploratory analysis further indicates that thresholds calibrated on model-generated negatives do not transfer to human text: EXP's model-calibrated 1% threshold yields a 7.4% false-positive rate on human Turkish. The second finding is a fragility pattern: SynthID falsely flags none of the 1,500 human Turkish windows at its own shipped threshold, fewer than KGW (3) or EXP (13), yet is the most fragile scheme under attack, with AUROC 0.816 under round-trip translation and 0.747 under external laundering, and is significantly more fragile than KGW or EXP in 4 of 6 Holm-corrected paired comparisons. The third finding is the laundering attack: rewriting watermarked text through an external model outside the defender's control is the only attack that satisfies the pre-declared success rule (ΔAUROC > 0.05 with meaning preserved by both judges) for all three schemes, dropping AUROC to 0.917 (KGW), 0.863 (EXP), and 0.747 (SynthID), and the true-positive rate at the clean-calibrated threshold to 0.427, 0.490, and 0.250. Averaged over schemes, laundering removes 0.158 AUROC versus 0.091 for round-trip translation, at a measured API cost of USD 17.704 for the attack corpus.
 
@@ -77,7 +83,20 @@ The primary metric is AUROC of the detector statistic, computed per scheme and c
 
 Eleven cells reach AUROC 1.000 with a degenerate bootstrap interval of [1, 1]. A degenerate interval does not mean the absence of uncertainty; it means no counterexample was observed. An earlier version of this analysis attached a one-sided Clopper–Pearson lower bound to these cells, reading "zero failures in 24 clusters" as 24 Bernoulli successes and reporting a bound of 0.883 on AUROC. We withdraw that construction. Clopper–Pearson bounds the parameter of a binomial proportion, whereas AUROC is a pairwise-ranking U-statistic: by Bamber's identity (Bamber, 1975) it equals P(X⁺ > X⁻) + ½·P(X⁺ = X⁻), a probability over pairs drawn from two samples rather than a success proportion over trials. The probability of a cluster-level event is therefore neither equal to nor a lower bound on the population AUROC, and the 24 cluster events are not independent trials because they share one pool of negatives and because the reporting itself is conditional on degeneracy having been observed. The arithmetic was correct for the quantity it computed; the quantity was not the one the sentence claimed.
 
-In place of that bound we report the separation directly, counted rather than assumed (Table 3). In all eleven degenerate cells every one of the 24 prompt clusters separates completely, and separation also holds globally: the lowest watermarked statistic exceeds the highest of the 96 clean negatives. We report the width of that gap in units of the negative standard deviation, because it differs by nearly two orders of magnitude across schemes and reporting the cells as interchangeable would obscure that. The margin is 53.23 negative standard deviations for EXP on clean text but only 0.74 for KGW, so KGW's perfect separation is far more precarious than EXP's even though both round to AUROC 1.000. Finally, we give an exact test. Because EXP is deterministic given prompt and key, its four watermarked scores within a prompt carry one outcome rather than four, so we take the prompt as the unit here as we do elsewhere: each prompt yields one binary outcome, whether its watermarked scores separate from the clean pool. All 24 prompts separate, and a one-sided exact sign test gives p = 2⁻²⁴ = 5.96 × 10⁻⁸. A within-prompt label-exchangeability test would treat the four scores as exchangeable units and return 10⁻⁴⁴·³, but that assumption is not defensible for a deterministic scheme, and we report the weaker and more defensible number.
+In place of that bound we report the separation directly, counted rather than assumed (Table 3). In all eleven degenerate cells every one of the 24 prompt clusters separates completely, and separation also holds globally: the lowest watermarked statistic exceeds the highest of the 96 clean negatives. We report the width of that gap in units of the negative standard deviation, because it differs by nearly two orders of magnitude across schemes and reporting the cells as interchangeable would obscure that. The margin is 53.23 negative standard deviations for EXP on clean text but only 0.74 for KGW, so KGW's perfect separation is far more precarious than EXP's even though both round to AUROC 1.000. We attach no p-value to this separation, and the reason is worth stating because two
+earlier versions of this analysis did. A within-prompt label-exchangeability test
+gives 10⁻⁴⁴·³, but exchangeability is not defensible for a scheme whose four seeds
+are deterministic. Treating each prompt as one binary outcome and applying a sign
+test gives 2⁻²⁴, but that is arithmetic rather than a test: the per-prompt success
+probability of 0.5 is not derived from the design, and every prompt is compared
+against the same data-dependent comparator, the maximum of the pooled clean
+negatives, so the 24 outcomes share a common random component and cannot be
+multiplied. We therefore report the separation descriptively: the count of separated
+clusters, the margin in units of the negative standard deviation, and the underlying
+score distributions. A valid inferential test here would have to permute labels at a
+unit whose exchangeability can be argued and recompute the comparator inside every
+permutation; we did not run one, and we prefer a strong description to a p-value we
+cannot defend.
 
 The operating-point metric is named honestly. A detection threshold is set on the clean negatives at their 1% false-positive point, and we report the true-positive rate at this clean-calibrated threshold, not "TPR at 1% FPR", because under attack the negatives are transformed too and the realized false-positive rate at that threshold is an empirical question. We answer it directly: the full 33-cell table (3 schemes by 11 conditions, the untransformed clean reference included) of realized FPR at that threshold on the corresponding negatives is reported, with one-sided binomial comparisons against the nominal rate under Bonferroni correction across the 33 cells. Those comparisons treat the 96 attacked negatives in a cell as independent, which they are not: they are four per prompt across 24 prompts, and the threshold is itself estimated from the 96 clean negatives. We therefore read the table descriptively and do not rest any conclusion on its cell-level significance. At n = 96 the FPR resolution is 1/96, which motivates Study S1 (Section 3.4). As a robustness check we also report the same-transformation AUROC, in which both classes are transformed; this is ecologically meaningful for diacritic stripping and round-trip translation (which occur in natural text) but not for laundering (no one launders human text to remove a watermark), so the headline remains the clean-negative AUROC.
 
@@ -118,21 +137,21 @@ On clean, unmodified Turkish output, all three schemes separate watermarked from
 | rtt | 0.954 [0.926, 0.979] | 0.956 [0.896, 0.998] | 0.816 [0.758, 0.870] |
 | launder_api | 0.917 [0.865, 0.956] | 0.863 [0.790, 0.924] | 0.747 [0.650, 0.834] |
 
-**Table 3.** Complete separation in the eleven cells with AUROC 1.000, replacing the withdrawn Clopper-Pearson bound. Clusters are the 24 prompts; a cluster is counted as separated only if every watermarked score in it exceeds the maximum of all 96 clean negatives. Margin is that gap in units of the negative standard deviation. The p-value is a one-sided exact sign test over the 24 prompt-level outcomes (2⁻²⁴), taking the prompt as the unit as elsewhere in the paper; a within-prompt exchangeability test would give a far smaller number on an assumption we decline to make for a deterministic scheme (Section 3.3).
+**Table 3.** Complete separation in the eleven cells with AUROC 1.000, replacing the withdrawn Clopper-Pearson bound. Clusters are the 24 prompts; a cluster is counted as separated only if every watermarked score in it exceeds the maximum of all 96 clean negatives. Margin is that gap in units of the negative standard deviation. "Global separation" records whether the lowest watermarked score in the cell exceeds the maximum of all 96 clean negatives. No p-value is attached: as Section 3.3 explains, the 24 cluster outcomes are compared against a single data-dependent comparator and cannot be treated as independent Bernoulli trials.
 
-| Scheme | Condition | Clusters separated | Margin (negative SD) | Exact sign-test p |
+| Scheme | Condition | Clusters separated | Margin (negative SD) | Global separation |
 |---|---|---|---|---|
-| EXP | clean | 24/24 | 53.23 | 5.96 × 10^-8 |
-| EXP | dia50 | 24/24 | 4.74 | 5.96 × 10^-8 |
-| EXP | morph | 24/24 | 53.23 | 5.96 × 10^-8 |
-| EXP | morph_v1 | 24/24 | 51.30 | 5.96 × 10^-8 |
-| EXP | para | 24/24 | 8.87 | 5.96 × 10^-8 |
-| KGW | clean | 24/24 | 0.74 | 5.96 × 10^-8 |
-| KGW | morph | 24/24 | 0.74 | 5.96 × 10^-8 |
-| KGW | morph_v1 | 24/24 | 0.72 | 5.96 × 10^-8 |
-| SynthID | clean | 24/24 | 3.79 | 5.96 × 10^-8 |
-| SynthID | morph | 24/24 | 3.79 | 5.96 × 10^-8 |
-| SynthID | morph_v1 | 24/24 | 3.45 | 5.96 × 10^-8 |
+| EXP | clean | 24/24 | 53.23 | yes |
+| EXP | dia50 | 24/24 | 4.74 | yes |
+| EXP | morph | 24/24 | 53.23 | yes |
+| EXP | morph_v1 | 24/24 | 51.30 | yes |
+| EXP | para | 24/24 | 8.87 | yes |
+| KGW | clean | 24/24 | 0.74 | yes |
+| KGW | morph | 24/24 | 0.74 | yes |
+| KGW | morph_v1 | 24/24 | 0.72 | yes |
+| SynthID | clean | 24/24 | 3.79 | yes |
+| SynthID | morph | 24/24 | 3.79 | yes |
+| SynthID | morph_v1 | 24/24 | 3.45 | yes |
 
 ### 4.2 Robustness under attack
 
@@ -468,12 +487,16 @@ identifiable individual.
 
 All code, corpora, detector scores, attacked texts and judge annotations behind this
 paper are openly available in the repository
-<https://github.com/alicetinkaya76/turkish-llm-watermarking> (Çetinkaya, 2026), at the release
-tag `v1.1.0-paper`, which freezes the exact code and data state from which every
-reported number was produced. An archived snapshot of that release is deposited at Zenodo
-under DOI 10.5281/zenodo.22168553 (<https://doi.org/10.5281/zenodo.22168553>).
-That DOI names this specific release; the concept DOI 10.5281/zenodo.22168552
-always resolves to the latest version.
+<https://github.com/alicetinkaya76/turkish-llm-watermarking> (Çetinkaya, 2026), at the
+release tag `v1.2.0-paper`, which freezes the exact code, data and manuscript state
+from which every reported number was produced. That release is archived at Zenodo and
+is reached through the concept DOI 10.5281/zenodo.22168552
+(<https://doi.org/10.5281/zenodo.22168552>), which resolves to the most recent version
+and lists the version DOI of each. Readers reproducing this article should take the
+version tagged `v1.2.0-paper`. An earlier release, `v1.1.0-paper`
+(10.5281/zenodo.22168553), predates the corrections described in Section 3.3 and the
+reference revisions, and is superseded; we record it here rather than deleting it,
+because it has a DOI and a DOI should not silently change what it points to.
 
 The release contains 4,000 human text windows (1,500 Turkish Wikipedia, 1,500
 word-matched English Wikipedia, 1,000 Turkish Wikisource), 384 generated Turkish
@@ -595,9 +618,6 @@ the author reviewed and to language editing of text the author wrote and approve
 
 ## References
 
-*(Bibliographic identity of every entry verified against OpenAlex/Crossref on
-2026-08-25; record: `paper/citation_verification.json`.)*
-
 Aaronson, S. (2023, August 17). *Watermarking of large language models* [Conference presentation]. Large Language Models and Transformers Workshop, Simons Institute for the Theory of Computing, Berkeley, CA, United States. https://simons.berkeley.edu/talks/scott-aaronson-ut-austin-openai-2023-08-17
 
 Aaronson, S., & Kirchner, H. (2022). *Watermarking GPT outputs* [Slides]. https://www.scottaaronson.com/talks/watermark.ppt
@@ -650,7 +670,7 @@ Panickssery, A., Bowman, S. R., & Feng, S. (2024). LLM evaluators recognize and 
 
 Park, S., Park, H., An, H., & Han, Y.-S. (2026). A linguistics-aware LLM watermarking via syntactic predictability. In *Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)* (pp. 45629–45647). Association for Computational Linguistics. https://doi.org/10.18653/v1/2026.acl-long.2115
 
-Piet, J., Sitawarin, C., Fang, V., Mu, N., & Wagner, D. (2025). Mark my words: Analyzing and evaluating language model watermarks. In *2025 IEEE Conference on Secure and Trustworthy Machine Learning (SaTML)*. IEEE.
+Piet, J., Sitawarin, C., Fang, V., Mu, N., & Wagner, D. (2025). MARKMyWORDS: Analyzing and evaluating language model watermarks. In *2025 IEEE Conference on Secure and Trustworthy Machine Learning (SaTML)* (pp. 68–91). IEEE. https://doi.org/10.1109/SaTML64287.2025.00012
 
 Rust, P., Pfeiffer, J., Vulić, I., Ruder, S., & Gurevych, I. (2021). How good is your tokenizer? On the monolingual performance of multilingual language models. In *Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers)* (pp. 3118–3135). Association for Computational Linguistics. https://doi.org/10.18653/v1/2021.acl-long.243
 

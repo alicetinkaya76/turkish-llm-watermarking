@@ -2,7 +2,7 @@ You are evaluating a manuscript submitted to **Language Resources and Evaluation
 (Springer). Work through four roles **in sequence** and keep them strictly separate.
 Do not blend them, and do not let a judgement in one role soften another.
 
-**Manuscript version under review: `15c7b4c` (2026-08-30).** State this identifier at
+**Manuscript version under review: `83ff760` (2026-08-31).** State this identifier at
 the top of your report so the authors can confirm you read the current text. If any
 file you were given disagrees with another, say so rather than silently picking one.
 
@@ -86,12 +86,14 @@ different routes.
   independent replicates. The paper uses prompt-clustered bootstrap (effective n = 24).
   Is that correction right, and is it applied everywhere it should be? Check
   `metrics.py` rather than inferring from the prose.
-- **Degenerate cells.** Eleven AUROC cells equal 1.000. The paper withdrew a
-  Clopper–Pearson bound (CP bounds a binomial proportion; AUROC is a U-statistic, via
-  Bamber) and now reports counted separation, margins in negative-SD units, and a
-  prompt-level exact **sign test** (2⁻²⁴ = 5.96 × 10⁻⁸). An earlier version reported a
-  within-prompt exchangeability p-value of 10⁻⁴⁴·³ and Section 3.3 explains why that was
-  withdrawn. Is the current choice right, or too conservative, or still wrong?
+- **Degenerate cells.** Eleven AUROC cells equal 1.000. The paper has now withdrawn
+  *three* successive inferential treatments of this: a Clopper–Pearson bound (CP bounds a
+  binomial proportion; AUROC is a U-statistic, via Bamber), a within-prompt
+  exchangeability p-value of 10⁻⁴⁴·³, and a prompt-level sign test of 2⁻²⁴. Section 3.3
+  explains each withdrawal; the separation is now reported descriptively only, with
+  counted clusters and margins in negative-SD units. Is withdrawing the p-value the right
+  call, or is a valid test available that the authors have missed? If you propose one,
+  state the exchangeability unit and how the comparator is recomputed under permutation.
 - **The calibration finding.** KGW's null SD is 1.479 in Turkish against a theoretical 1;
   the shipped z = 4 threshold gives 3 exceedances in 1,500 windows with an exact binomial
   interval of 13× to 184×. Is 3/1500 enough to carry what is built on it?
