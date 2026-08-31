@@ -44,8 +44,8 @@ top level, `DATA_LICENSE.md` gives per-component licensing (which is deliberatel
 three pre-registrations are commits made before the corresponding data was collected,
 so their content and ordering are cryptographically fixed. I note in Section 7 that the wall-clock dates are not independently anchored, because the repository was first published after the data was collected. Repository:
 <https://github.com/alicetinkaya76/turkish-llm-watermarking>, release tag
-`v1.1.0-paper`; archived at Zenodo under DOI 10.5281/zenodo.22168553
-(<https://doi.org/10.5281/zenodo.22168553>).
+`v1.2.0-paper`; archived at Zenodo under the concept DOI 10.5281/zenodo.22168552
+(<https://doi.org/10.5281/zenodo.22168552>), which resolves to that release.
 
 **Author identification.** As requested by the journal:
 
