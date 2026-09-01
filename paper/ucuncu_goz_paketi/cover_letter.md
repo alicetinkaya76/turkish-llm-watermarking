@@ -1,4 +1,4 @@
-30 August 2026
+1 September 2026
 
 To the Editors-in-Chief
 *Language Resources and Evaluation*
@@ -45,9 +45,9 @@ top level, `DATA_LICENSE.md` gives per-component licensing (which is deliberatel
 **not** uniform, and says so where a term is genuinely unresolved), and
 `ATTRIBUTION.md` carries the Wikimedia attribution the CC BY-SA licence requires. The
 three pre-registrations are commits made before the corresponding data was collected,
-so their content and ordering are cryptographically fixed. I note in Section 7 that the wall-clock dates are not independently anchored, because the repository was first published after the data was collected. Repository:
+so their content and ordering are cryptographically fixed. I note in the Data Availability statement that the wall-clock dates are not independently anchored, because the repository was first published after the data was collected. Repository:
 <https://github.com/alicetinkaya76/turkish-llm-watermarking>, release tag
-`v1.2.0-paper`; archived at Zenodo under the concept DOI 10.5281/zenodo.22168552
+`v1.4.0-paper`; archived at Zenodo under the concept DOI 10.5281/zenodo.22168552
 (<https://doi.org/10.5281/zenodo.22168552>), which resolves to that release.
 
 **Author identification.** As requested by the journal:
@@ -94,6 +94,21 @@ records AI participation in a commit; it is not an authorship claim, no AI syste
 an author of this paper, and I take sole responsibility for the content. The
 declaration in the manuscript sets this out in full rather than leaving a reviewer to
 interpret the repository unaided.
+
+**On length.** The manuscript runs longer than the 18–25 pages the guidelines give as
+typical, and I would rather raise this than leave it unexplained. Three things drive
+it: the paper reports two separately pre-registered studies (a false-positive study on
+4,000 human windows and a two-judge meaning-preservation study) alongside a ten-attack
+robustness suite; it prints the full 33-cell realized false-positive table rather than
+a summary, which the Introduction commits to explicitly because a truncated version of
+that table is what would hide the finding; and it states the scope limits of each
+claim individually rather than in a single blanket paragraph. I have already removed
+what could go without loss, moving the history of three withdrawn statistical
+treatments to a repository audit note and compressing the declarations. If the editors
+would prefer it shorter, the material I would move to supplementary first is the
+33-cell table with its accompanying paragraph, the eight-key sweep and length-control
+detail in Section 4.3, and the implementation-level caveats in Section 6; that would
+bring the article close to the typical range, and I am happy to do so on request.
 
 I confirm that the manuscript has been prepared in accordance with the journal's
 instructions for authors, and I have no objection to single-blind review.

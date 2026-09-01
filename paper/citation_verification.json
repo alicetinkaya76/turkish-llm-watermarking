@@ -1,8 +1,8 @@
 {
   "_tarih": "2026-09-01",
   "_makale_dosyasi": "paper/paper.md",
-  "_makale_sha256": "c2b164cbb88d6f266a31dd3d373b983c169939ab6c3121375703eeff4c947f7d",
-  "_surum": "v1.3.0-paper",
+  "_makale_sha256": "8033571da404a76ec46ff8a160fecab3184f4301d1968ac1033546a9f7eb4aee",
+  "_surum": "v1.4.0-paper",
   "_UYARI": "Bu dosya bir IDDIA kaydidir, kanit degil. Denetleyen, kaydi sorgusuz kabul ederse denetim islememis demektir. Kapsam alanini once okuyun: 42 kaynagin hepsi AYNI turda AYNI yontemle denetlenmedi.",
   "_yontem_turlari": [
     {
@@ -81,5 +81,6 @@
     "Park 2025 -> 2026": "BIBLIYOGRAFIK (kucuk). Preprint olarak birakilmisti; ACL 2026'da yayimlanmis (s. 45629-45647, DOI 10.18653/v1/2026.acl-long.2115). YIL DEGISTI, metin ici atif da 2026 yapildi.",
     "NLLB Team 2024": "YANLIS ATIF (kucuk). Atif, makalenin KENDI yargic verisinden cikan akicilik bulgusuna ilistirilmisti; NLLB makalesi gidis-donus ceviriden hic soz etmiyor. Atif sonuca degil kullanilan ceviri sistemine baglandi.",
     "Pan 2024": "IDDIA UYUSMAZLIGI (kucuk). Yayimlanan EMNLP 2024 demo bildirisi dokuz algoritmayi iki ailede kapsiyor ve SynthID'yi HIC anmiyor; SynthID depoya yayimdan sonra eklendi. Cumle, bildirinin kapsadigi ile deponun sundugunu ayiracak sekilde yeniden yazildi."
-  }
+  },
+  "_kondensasyon_notu": "v1.4.0'da makale 19.368 -> 17.607 kelimeye (36 -> 32 sayfa) kisaltildi. Kisaltma YALNIZCA surec anlatisi ve tekrardan yapildi: hicbir bulgu, tablo, sekil, sinirlilik veya beyan cikarilmadi. Kaynak sayisi ve atif eslemesi degismedi (42/42)."
 }
