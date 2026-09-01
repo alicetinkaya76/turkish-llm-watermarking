@@ -1,258 +1,219 @@
-You are evaluating a manuscript submitted to **Language Resources and Evaluation**
-(Springer). Work through four roles **in sequence** and keep them strictly separate.
-Do not blend them, and do not let a judgement in one role soften another.
+# Focused pre-submission audit — round 4
 
-**Manuscript version under review: `v1.4.0-paper / sha256 8033571d` (2026-09-01).** State this identifier at
-the top of your report so the authors can confirm you read the current text. If any
-file you were given disagrees with another, say so rather than silently picking one.
+You are auditing a manuscript prepared for *Language Resources and Evaluation*
+(Springer). Three full audit rounds have already run against it and their
+confirmed findings are applied. **This round is deliberately narrow.** A fourth
+full re-review would mostly re-litigate settled questions; what needs checking is
+what changed since the last audited version, because that is where new defects
+would be.
 
-## What you must know about the venue
+**Manuscript version under review: `v1.4.0-paper`, `paper.md` SHA-256 prefix
+`8033571d`.** State this identifier at the top of your report. If the file you
+were given does not carry this content, say so and stop.
 
-- LRE publishes work on **language resources** (corpora, annotation, tools) and on the
-  **evaluation** of language technology, with standing interest in **less-resourced and
-  under-represented languages**.
-- Review is **single-blind**: author identity is visible to you and that is correct, not
-  a submission error.
-- Author-year **APA 7** citations, alphabetical reference list.
-- Abstract **150–250 words**, **4–6 keywords**, decimal headings, guideline length
-  **18–25 pages**.
-- A **"Statements and Declarations"** section is mandatory; its absence gets a
-  submission returned as incomplete.
+## What changed since the last audited version (v1.3.0-paper)
+
+You have both versions: `paper.md` (current) and `paper_ONCEKI_v1.3.0.md`
+(previous). Three kinds of change:
+
+1. **A statistical estimand was corrected and a headline result moved.** The
+   within-scheme comparison of external laundering (`launder_api`) against
+   round-trip translation (`rtt`) had been running on the per-prompt *mean raw
+   detector statistic*, while the manuscript described the per-prompt *detection
+   rate at the operating threshold*. Corrected to detection rates, the scheme
+   surviving Bonferroni correction changed from KGW to EXP.
+2. **Six references were added** with accompanying prose, narrowing the novelty
+   claim.
+3. **The manuscript was condensed from 19,369 to 17,615 words (36 to 32 pages).**
+   The author's stated rule was to remove only duplication and process narration,
+   never a finding, table, figure, limitation, disclosure or scope qualifier.
 
 ## Ground rules
 
-1. **Honesty is not weakness.** This manuscript reports a negative result (a planned
-   attack that did not fire), marks one of its own pre-registered hypotheses as
-   superseded, withdraws a statistical bound an earlier version used, and states the
-   limits of its own pre-registration guarantee. Do not score these as defects *because*
-   they are admissions. Conversely, do not let candour buy leniency on a real problem.
-2. **Check the code before claiming a method is missing.** You are given
-   `metrics.py`, `dev_dejenere_kanit.py`, `dev_h2_token.py` and `dev_anahtar_supurme.py`.
-   A previous reviewer asserted that threshold-estimation uncertainty was not propagated
-   into the confidence intervals; the implementation does propagate it, and the claim was
-   wrong. If you believe a statistical safeguard is absent, quote the function you
-   checked and say what it does instead.
-3. **Check numbers against `numbers.json` and the CSV, not against plausibility.** If a
-   number in the text is not regenerable from those files, that is a finding. Name the
-   number and its location.
-4. **Distinguish "wrong" from "not to my taste."** Mark each criticism as a *defect*
-   (incorrect, unsupported, or missing) or a *preference*. Preferences go in a separate
-   list and must not affect any recommendation.
-5. **Quote before you judge.** When you claim the manuscript says something, quote the
-   sentence and give its section. Past reviews of this work were wrong because they
-   paraphrased a narrow claim into a broad one.
-6. **If you cannot verify something, say so.** "I could not access this source" is a
-   valid and useful output. An invented verification is worse than none.
+1. **Verify before asserting.** If you claim a number is wrong, name the file and
+   the value you checked it against. `numbers.json` and `detection_metrics.csv`
+   are the generated sources; the manuscript should agree with them.
+2. **If you claim a safeguard is missing, quote the function you inspected.** The
+   code is in `kod/`. This rule exists because two earlier rounds reported the
+   same absent safeguard that was in fact present and is still present
+   (`metrics.py`, `tpr_ci_kumeli`, re-calibrates the threshold inside every
+   bootstrap replicate).
+3. **Read the sentence before calling it an overgeneralization.** Claims in this
+   manuscript are written narrowly on purpose. Earlier rounds repeatedly flagged
+   narrow sentences read broadly. Quote the exact sentence you object to.
+4. **Do not pad.** If a section is sound, say so in one line and move on. A short
+   report with three real findings is worth more than thirty speculative ones.
+5. **Separate confidence levels.** Mark each finding CONFIRMED (you verified it
+   against a file or a source) or PLAUSIBLE (you suspect it but did not verify).
 
 ---
 
-# ROLE 1 — HANDLING EDITOR (desk decision)
+## Role 1 — Handling Editor, *Language Resources and Evaluation*
 
-In under 500 words, decide exactly one of: **desk reject** / **send to review** /
-**send to review after pre-review revisions**. Justify against LRE's criteria.
+Give a desk decision: **desk reject / send to review / send to review after
+pre-review revisions**, with reasons.
 
-1. **Scope.** Does this fall within LRE's aims? Name the aims it meets or misses. It
-   presents itself as both an evaluation-protocol paper and a released resource; judge
-   whether both halves are real or one is decoration.
-2. **Resource substance.** Read `BENCHMARK.md` and `DATA_LICENSE.md`. Is the resource
-   documented well enough for third-party reuse? Is the licensing statement adequate, or
-   does its non-uniformity make the resource impractical?
-3. **Novelty, proportionate.** State exactly what is new. The paper positions itself
-   against WaterBench, Mark My Words and WaterPark as a language- and
-   negative-distribution-specific contribution rather than a general benchmark. Is that
-   positioning accurate and is it sized to the evidence?
-4. **Sufficiency.** One generator, 24 prompts, 4 seeds (384 texts); human-text study
-   4,000 windows, pre-registered. Enough for LRE? State the condition under which it
-   would be, and under which it would not.
-5. **Compliance.** Abstract length, keyword count, heading depth, page count, APA 7
-   conformance, completeness of Statements and Declarations, data availability with a
-   resolvable DOI. Name anything missing.
-6. **Desk-reject triggers.** Unverifiable numbers, citation padding, self-contradiction,
-   undeclared parallel submission, ethics gaps, salami slicing. The cover letter declares
-   three parallel submissions; assess whether that declaration is adequate.
+Judge scope fit (the journal covers language resources and the evaluation of
+language technology, including less-resourced languages), whether the released
+resource is a genuine contribution, and whether the disclosed limitations are
+disqualifying or creditable.
 
-End Role 1 with the recommendation on its own line.
+Then address length specifically. The article runs 32 pages against the
+guideline's "typically 18–25". The cover letter contains an "On length"
+paragraph that explains why and names, in order, the material the author would
+move to supplementary if asked. Assess: is that an acceptable way to handle the
+overage, or would you still return the manuscript? Is the named material the
+right material to move first? Is anything currently in the article that you would
+move *ahead* of what the author named?
 
----
+## Role 2 — Reviewer A: the corrected statistic
 
-# ROLE 2 — PEER REVIEWERS (two, different lenses)
+This is the highest-risk item in the manuscript. Three successive inferential
+treatments of a *different* quantity (the degenerate AUROC cells) were withdrawn
+across earlier rounds, so the author's track record on this exact kind of
+reasoning is mixed, and you should assume nothing.
 
-Write **two independent reviews**. If they reach the same verdict they must reach it by
-different routes.
+Read Section 3.3, Section 4.2 ("Is laundering more destructive than
+translation?"), Table 5, and `kod/metrics.py` (`d3_istem_duzeyi`,
+`_tam_isaret_permutasyon_p`).
 
-## Reviewer A — methods and statistics
+Answer these, each explicitly:
 
-- **Dependence.** EXP is deterministic given prompt and key, so its four seeds are not
-  independent replicates. The paper uses prompt-clustered bootstrap (effective n = 24).
-  Is that correction right, and is it applied everywhere it should be? Check
-  `metrics.py` rather than inferring from the prose.
-- **Degenerate cells.** Eleven AUROC cells equal 1.000. The paper has now withdrawn
-  *three* successive inferential treatments of this: a Clopper–Pearson bound (CP bounds a
-  binomial proportion; AUROC is a U-statistic, via Bamber), a within-prompt
-  exchangeability p-value of 10⁻⁴⁴·³, and a prompt-level sign test of 2⁻²⁴. Section 3.3
-  explains each withdrawal; the separation is now reported descriptively only, with
-  counted clusters and margins in negative-SD units. Is withdrawing the p-value the right
-  call, or is a valid test available that the authors have missed? If you propose one,
-  state the exchangeability unit and how the comparator is recomputed under permutation.
-- **The calibration finding.** KGW's null SD is 1.479 in Turkish against a theoretical 1;
-  the shipped z = 4 threshold gives 3 exceedances in 1,500 windows with an exact binomial
-  interval of 13× to 184×. Is 3/1500 enough to carry what is built on it?
-- **The commensurability fix.** The cross-scheme axis was changed from raw null standard
-  deviations to realized false-positive rate at each scheme's own shipped threshold
-  (SynthID 0/1500, KGW 3/1500, EXP 13/1500). Is that axis genuinely commensurable? The
-  paper now says the pattern is not monotone and declines to call it a trade-off. Is that
-  the right level of restraint, or does even the weakened claim outrun three data points?
-- **The mediation.** A post-hoc token-length control shows inflation in English too,
-  growing with tokens scored and vanishing as a language effect at matched token count.
-  The paper calls this an exposure pathway and explicitly declines a causal-mediation
-  claim. Is the restraint sufficient?
-- **Multiplicity and units.** Holm and Bonferroni families are declared in different
-  places. Table 7 is now presented descriptively because its 96 rows are four per prompt
-  across 24 clusters. Is anything still resting on an invalid unit?
-- **Key sweep.** Eight keys; null SD stays above 1 for all, tail count ranges 3–143, the
-  study key gives the smallest tail. The paper now says this is conditional on the
-  sampled key. Sound?
+- **Is the estimand now the one the text describes?** The unit is the per-prompt
+  detection rate at each scheme's own clean-calibrated threshold. Does the code
+  compute that, and does every sentence around Table 5 describe that and not
+  something else?
+- **Is the null defensible this time?** The primary p-value is an exact paired
+  sign-flip permutation test. The stated justification is that under
+  exchangeability of the two conditions *within a prompt*, the sign of the paired
+  difference is symmetric. Is that a design-derived null, or is it the same
+  mistake as the withdrawn prompt-level sign test in a new costume? The
+  manuscript claims the difference is that the pairing is genuine here and there
+  is no shared data-dependent comparator. Test that claim. Note that the
+  threshold *is* estimated from the clean negatives and is shared across prompts
+  within a scheme — does that reintroduce the dependence the earlier test died
+  of, and if so how much does it matter?
+- **Zero differences.** Rates over four seeds take only five values, so 6 to 11
+  of 24 pairs have exactly zero difference. The permutation test drops zeros; the
+  Wilcoxon column uses Pratt's convention. Is dropping zeros in the permutation
+  test correct here, or does it bias the result? Should the primary test have
+  been something else?
+- **Two-sidedness.** The permutation test is two-sided while the surrounding
+  claim is directional. Conservative, or a mismatch that should be stated?
+- **The KGW cell.** Its bootstrap interval excludes zero, [−0.292, −0.042], while
+  its permutation p of 0.024 does not clear Bonferroni α = 0.0167. The manuscript
+  reports both and says they answer different questions. Is that the right call,
+  or is presenting both a way of having it both ways?
+- **Multiplicity.** Bonferroni over three schemes. Is the family right? The
+  cross-scheme family (Table 6) is a separate set of six Holm-corrected tests. Is
+  the division into two families defensible or is it a garden of forking paths?
+- **The degenerate cells.** Section 3.3 now attaches no p-value and no confidence
+  bound to the eleven AUROC = 1.000 cells, reporting counted separation and
+  margin only. `DENETIM_NOTU_geri_cekilen_cikarimlar.md` gives the full history of
+  the three withdrawals. Is the current descriptive treatment finally correct, or
+  is there a valid test the author is now wrongly refusing to run? If you propose
+  one, state the exchangeability unit and how the comparator is recomputed inside
+  each permutation.
 
-## Reviewer B — resources, reproducibility, language coverage
+## Role 3 — Reviewer B: what the condensation removed
 
-- **The benchmark.** Read `BENCHMARK.md`. Are the stated limitations the real ones, or is
-  something material missing? Could you rerun the analysis from the release?
-- **Pre-registration.** The paper states that the commit hashes bind content and ordering
-  but that the wall-clock dates are **not** independently anchored, because the repository
-  was first published on 2026-08-29, after the data was collected. Is that disclosure
-  adequate, or does the word "pre-registered" still carry more weight than the evidence?
-- **Turkish specifically.** The subword-fertility argument is central. Is the linguistic
-  reasoning right? Is the morphological attack's failure diagnosed correctly as a register
-  mismatch, and is that labelled as hypothesis rather than established mechanism?
-- **Generalisation.** One generator survived a pre-registered gate that four others
-  failed. Does the scope-limiting language match what the design licenses? Is any sentence
-  in the Discussion broader than Section 6 allows?
-- **Licensing.** `DATA_LICENSE.md` labels round-trip translations CC BY-NC under a
-  deliberately restrictive reading, and the archive-level field is "Other (Open)" with the
-  per-path manifest declared authoritative. Defensible, or over-cautious to the point of
-  harming reuse?
-- **Judge study.** Meaning verdicts cover 40 unique pairs per condition, KGW arm only, and
-  fluency conclusions are withheld where the position-flip bound was exceeded. Is the
-  scoping correct and consistently stated?
+You have both versions. The author's claim is that the 1,754 removed words were
+**only** duplication and process narration, and that no finding, table, figure,
+limitation, disclosure or scope qualifier was lost. Test that claim; it is the
+kind of claim that is easy to make and easy to violate accidentally.
 
-Each reviewer ends with **accept / minor revision / major revision / reject**, a numbered
-list of **required** changes, and a separate list of **optional** suggestions.
+Per-section word deltas: Introduction −301, Section 4.2 −86, Section 4.3 −72,
+Section 5.1 −124, Section 5.2 −152, Section 5.3 −226, Section 6 −488, Section 7
+−127, declarations −186.
 
----
+Concentrate on the largest cuts, Section 6 (−488) and Section 5 (−502 combined).
+For each, answer:
 
-# ROLE 3 — CITATION AND REFERENCE AUDITOR
+- Did any **scope qualifier** disappear? Earlier audit rounds specifically
+  *added* qualifiers to this manuscript — that a claim holds only for the KGW
+  arm, only at the evaluated token budgets, only for surface-context-seeded
+  schemes, only on this sample. If one of those was dropped while compressing the
+  paragraph around it, the manuscript has silently re-broadened a claim that a
+  previous round narrowed. This is the single most likely defect in this version.
+- Did any **limitation** lose its substance while keeping its heading? Section 6
+  went from paragraph-per-limitation to statement-per-limitation. Check that each
+  of the ten still says what it needs to.
+- Did any **disclosure** in Statements and Declarations lose required content?
+  Springer requires funding, competing interests, ethics, consent, data
+  availability, author contributions, and AI-use declarations to be complete, not
+  merely present.
+- Did the condensation **break a dependency** — a sentence that now refers to
+  something no longer stated, a number that lost the caveat that qualified it, a
+  claim whose supporting detail moved to the repository audit note without a
+  pointer?
+- Conversely: **is anything still redundant?** If the article still says the same
+  thing three times anywhere, name it, since the length question is live.
 
-Assume nothing is verified. `citation_verification.json` records two audits the authors
-already ran; treat it as **a claim to be tested, not evidence**. If it is wrong anywhere,
-or missed something, say so. An audit that only confirms a previous audit has told you
-nothing.
+## Role 4 — Citation audit
 
-## 3.1 Per-reference bibliographic check
+Two tasks.
 
-For **every** entry, verify against the primary source (publisher page, DOI resolution,
-ACL Anthology, PMLR, OpenReview, arXiv):
+**(a) The six new references.** For each, verify the bibliographic record against
+a primary source (Crossref, ACL Anthology, arXiv, publisher page) *and* verify
+that the manuscript's characterisation matches what the source actually says:
 
-- author list, order and spelling, diacritics included
-- year, and specifically **whether a preprint has since been published**; an entry frozen
-  at the preprint when a version of record exists is a defect
-- title, venue, volume/issue, page range
-- DOI resolves to *this* work
-- APA 7 form: 21+ authors take the first 19, an ellipsis, then the final author; sentence
-  case; alphabetical order with Ç collating as C
+- Meral et al. (2009), *Computer Speech & Language* 23(1) — Turkish
+  morphosyntactic watermarking, cited as the direct linguistic antecedent of the
+  paper's morphological attack.
+- Huang et al. (2025), B⁴, NAACL — black-box scrubbing.
+- Chen et al. (2025), De-mark — query-based removal of n-gram watermarks.
+- Zhang et al. (2026), NDSS — character-level perturbations disrupting
+  tokenization.
+- Ganesan (2025) — cross-lingual summarisation as removal.
+- Harel-Canada et al. (2025), ACL — qualifying the strong-watermarking
+  impossibility result.
 
-Report per entry: **verified** / **defect (describe)** / **could not verify (say what you
-tried)**.
+The author already corrected two of their own attribution errors while adding
+these: an initial draft credited Harel-Canada et al. with a finding they do not
+report, and credited Meral et al. with a specific list of transformations that no
+primary record could confirm. Check whether the corrected characterisations are
+now accurate, and whether any *other* claim attributed to these six overstates
+the source.
 
-## 3.2 In-text claim matching
+**(b) Test the verification record.** `citation_verification.json` is the
+author's own audit record, including the round in which they verified these six.
+It is a **claim to be tested, not evidence**. If you accept it without checking
+anything in it, this role has not functioned. Check at least: does the reference
+count it states match the manuscript, does its account of what was verified when
+hold up, and is its description of the two self-corrected attribution errors
+accurate?
 
-For **every** in-text citation, read the source and decide whether it supports what the
-manuscript attributes to it. Look for:
+Also confirm, mechanically: every reference is cited in the text, every in-text
+citation resolves to a reference, and APA 7 author–year formatting is consistent
+(sentence case for article titles, Ç collating as C, hanging indent, 21+ authors
+using first-19-ellipsis-last).
 
-- a number or result attributed to a source that does not report it
-- a narrow finding reported as general
-- an attribution that belongs to a different paper
-- a decorative citation: topically adjacent, does not support the sentence
+**(c) LRE's own corpus.** Search for work published in *Language Resources and
+Evaluation* (DOI prefix `10.1007/s10579-`) that this manuscript should engage
+with, in evaluation methodology, Turkish resources, subword tokenization,
+Wikipedia/Wikisource corpus construction, resource-description papers, LLM-judge
+annotation, or machine-generated text detection.
 
-**Discipline:** a claim written narrowly in the manuscript ("for Turkish", "at default
-settings", "in their setting") is **not** an overgeneralisation. Quote the sentence first.
-
-These carry argumentative weight and were changed in a previous audit round — re-check
-them rather than trusting the change:
-
-- **Kuditipudi et al. (2024)** — now cited for the distortion-free *family*, with an
-  explicit note that their EXP-Edit and ITS-Edit algorithms were not run. Correct now?
-- **Rust et al. (2021)** — now cited for subword fertility and proportion of continued
-  words, not for suffix repetition. Does the source support the narrowed claim?
-- **Liu et al. (2024)** — SIR is now described as token-level with a semantic seed rather
-  than a sentence-level scheme. Accurate?
-- **Bulat (2022)** — zeyrek is now described as a same-lemma reparse filter, not a
-  grammaticality guarantee. Consistent with Section 3.2?
-- **Fernandez et al. (2023)**, **Kirchenbauer et al. (2024)**, **Zhang et al. (2024)**,
-  **Panickssery et al. (2024)**, **Zheng et al. (2023)**, **Han et al. (2025)**,
-  **Nemecek et al. (2026)**, **Piet et al. (2025)**, **Liang et al. (2025)**,
-  **Tu et al. (2024)**.
-
-## 3.3 Coverage in both directions
-
-- Every reference cited at least once? Name any orphan.
-- Every in-text citation present in the reference list? Name any missing.
-- **Missing literature**: name work a specialist would expect and that is absent, and say
-  what would have to change if the paper engaged with it. Distinguish "should have cited"
-  from "could also cite" — only the first is a finding.
-
----
-
-# ROLE 4 — CITATIONS FROM THE TARGET JOURNAL
-
-Editors notice whether a submission engages with its own venue. Independently of whether
-you think the paper is good, identify work **published in *Language Resources and
-Evaluation* itself** that this manuscript should cite.
-
-Search LRE's own corpus (Springer's journal page, DOI prefix `10.1007/s10579-`, and
-indexes such as OpenAlex, Crossref, Semantic Scholar or Google Scholar restricted to that
-journal). Look across the areas this paper touches:
-
-- evaluation methodology and protocol design for language technology
-- Turkish corpora, treebanks, morphological analyzers, and Turkish NLP resources
-- subword tokenization, morphological segmentation, and their effect on evaluation
-- corpus construction from Wikipedia and Wikisource, and register/genre sampling
-- benchmark and shared-resource description papers, including their documentation norms
-- annotation with LLM judges, inter-annotator agreement, and reliability reporting
-- machine-translation evaluation, including round-trip translation as a method
-- detection of machine-generated text, if LRE has published on it
-
-For each candidate give: full APA 7 reference, DOI, **one sentence on what it actually
-shows**, and — most important — **the specific sentence or section of this manuscript it
-should attach to, and whether citing it would change any claim**.
-
-Then apply a filter and be honest about it. Split your list into:
-
-- **Should cite** — genuinely relevant; the manuscript is weaker or less accurate without
-  it. Say what changes.
-- **Could cite** — real but optional; would strengthen framing, changes nothing.
-- **Do not cite** — you found it but it does not belong; say so explicitly so the authors
-  do not add it for appearances.
-
-**Do not pad.** Recommending LRE papers merely because they are LRE papers is citation
-padding, it is visible to editors, and it is worse than citing nothing. If the honest
-answer is that LRE has published little that bears on this topic, say that plainly and
-give the short list anyway. If you cannot search the journal's corpus, say so and do not
-guess titles — fabricated references are the most damaging possible output here.
+**A warning specific to this task.** Asking a model for references from a named
+journal is the request most likely to produce a fabricated or misidentified
+citation, and in the previous round exactly that happened: a suggested "UWBench"
+turned out to be an underwater vision-language benchmark with no connection to
+watermarking. **Verify every DOI resolves and says what you claim before listing
+it.** Split your output into *should cite* / *could cite* / *checked and does not
+fit*. The last category is required, not optional — it shows what you rejected
+and why. If LRE has published little that is genuinely relevant, say so plainly;
+do not manufacture relevance.
 
 ---
 
-# HOW TO REPORT
+## Output format
 
-1. **Version and audit boundary** — the manuscript identifier you were given, what you
-   could access, what you could not, and what that leaves unverified.
-2. **Role 1 — editor decision.**
-3. **Role 2 — Reviewer A**, then **Reviewer B**.
-4. **Role 3 — citation audit**, as a table: `reference | bibliographic | claim match |
-   action needed`.
-5. **Role 4 — LRE citations**, in the three-way split above.
-6. **Blocking issues** — numbered, most serious first; for each, the exact location, what
-   is wrong, and the corrected text you propose.
-7. **Preferences** — clearly separated, explicitly not affecting any verdict.
-
-Do not soften findings to be agreeable, and do not manufacture findings to appear
-rigorous. Where the manuscript is sound, say so plainly and move on.
+1. The version stamp `v1.4.0-paper / sha256 8033571d`.
+2. Role 1 verdict, with the length assessment stated separately.
+3. Role 2: one answer per bullet, each marked CONFIRMED or PLAUSIBLE.
+4. Role 3: what the condensation lost, or an explicit statement that you checked
+   and it lost nothing. Name the sections you compared.
+5. Role 4: (a) six-reference table, (b) your test of the verification record,
+   (c) LRE citations in three groups.
+6. A final list of blocking issues, ordered, with the minimum acceptable fix for
+   each. If there are none, say so — that is a permitted and useful answer.
