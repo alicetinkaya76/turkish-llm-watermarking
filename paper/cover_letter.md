@@ -24,17 +24,20 @@ standard deviation is 1.479 against a theoretical 1, and the shipped z = 4 thres
 produces 3 exceedances in 1,500 windows, roughly 63 times nominal, with an exact
 binomial interval of 13× to 184×. I also report, in full, that the pre-registered
 hypothesis attributing this to Turkish does **not** survive a length control added
-after pre-registration: at matched token length the two languages are
-indistinguishable, and Turkish contributes exposure through subword fertility rather
-than a distinct mechanism. Two further findings are a robustness–calibration
-trade-off (SynthID has the cleanest null yet is the most fragile under attack) and a
-laundering attack that degrades all three schemes while preserving meaning, at a
+after pre-registration: at the matched token budgets we evaluated no Turkish–English
+difference is detectable, and Turkish contributes exposure through subword fertility
+rather than a distinct mechanism. Two further findings are a no-dominance pattern
+across the three tested configurations (SynthID flags the fewest human windows at its
+own shipped threshold yet is the most fragile under attack, though the pattern is not
+monotone across all three) and a laundering attack that degrades all three schemes
+while both judges rated meaning preserved on the sampled KGW-arm pairs, at a
 measured cost of USD 17.704. A planned morphological attack did not fire, and that
 negative result is reported with its coverage measurements rather than omitted.
 
 **Why LRE.** The paper is a protocol-and-resource contribution, not a new watermark.
 Alongside it I release **TR-WM-EVAL**, a Turkish watermark-evaluation benchmark:
-4,000 human text windows across three registers, 384 generated texts, 3,840 attacked
+4,000 human text windows spanning two registers and three corpus-language strata
+(Turkish and English Wikipedia, and Turkish Wikisource), 384 generated texts, 3,840 attacked
 texts, 58,161 detector scores including a length-controlled rescoring and an
 eight-key sweep, and 788 pairwise judge verdicts. The resource is documented for
 reuse independently of the paper: `BENCHMARK.md` states its known limitations at the

@@ -1,25 +1,33 @@
-# pilot/dev_dejenere_kanit.py — C1/C2/C5: AUROC = 1.000 hucreleri icin
-# Clopper-Pearson'in YERINE gececek kanit.
+# pilot/dev_dejenere_kanit.py — AUROC = 1.000 hucreleri icin BETIMSEL kanit.
 #
-# NEDEN. Makale su an dejenere hucrelerde "sifir basarisizlik 24 kumede
-# AUROC'u 0.883'te sinirlar" diyor (metrics.py:82-92, alpha**(1/n)).
-# Bu turetim gecersiz: CP sinirir bir Bernoulli oraninin alt siniridir;
-# AUROC ise ikili siralama U-istatistigidir. Kume duzeyinde bir "basari"
-# olayinin olasiligi ile populasyon AUROC'u arasinda genel bir esitsizlik
-# YOKTUR. Sayinin buyuklugu degil, ilan edilen turetim yanlis.
+# UCUNCU CIKARIMSAL DENEME DE GERI CEKILDI. Bu dosyanin gecmisi, makalede
+# raporlanmamasi gereken seyin kaydidir; uretim ciktisina hicbiri girmez:
 #
-# YERINE NE KONACAK. Dejenere hucrede gozlenen sey aslinda CP'den daha
-# guclu ve dogrudan raporlanabilir:
+#   (i)   Clopper-Pearson alt siniri (alpha^(1/n) = 0,883). Gecersiz: CP bir
+#         Bernoulli oraninin parametresini sinirlar, AUROC ise ikili siralama
+#         U-istatistigidir (Bamber ozdesligi). Kume-duzeyi bir olayin
+#         olasiligi ile populasyon AUROC'u arasinda genel esitsizlik YOKTUR.
+#   (ii)  Istem-ICI etiket degistirilebilirligi permutasyonu (10^-44,3).
+#         Gecersiz: EXP'in dort tohumu deterministiktir, degistirilebilirlik
+#         savunulamaz.
+#   (iii) Istem-duzeyi isaret testi (2^-24). Gecersiz: istem basina 0,5
+#         basari olasiligi TASARIMDAN turetilmiyor ve 24 sonucun hepsi AYNI
+#         veri-bagimli karsilastiriciyi (havuzlanmis negatiflerin maksimumu)
+#         kullandigi icin ortak rastlantisal bilesen tasiyorlar; carpilamazlar.
+#         Bagimlilik pozitif oldugundan carpim gercek olasiligi KUCUK gosterir.
+#
+# URETIMDE KALAN, YALNIZCA BETIMSEL:
 #   (1) TAM AYRISMA: her istem kumesinde (ve global olarak) en dusuk
 #       filigranli skor, tum temiz negatiflerin maksimumunu asiyor mu?
 #   (2) MARJ: bu ayrismanin genisligi, negatif dagilimin standart sapmasi
-#       biriminde. Bu, "1.000" un ne kadar rahat kazanildigini gosterir ve
+#       biriminde. "1.000" un ne kadar rahat kazanildigini gosterir ve
 #       semalar arasinda DURUSTCE ayrisir (EXP'in marji KGW'ninkinin
 #       onlarca kati; ikisini ayni guvenle sunmak yaniltici olurdu).
-#   (3) TAM PERMUTASYON p: dagilimdan bagimsiz, varsayimsiz. Istem icinde
-#       filigranli/temiz etiketleri degistirilebilir kabul edilirse
-#       tek yanli tam p = (1/C(m+k, m))^(istem sayisi).
-#       Ayrica daha zayif varsayimli isaret-cevirme surumu de verilir.
+#
+# Gecerli bir test, degistirilebilirligi SAVUNULABILIR bir birimde etiket
+# permute etmeli ve karsilastiriciyi her permutasyonda YENIDEN hesaplamalidir.
+# Boyle bir test kosulmadi; savunulamayan bir p yerine guclu bir betimleme
+# tercih edildi. Ayrinti: paper.md §3.3.
 #
 # CIKTI: results/dejenere_kanit.json
 #   python pilot/dev_dejenere_kanit.py
@@ -27,7 +35,6 @@ from __future__ import annotations
 
 import json
 import sys
-from math import comb, log10
 from pathlib import Path
 
 import numpy as np
@@ -44,9 +51,9 @@ def main() -> None:
     sc = pd.read_csv(C.RESULTS / "scores.csv")
     det = pd.read_csv(C.RESULTS / "detection_metrics.csv")
 
-    # dejenere hucreler: metrics.py'nin kendi bayragi (ci_lo_cp dolu olanlar)
-    dejenere = det[det["ci_lo_cp"].notna()][["scheme", "condition", "auroc",
-                                             "ci_lo_cp", "n_kume"]]
+    # dejenere hucreler: metrics.py'nin kendi bayragi
+    dejenere = det[det["dejenere"].astype(bool)][["scheme", "condition",
+                                                  "auroc", "n_kume"]]
     satirlar = []
     for _, r in dejenere.iterrows():
         sema, kosul = r["scheme"], r["condition"]
@@ -72,40 +79,31 @@ def main() -> None:
         # (3) marj: en dusuk pozitif ile en yuksek negatif arasi, negatif SD birimi
         marj = (float(poz["stat"].min()) - neg_max) / neg_std if neg_std > 0 else float("nan")
 
-        # (4) tam permutasyon p — istem ICINDE etiket degistirilebilirligi
-        #     her istemde m pozitif + k negatif; en uc siralamanin olasiligi
-        m = int(poz.groupby("prompt_id").size().median())
-        k = int(neg.groupby("prompt_id").size().median())
-        p_istem = 1.0 / comb(m + k, m) if (m + k) <= 60 else float("nan")
-        log10_p_tam = kume_ayrisan * log10(p_istem) if p_istem == p_istem else float("nan")
-        # isaret-cevirme (daha zayif varsayim: istem basina tek ikili sonuc)
-        log10_p_isaret = kume_ayrisan * log10(0.5)
-
         satirlar.append({
             "scheme": sema, "condition": kosul,
             "auroc": float(r["auroc"]),
-            "cp_geri_cekilen": float(r["ci_lo_cp"]),
             "n_kume": int(r["n_kume"]),
             "kume_ayrisan": kume_ayrisan, "kume_toplam": kume_toplam,
             "global_tam_ayrisma": global_ayrisma,
             "marj_negatif_sd": marj,
             "poz_min_stat": float(poz["stat"].min()),
             "neg_maks_stat": neg_max, "neg_std": neg_std,
-            "m_poz_per_istem": m, "k_neg_per_istem": k,
-            "log10_p_tam_permutasyon": log10_p_tam,
-            "log10_p_isaret_cevirme": log10_p_isaret,
         })
 
     rap = {
-        "_amac": "AUROC=1.000 hucrelerinde Clopper-Pearson yerine raporlanacak "
-                 "dogrudan kanit: sayilan tam ayrisma + marj + tam permutasyon p.",
-        "_cp_neden_geri_cekildi": (
-            "CP sinirir bir Bernoulli oraninin alt sinirir; AUROC ikili siralama "
-            "U-istatistigidir. Kume-duzeyi bir olayin olasiligi ile populasyon "
-            "AUROC'u arasinda genel bir esitsizlik yoktur, dolayisiyla "
-            "'zero failures in 24 clusters bounds AUROC at 0.883' turetimi "
-            "gecersizdir. Ayrica 24 olay ortak negatif havuzunu paylastigi icin "
-            "bagimsiz Bernoulli denemeleri de degildir."),
+        "_amac": "AUROC=1.000 hucrelerinde raporlanacak BETIMSEL kanit: "
+                 "sayilan tam ayrisma + marj. p-degeri ve guven siniri YOK.",
+        "_neden_p_yok": (
+            "Uc cikarimsal deneme de geri cekildi: (i) Clopper-Pearson alt "
+            "siniri -- CP bir Bernoulli oraninin parametresini sinirlar, AUROC "
+            "ise ikili siralama U-istatistigidir; (ii) istem-ici "
+            "degistirilebilirlik permutasyonu -- EXP'in dort tohumu "
+            "deterministik oldugu icin degistirilebilirlik savunulamaz; "
+            "(iii) istem-duzeyi isaret testi -- 0,5 null'u tasarimdan "
+            "turetilmiyor ve 24 sonuc ayni veri-bagimli karsilastiriciyi "
+            "paylastigi icin carpilamaz. Gecerli bir test degistirilebilirligi "
+            "savunulabilir bir birimde permute etmeli ve karsilastiriciyi her "
+            "permutasyonda yeniden hesaplamalidir; kosulmadi."),
         "n_dejenere_hucre": len(satirlar),
         "hucreler": satirlar,
     }
@@ -122,12 +120,12 @@ def main() -> None:
 
     print(f"{len(satirlar)} dejenere hucre\n")
     print(f"{'sema':9s} {'kosul':14s} {'ayrisan':>9s} {'marj(negSD)':>12s} "
-          f"{'log10 p_tam':>12s}  CP(geri cekilen)")
+          f"{'global':>8s}")
     for s in satirlar:
         print(f"{s['scheme']:9s} {s['condition']:14s} "
               f"{s['kume_ayrisan']:>4d}/{s['kume_toplam']:<4d} "
-              f"{s['marj_negatif_sd']:>12.2f} {s['log10_p_tam_permutasyon']:>12.1f}"
-              f"  {s['cp_geri_cekilen']:.3f}")
+              f"{s['marj_negatif_sd']:>12.2f} "
+              f"{('evet' if s['global_tam_ayrisma'] else 'hayir'):>8s}")
     if satirlar:
         print(f"\nmarj araligi: [{rap['marj_min']:.2f}, {rap['marj_maks']:.2f}] negatif SD")
         print(f"hepsi global ayrisiyor: {rap['hepsi_global_ayrisiyor']}   "

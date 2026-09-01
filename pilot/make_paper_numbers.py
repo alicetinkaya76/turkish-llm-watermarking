@@ -92,18 +92,13 @@ def main() -> None:
     n["auroc_dusus_ort"] = {k: float(v) for k, v in
                            dus.sort_values(ascending=False).items()}
 
-    # D3 istem duzeyi Wilcoxon
-    from scipy.stats import wilcoxon
+    # D3 istem duzeyi -- TESPIT ORANI uzerinde (ham stat DEGIL; bkz.
+    # pilot.metrics.d3_istem_duzeyi docstring'i). Tek uygulama: burada
+    # kopyalanmis ikinci bir hesap yok, metrics.py'dekiyle ayni fonksiyon.
     sc = pd.read_csv(C.RESULTS / "scores.csv")
-    d3 = {}
-    for sm in C.SCHEMES:
-        d = sc[sc.scheme == sm]
-        a = d[(d.condition == "rtt") & (d.wm == 1)].groupby("prompt_id")["stat"].mean()
-        b = d[(d.condition == "launder_api") & (d.wm == 1)].groupby("prompt_id")["stat"].mean()
-        j = pd.concat([a.rename("r"), b.rename("l")], axis=1).dropna()
-        d3[sm] = {"n_istem": int(len(j)),
-                  "wilcoxon_p": float(wilcoxon(j["r"], j["l"]).pvalue)}
-    n["d3_istem_duzeyi"] = d3
+    from pilot.metrics import d3_istem_duzeyi as _d3f
+    n["d3_istem_duzeyi"] = {r["sema"]: {k: v for k, v in r.items() if k != "sema"}
+                            for r in _d3f(sc).to_dict("records")}
 
     # semalar arasi (Holm) — metrics.scheme_pairwise ile ayni hesap
     from pilot.metrics import scheme_pairwise

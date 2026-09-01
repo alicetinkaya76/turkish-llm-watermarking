@@ -1,6 +1,6 @@
 # Üçüncü-göz paketi — Language Resources and Evaluation
 
-**Sürüm damgası: `83ff760`, 2026-08-31.**
+**Sürüm damgası: `v1.3.0-paper / sha256 c2b164cb`, 2026-09-01.**
 
 Bu klasör kendi kendine yeter. Depoya, internete veya başka bir dosyaya ihtiyaç
 duymadan makalenin editör, hakem, atıf ve dergi-içi kaynak denetimini
@@ -19,7 +19,7 @@ yaptırabilirsin.
 
 ## Rapor gelince ilk iş
 
-**Raporun başında `83ff760` damgasını ara.** Yoksa veya tutmuyorsa denetçi eski
+**Raporun başında `v1.3.0-paper / sha256 c2b164cb` damgasını ara.** Yoksa veya tutmuyorsa denetçi eski
 bir kopya okumuştur ve bulguların bir kısmı çoktan kapanmış işleri tekrar eder.
 Geçen turda tam olarak bu oldu: beş bulgu zaten düzeltilmişti.
 

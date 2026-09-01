@@ -101,7 +101,7 @@ def fig2() -> None:
         for sema in ("KGW", "EXP", "SynthID"):
             r = det[(det.scheme == sema) & (det.condition == cond)].iloc[0]
             y = y0 + kay[sema]
-            dejenere = pd.notna(r.get("ci_lo_cp"))
+            dejenere = bool(r.get("dejenere"))
             if dejenere:
                 # Dejenere hücre: bootstrap GA [1,1]. ÖNCEKİ SÜRÜM burada
                 # Clopper-Pearson alt sınırından 1'e ince bir çizgi çiziyordu;
@@ -109,7 +109,8 @@ def fig2() -> None:
                 # AUROC ise U-istatistiğidir), dolayısıyla çizgi de kaldırıldı.
                 # Geriye içi boş işaretçi kalıyor: "karşı örnek gözlenmedi",
                 # sayısal bir alt sınır İDDİA ETMEDEN. Ayrışmanın gücü
-                # Tablo 3'te marj ve tam permütasyon p'siyle veriliyor.
+                # Tablo 3'te SAYILAN ayrışma ve marjla veriliyor -- p-değeri
+                # yok, o da geri çekildi (§3.3).
                 ax.plot(r["auroc"], y, "o", ms=4.5, mfc="white",
                         mec=RENK[sema], mew=1.3, zorder=3)
             else:

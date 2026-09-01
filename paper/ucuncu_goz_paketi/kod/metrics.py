@@ -79,17 +79,14 @@ def auroc_ci(pos: np.ndarray, neg: np.ndarray,
     return float(lo), float(hi)
 
 
-def auroc_alt_sinir_cp(n_etkin: int, alpha: float = 0.05) -> float:
-    """AUROC=1.000 ve GA=[1,1] cikan hucreler icin TEK YANLI alt sinir.
-
-    Mukemmel ayrisma bootstrap'ta dejenere aralik uretir ([1.000, 1.000]) --
-    bu "belirsizlik yok" demek DEGILDIR, "orneklemde karsi ornek yok" demektir.
-    Sifir basarisizlik / n_etkin denemeden Clopper-Pearson tek yanli %95 alt
-    siniri: alpha^(1/n). n_etkin ISTEM sayisidir (kumeleme birimi), satir degil.
-    """
-    if n_etkin <= 0:
-        return float("nan")
-    return float(alpha ** (1.0 / n_etkin))
+# GERI CEKILDI: auroc_alt_sinir_cp(). AUROC=1.000 hucrelerine tek yanli
+# Clopper-Pearson alt siniri (alpha^(1/n) = 0,883) baglayan surum kaldirildi.
+# CP bir BINOM ORANININ parametresini sinirlar; AUROC ise ikili siralama
+# U-istatistigidir (Bamber ozdesligi), dolayisiyla kume duzeyi olayin
+# olasiligi AUROC'un ne esiti ne de alt siniridir. Ayrica 24 kume bagimsiz
+# deneme degildir (tek negatif havuzu) ve raporlama dejenerelik gozlendikten
+# SONRA kosullu. Yerine gecen: sayilan ayrisma + marj (Tablo 3), p-degeri YOK.
+# Tarihce paper.md §3.3'te ve dev_dejenere_kanit.py basliginda duruyor.
 
 
 def tpr_at_fpr(pos: np.ndarray, neg: np.ndarray,
@@ -149,15 +146,16 @@ def detection_table(scores: pd.DataFrame) -> pd.DataFrame:
             attneg = d[(d.condition == cond) & (d.wm == 0)]["stat"].to_numpy()
             au = auroc(pos, neg_clean)
             # DEJENERE ARALIK: mukemmel ayrisma bootstrap'ta [1,1] verir.
-            # Bu "belirsizlik yok" degil "karsi ornek gozlenmedi" demektir;
-            # istem sayisi uzerinden tek yanli CP alt siniri raporlanir.
+            # Bu "belirsizlik yok" degil "karsi ornek gozlenmedi" demektir.
+            # Yalnizca BAYRAK tasiriz; sayisal bir alt sinir IDDIA ETMEYIZ
+            # (geri cekilen CP siniri icin yukariya bakiniz).
             n_kume = int(len(np.unique(np.r_[pos_pid, neg_pid])))
             dejenere = bool(np.isfinite(lo) and lo >= 1.0 - 1e-12 and au >= 1.0 - 1e-12)
             rows.append(dict(
                 scheme=scheme, condition=cond, n_pos=len(pos),
                 auroc=au, ci_lo=lo, ci_hi=hi,
                 n_kume=n_kume,
-                ci_lo_cp=(auroc_alt_sinir_cp(n_kume) if dejenere else np.nan),
+                dejenere=dejenere,
                 tpr_temiz_esikte=tpr_at_fpr(pos, neg_clean),
                 **dict(zip(("tpr_ci_lo", "tpr_ci_hi"),
                            tpr_ci_kumeli(pos, neg_clean, pos_pid, neg_pid))),
@@ -723,48 +721,127 @@ def audit_corrections(scores: pd.DataFrame) -> list[str]:
         # HÜKÜM HESAPTAN GELİR. Önceki sürüm "hiçbir şemada anlamlı değil" diye
         # SABİT yazıyordu; o cümle ESKİ (geçersiz) korpusun sonucuydu. Yeni veride
         # tablo başka şey söylüyorsa rapor kendi hesabıyla çelişirdi.
-        # ISTEM DUZEYI Wilcoxon (BIRINCIL ANALIZ). Satir duzeyi McNemar kendi
-        # D1'imizi ihlal ediyor: EXP'de 4 tohum deterministik kosullarda ozdes,
-        # yani 96 "bagimsiz" cift aslinda 24 istem. Birincil birim ISTEM;
-        # surekli stat uzerinde eslenmis Wilcoxon + Bonferroni-3.
-        from scipy.stats import wilcoxon as _wx
-        for r in rows:
-            _sm = r["sema"]
-            _d = scores[scores.scheme == _sm]
-            _a = (_d[(_d.condition == "rtt") & (_d.wm == 1)]
-                  .groupby("prompt_id")["stat"].mean())
-            _b = (_d[(_d.condition == "launder_api") & (_d.wm == 1)]
-                  .groupby("prompt_id")["stat"].mean())
-            _j = pd.concat([_a.rename("r"), _b.rename("l")], axis=1).dropna()
-            try:
-                _pw = float(_wx(_j["r"], _j["l"]).pvalue)
-            except ValueError:
-                _pw = 1.0
-            r["wilcoxon_istem_p"] = _pw
-            r["n_istem"] = int(len(_j))
-            r["bonf_istem"] = "ANLAMLI" if _pw * 3 < 0.05 else "—"
-        _d3 = pd.DataFrame(rows)
-        _anl = _d3[_d3["bonf_istem"] == "ANLAMLI"]
-        _yon = _d3["fark"].mean()
+        # BIRINCIL ANALIZ: istem duzeyi, TESPIT ORANI uzerinde (bkz.
+        # d3_istem_duzeyi). Satir duzeyi McNemar kendi D1'imizi ihlal ediyor:
+        # EXP'de 4 tohum deterministik kosullarda ozdes, yani 96 "bagimsiz"
+        # cift aslinda 24 istem; McNemar sutunlari betimleyici korunuyor.
+        _d3 = d3_istem_duzeyi(scores)
+        _mcn = pd.DataFrame(rows)[["sema", "mcnemar_p"]]
+        _d3 = _d3.merge(_mcn, on="sema", how="left")
+        _anl = _d3[_d3["bonferroni"] == "ANLAMLI"]
+        _yon = _d3["ort_oran_farki"].mean()
         if len(_anl):
             _basl = ("### D3 — launder_api, rtt'den daha yıkıcı "
                      f"({len(_anl)}/{len(_d3)} şemada ANLAMLI, istem düzeyi)")
-            _yorum = (f"BİRİNCİL analiz istem düzeyi eşlenmiş Wilcoxon'dur "
-                      f"(n=24 istem; satır düzeyi McNemar D1'i ihlal eder -- "
-                      f"EXP'de 4 tohum deterministik koşullarda özdeş). "
-                      f"Bonferroni-3 sonrası anlamlı: {', '.join(_anl['sema'])}. "
-                      f"Ortalama TPR farkı {_yon:+.3f} (negatif = launder_api "
-                      f"daha yıkıcı). McNemar sütunları betimleyici olarak korundu.")
+            _yorum = (
+                "BİRİNCİL birim İSTEM, ölçüt her şemanın kendi temiz-kalibreli "
+                "eşiğinde İSTEM BAŞINA TESPİT ORANI (ham stat değil -- önceki "
+                "sürüm ham stat kullanıyordu ve metin 'tespit oranı' diyordu). "
+                f"Bonferroni-3 sonrası anlamlı: {', '.join(_anl['sema'])}. "
+                f"Ortalama oran farkı {_yon:+.3f} (negatif = launder_api daha "
+                "yıkıcı); yön üç şemada da aynı. p tam işaret-değiştirme "
+                "permütasyonundan; dört tohumluk oranlar beş değer aldığı için "
+                "sıfır farklar çok, Wilcoxon Pratt yöntemiyle yan yana verildi.")
         else:
             _basl = "### D3 — 'launder_api en yıkıcı saldırı' iddiası: KANITLANAMADI"
-            _yorum = ("İstem düzeyi eşlenmiş Wilcoxon'da (n=24) hiçbir şemada fark "
-                      f"Bonferroni-3'ü geçmiyor (ortalama TPR farkı {_yon:+.3f}). "
+            _yorum = ("İstem düzeyi tespit oranında (n=24) hiçbir şemada fark "
+                      f"Bonferroni-3'ü geçmiyor (ortalama oran farkı {_yon:+.3f}). "
                       "Nokta tahmini sıralaması TEHDİT SIRALAMASI DEĞİLDİR.")
         out += ["", _basl, "", _md_table(_d3.round(4)), "", _yorum, "",
                 "**Kapsam:** bu karşılaştırma yalnız rtt ile launder_api arasındadır; "
                 "tüm saldırıların sıralaması için *Tespit* tablosuna bakınız."]
 
     return out + [""]
+
+
+def _tam_isaret_permutasyon_p(farklar: np.ndarray) -> tuple[float, int]:
+    """Eslenmis isaret-degistirme permutasyon testi, TAM (yaklasim yok).
+
+    NULL TASARIMDAN gelir: ayni istem icinde rtt ile launder_api
+    degistirilebilirse, istem basina farkin isareti +-1 uzerinde simetriktir.
+    Bu, dejenere hucrelerde GERI CEKILEN isaret testinden farklidir -- orada
+    eslesme yoktu ve 24 sonuc tek bir veri-bagimli karsilastiriciyi
+    paylasiyordu. Burada eslesme gercek (ayni istem, iki kosul) ve her ciftin
+    karsilastiricisi kendi icinde.
+
+    Sifir farklar atilir (isaret tasimazlar). Oranlar 1/4'un katlari oldugu
+    icin tam dagilim tamsayi DP ile numaralandiriliyor; 2^n sayimina gerek yok.
+    """
+    d = np.asarray(farklar, float)
+    nz = d[d != 0.0]
+    n = int(len(nz))
+    if n == 0:
+        return 1.0, 0
+    w = np.rint(np.abs(nz) * 4.0).astype(int)      # 0,25 -> 1 birim
+    toplam = int(w.sum())
+    # dagilim[k] = toplam-agirlikli isaretli toplamin (toplam+s) olma sayisi
+    dagilim = np.zeros(2 * toplam + 1, dtype=np.float64)
+    dagilim[toplam] = 1.0
+    for wi in w:
+        yeni = np.zeros_like(dagilim)
+        yeni[wi:] += dagilim[:len(dagilim) - wi]   # +wi kaydir
+        yeni[:len(dagilim) - wi] += dagilim[wi:]   # -wi kaydir
+        dagilim = yeni
+    gozlenen = int(round(abs(nz.sum()) * 4))
+    s = np.arange(-toplam, toplam + 1)
+    p = float(dagilim[np.abs(s) >= gozlenen - 1e-9].sum() / dagilim.sum())
+    return p, n
+
+
+def d3_istem_duzeyi(scores: pd.DataFrame, n_boot: int = 10000,
+                    seed: int = 42) -> pd.DataFrame:
+    """D3: launder_api vs rtt, ISTEM biriminde, TESPIT ORANI uzerinde.
+
+    ESTIMAND. Her semanin KENDI temiz-kalibreli esiginde istem basina tespit
+    orani. ONCEKI SURUM bu testi istem basina ORTALAMA HAM STAT uzerinde
+    kosuyordu. O test kendi icinde gecerliydi -- sema icinde olcek sabit --
+    ama BASKA bir estimandi olcuyordu (ortalama dedektor-skoru kaymasi),
+    oysa makale metni ve Tablo 5'in TPR sutunlari "tespit orani" diyordu.
+    Kod ile metin ayni soruyu sorsun diye orana cevrildi. Sonuc degisiyor:
+    Bonferroni'yi gecen sema KGW'den EXP'e kayiyor.
+
+    SIFIR FARKLAR. Dort tohumdan gelen oranlar yalnizca {0; 0,25; 0,5; 0,75;
+    1} degerlerini alabildigi icin beraberlik ve sifir fark coktur (semaya
+    gore 6-11/24). Birincil p TAM isaret-degistirme permutasyonudur; Wilcoxon
+    yan yana Pratt yontemiyle verilir (sifirlari siralamaya KATAR, atmaz --
+    varsayilan 'wilcox' onlari atar ve antikonservatif olabilir).
+
+    ETKI BUYUKLUGU. Ortalama oran farkinin istem-kumeli bootstrap GA'si;
+    p-degerinin tek basina soylemedigi buyuklugu verir.
+    """
+    rng = np.random.default_rng(seed)
+    from scipy.stats import wilcoxon as _wx
+    satirlar = []
+    for sm in sorted(scores.scheme.unique()):
+        d = scores[scores.scheme == sm]
+        neg = d[(d.condition == "clean") & (d.wm == 0)]["stat"].to_numpy()
+        esik = float(np.quantile(neg, 1 - C.TPR_AT_FPR))
+        oran = {}
+        for kosul in ("rtt", "launder_api"):
+            x = d[(d.condition == kosul) & (d.wm == 1)]
+            oran[kosul] = (x.assign(hit=x["stat"] > esik)
+                            .groupby("prompt_id")["hit"].mean())
+        j = pd.concat([oran["rtt"].rename("r"),
+                       oran["launder_api"].rename("l")], axis=1).dropna()
+        fark = (j["l"] - j["r"]).to_numpy()
+        p_perm, n_nz = _tam_isaret_permutasyon_p(fark)
+        try:
+            p_pratt = float(_wx(j["l"], j["r"], zero_method="pratt").pvalue)
+        except ValueError:
+            p_pratt = 1.0
+        bs = [fark[rng.integers(0, len(fark), len(fark))].mean()
+              for _ in range(n_boot)]
+        lo, hi = np.percentile(bs, [2.5, 97.5])
+        satirlar.append(dict(
+            sema=sm, n_istem=int(len(j)),
+            tpr_rtt=float(j["r"].mean()), tpr_launder_api=float(j["l"].mean()),
+            ort_oran_farki=float(fark.mean()),
+            fark_ga_lo=float(lo), fark_ga_hi=float(hi),
+            n_sifir_olmayan=n_nz, n_sifir=int(len(fark) - n_nz),
+            p_permutasyon=p_perm, p_wilcoxon_pratt=p_pratt,
+            bonferroni=("ANLAMLI" if p_perm * 3 < 0.05 else "—"),
+        ))
+    return pd.DataFrame(satirlar)
 
 
 def scheme_pairwise(scores: pd.DataFrame) -> list[str]:
@@ -1383,10 +1460,10 @@ def write_summary(device: str, with_quality: bool = True) -> Path:
         "hedefi **yeni istemlere genelleme**dir, aynı istemlerden yeni "
         "üretimler değil.",
         "",
-        "> `ci_lo_cp`: AUROC=1.000 ve GA=[1,1] çıkan hücreler için tek yanlı "
-        "Clopper-Pearson alt sınırı. Dejenere aralık *belirsizlik yok* demek "
-        "DEĞİL, *örneklemde karşı örnek gözlenmedi* demektir; 24 kümede sıfır "
-        "başarısızlık %95 güvenle AUROC >= 0,883 verir.",
+        "> `dejenere`: AUROC=1.000 ve GA=[1,1] çıkan hücreler. Dejenere aralık "
+        "*belirsizlik yok* demek DEĞİL, *örneklemde karşı örnek gözlenmedi* "
+        "demektir. Bu hücrelere sayısal alt sınır BAĞLANMAZ (Clopper-Pearson "
+        "sürümü geri çekildi); kanıt Tablo 3'te sayılan ayrışma ve marjdır.",
         "",
         _md_table(det.round(3)),
         "",

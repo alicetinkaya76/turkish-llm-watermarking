@@ -2,7 +2,7 @@ You are evaluating a manuscript submitted to **Language Resources and Evaluation
 (Springer). Work through four roles **in sequence** and keep them strictly separate.
 Do not blend them, and do not let a judgement in one role soften another.
 
-**Manuscript version under review: `83ff760` (2026-08-31).** State this identifier at
+**Manuscript version under review: `v1.3.0-paper / sha256 c2b164cb` (2026-09-01).** State this identifier at
 the top of your report so the authors can confirm you read the current text. If any
 file you were given disagrees with another, say so rather than silently picking one.
 

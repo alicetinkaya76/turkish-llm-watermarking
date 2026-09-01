@@ -1,22 +1,85 @@
 {
- "_tarih": "2026-08-30",
- "_yontem": "33 kaynagin tamami 7 paralel ajanla birincil kaynaga karsi dogrulandi (Crossref API, ACL Anthology, OpenReview, arXiv API, yayinci sayfasi). HER BULGU ayrica bagimsiz bir ikinci ajan tarafindan CURUTULMEYE calisildi; yalnizca curutulemeyenler kabul edildi. ONCEKI KAYITTAN FARK: bu tur yalnizca bibliyografik kimligi degil, METIN ICI IDDIA ESLEMESINI de denetledi (kaynak, kendisine atfedileni gercekten soyluyor mu).",
- "_kapsam": {
-  "kaynak": 33,
-  "metin_ici_atif_baglami": 79,
-  "temiz": 23,
-  "duzeltilen": 8
- },
- "_curutme_turunde_dusen": "1 bulgu (Han 2025 ciddiyeti 'onemli'den 'kucuk'e indirildi; savi etkilemedigi icin)",
- "_dogrulanamayan": "3 curutme ajani kimlik dogrulama hatasiyla dustu (Liu 2024, Rust 2021, Pan 2024). Bu ucu ELLE dogrulandi: Rust 2021 PDF'i indirilip tarandi (18 sayfa: 'suffix' 0, 'affix' 0, 'agglutinat' 0, 'vowel harmon' 0, 'inflect' 0; buna karsilik 'fertility' 30, 'continued word' 18); SIR'in token duzeyi oldugu arXiv 2310.06356 ozetinden dogrulandi; MarkLLM bildirisinde SynthID'nin gecmedigi ACL Anthology sayfasindan dogrulandi.",
- "duzeltilenler": {
-  "Kuditipudi 2024": "YANLIS ATIF (onemli). Kosturulan EXP kolunun kaynagi gibi gosteriliyordu; MarkLLM'de EXP/EXPGumbel Aaronson'un ders notuna baglanir, Kuditipudi ve ark. ayri iki algoritmadir (EXP-Edit, ITS-Edit) ve HIC KOSTURULMADI. Uc yerde atif ucluşu daraltildi; 'we also test' ifadesi duzeltildi.",
-  "Rust 2021": "IDDIA UYUSMAZLIGI (onemli). 'tekrarlayan ek tokenlari' atfediliyordu; kaynak bunu hic olcmuyor (tam metinde 'suffix' 0 kez). Kaynagin fiilen olctugu seye cevrildi: subword fertility ve coklu alt-tokena bolunen sozcuk orani. Ek tekrari sorusu artik makalenin KENDI olcumune birakildi.",
-  "Liu 2024 (SIR)": "IDDIA UYUSMAZLIGI (onemli). SIR iki yerde 'cumle duzeyi anlamsal sema' diye siniflandirilmisti; SIR token duzeyidir, anlamsal olan sey tohumdur. Ayirici eksen 'token-level vs sentence-level'den 'yuzey-baglam tohumlu vs anlamsal tohumlu / cumle duzeyi'ne cevrildi.",
-  "Bulat 2022 (zeyrek)": "IDDIA UYUSMAZLIGI (onemli). §2 zeyrek'i 'edit'lerin DILBILGISEL oldugunu dogrulamak' icin kullandigimizi soyluyordu; bu hem aracin yetenegini asiyor hem de §3.2'nin kendi cumlesiyle celisiyordu. Sozcuk duzeyi cozumlenebilirlikle sinirlandi, alfa-asama portu oldugu belirtildi, yan-cumle varyantinda denetim OLMADIGI yazildi.",
-  "Han 2025": "BIBLIYOGRAFIK (kucuk). Preprint olarak birakilmisti; TrustCom 2025'te yayimlanmis (s. 942-949, DOI 10.1109/TrustCom66490.2025.00109). Kunye guncellendi.",
-  "Park 2025 -> 2026": "BIBLIYOGRAFIK (kucuk). Preprint olarak birakilmisti; ACL 2026'da yayimlanmis (s. 45629-45647, DOI 10.18653/v1/2026.acl-long.2115). YIL DEGISTI, metin ici atif da 2026 yapildi.",
-  "NLLB Team 2024": "YANLIS ATIF (kucuk). Atif, makalenin KENDI yargic verisinden cikan akicilik bulgusuna ilistirilmisti; NLLB makalesi gidis-donus ceviriden hic soz etmiyor. Atif sonuca degil kullanilan ceviri sistemine baglandi.",
-  "Pan 2024": "IDDIA UYUSMAZLIGI (kucuk). Yayimlanan EMNLP 2024 demo bildirisi dokuz algoritmayi iki ailede kapsiyor ve SynthID'yi HIC anmiyor; SynthID depoya yayimdan sonra eklendi. Cumle, bildirinin kapsadigi ile deponun sundugunu ayiracak sekilde yeniden yazildi."
- }
+  "_tarih": "2026-09-01",
+  "_makale_dosyasi": "paper/paper.md",
+  "_makale_sha256": "c2b164cbb88d6f266a31dd3d373b983c169939ab6c3121375703eeff4c947f7d",
+  "_surum": "v1.3.0-paper",
+  "_UYARI": "Bu dosya bir IDDIA kaydidir, kanit degil. Denetleyen, kaydi sorgusuz kabul ederse denetim islememis demektir. Kapsam alanini once okuyun: 42 kaynagin hepsi AYNI turda AYNI yontemle denetlenmedi.",
+  "_yontem_turlari": [
+    {
+      "tur": 1,
+      "tarih": "2026-08-30",
+      "kapsam_kaynak": 33,
+      "yontem": "7 paralel ajan birincil kaynaga karsi (Crossref API, ACL Anthology, OpenReview, arXiv API, yayinci sayfasi); her bulgu bagimsiz bir ikinci ajan tarafindan CURUTULMEYE calisildi, yalnizca curutulemeyenler kabul edildi. Bibliyografik kimlik VE metin-ici iddia eslemesi denetlendi.",
+      "sonuc": {
+        "temiz": 23,
+        "duzeltilen": 8,
+        "metin_ici_baglam": 79
+      },
+      "not": "3 curutme ajani kimlik hatasiyla dustu (Liu 2024, Rust 2021, Pan 2024); ucu de ELLE dogrulandi -- Rust 2021 PDF'i indirilip tarandi, SIR'in token duzeyi oldugu arXiv ozetinden, MarkLLM bildirisinde SynthID'nin gecmedigi ACL Anthology sayfasindan."
+    },
+    {
+      "tur": 2,
+      "tarih": "2026-08-31",
+      "kapsam_kaynak": 3,
+      "eklenenler": [
+        "Tu et al. 2024 (WaterBench)",
+        "Piet et al. 2025 (Mark My Words)",
+        "Liang et al. 2025 (WaterPark)"
+      ],
+      "yontem": "Ucuncu-goz turunun ardindan eklendi. Piet vd. nihai SaTML kunyesine Crossref'ten dogrulanarak cekildi (ss. 68-91, 10.1109/SaTML64287.2025.00012).",
+      "not": "Tur 1'in 33'luk kapsamina DAHIL DEGIL. Bu ucu Tur 3'te Crossref'ten yeniden dogrulandi."
+    },
+    {
+      "tur": 3,
+      "tarih": "2026-09-01",
+      "kapsam_kaynak": 6,
+      "eklenenler": [
+        "Chen et al. 2025 (De-mark)",
+        "Ganesan 2025 (cross-lingual summarisation removal)",
+        "Harel-Canada et al. 2025 (Sandcastles in the Storm)",
+        "Huang et al. 2025 (B4)",
+        "Meral et al. 2009 (Turkce morfosentaktik filigran)",
+        "Zhang Z. et al. 2026 (karakter duzeyi bozulmalar)"
+      ],
+      "yontem": "Her biri birincil kayittan dogrulandi: Crossref /works/{DOI} (yazar listesi, venue, sayfa araligi), arXiv API (id_list ile kimlik + ozet), OpenAlex (Meral icin kurum ve konu etiketi). HER ATFEDILEN IDDIA kaynagin kendi ozetine karsi kontrol edildi.",
+      "duzeltilen_iddia": [
+        {
+          "kaynak": "Harel-Canada et al. 2025",
+          "ilk_yazilan": "'gerceklenebilir bozulma oraculleri sinyali silerken kaliteyi dusurur'",
+          "sorun": "Kaynagin bulgusu bu DEGIL; taslak metin uydurulmustu.",
+          "duzeltilmis": "Iki varsayim da ampirik olarak coker: karisim YAVAS (yuzlerce duzenlemeden sonra metinlerin %100'u koken izini koruyor) ve kalite oraculleri %77 dogrulukla guvenilmez; rastgele yuruyus saldirilari filigrani %26, insan kalite denetimi altinda %10 oraninda siliyor."
+        },
+        {
+          "kaynak": "Meral et al. 2009",
+          "ilk_yazilan": "'sozcuk sirasi degisimi ve ek ikamesi gibi donusumler'",
+          "sorun": "Hicbir birincil kayitta ozet yok (Crossref, OpenAlex, Semantic Scholar); bu donusum listesi DOGRULANAMADI.",
+          "duzeltilmis": "Iddia, baslik + OpenAlex konu etiketi ('Agglutinative language') + yazarlarin kurumu (Bogazici) + ayni uc yazarin 'Watermarking Tools for Turkish Texts' (SIU 2006, 10.1109/siu.2006.1659827) bildirisiyle sinirlandirildi. Spesifik donusum listesi KALDIRILDI."
+        }
+      ],
+      "reddedilen_oneri": [
+        {
+          "onerilen": "UWBench (yansiz filigran degerlendirmesi)",
+          "gerekce": "Ucuncu-goz raporu yanlis tanimlamis: arXiv 2510.18262 UWBench SUALTI gorme-dil kiyaslamasidir, filigranla ilgisi yok. Yansiz filigran degerlendirme makalesi arXiv 2509.24048'dir. Bu makalede yansiz filigran sinanmadigi icin O da eklenmedi -- gorunus icin kaynak eklemek promptun yasakladigi seydir."
+        }
+      ]
+    }
+  ],
+  "_kapsam_toplam": {
+    "makaledeki_kaynak": 42,
+    "denetlenen_kaynak": 42,
+    "parantezli_atif_adayi": 105,
+    "anlatimsal_atif": 23,
+    "yetim_kaynak": 0,
+    "yetim_atif": 0
+  },
+  "_onceki_kayit_duzeltilenler": {
+    "Kuditipudi 2024": "YANLIS ATIF (onemli). Kosturulan EXP kolunun kaynagi gibi gosteriliyordu; MarkLLM'de EXP/EXPGumbel Aaronson'un ders notuna baglanir, Kuditipudi ve ark. ayri iki algoritmadir (EXP-Edit, ITS-Edit) ve HIC KOSTURULMADI. Uc yerde atif ucluşu daraltildi; 'we also test' ifadesi duzeltildi.",
+    "Rust 2021": "IDDIA UYUSMAZLIGI (onemli). 'tekrarlayan ek tokenlari' atfediliyordu; kaynak bunu hic olcmuyor (tam metinde 'suffix' 0 kez). Kaynagin fiilen olctugu seye cevrildi: subword fertility ve coklu alt-tokena bolunen sozcuk orani. Ek tekrari sorusu artik makalenin KENDI olcumune birakildi.",
+    "Liu 2024 (SIR)": "IDDIA UYUSMAZLIGI (onemli). SIR iki yerde 'cumle duzeyi anlamsal sema' diye siniflandirilmisti; SIR token duzeyidir, anlamsal olan sey tohumdur. Ayirici eksen 'token-level vs sentence-level'den 'yuzey-baglam tohumlu vs anlamsal tohumlu / cumle duzeyi'ne cevrildi.",
+    "Bulat 2022 (zeyrek)": "IDDIA UYUSMAZLIGI (onemli). §2 zeyrek'i 'edit'lerin DILBILGISEL oldugunu dogrulamak' icin kullandigimizi soyluyordu; bu hem aracin yetenegini asiyor hem de §3.2'nin kendi cumlesiyle celisiyordu. Sozcuk duzeyi cozumlenebilirlikle sinirlandi, alfa-asama portu oldugu belirtildi, yan-cumle varyantinda denetim OLMADIGI yazildi.",
+    "Han 2025": "BIBLIYOGRAFIK (kucuk). Preprint olarak birakilmisti; TrustCom 2025'te yayimlanmis (s. 942-949, DOI 10.1109/TrustCom66490.2025.00109). Kunye guncellendi.",
+    "Park 2025 -> 2026": "BIBLIYOGRAFIK (kucuk). Preprint olarak birakilmisti; ACL 2026'da yayimlanmis (s. 45629-45647, DOI 10.18653/v1/2026.acl-long.2115). YIL DEGISTI, metin ici atif da 2026 yapildi.",
+    "NLLB Team 2024": "YANLIS ATIF (kucuk). Atif, makalenin KENDI yargic verisinden cikan akicilik bulgusuna ilistirilmisti; NLLB makalesi gidis-donus ceviriden hic soz etmiyor. Atif sonuca degil kullanilan ceviri sistemine baglandi.",
+    "Pan 2024": "IDDIA UYUSMAZLIGI (kucuk). Yayimlanan EMNLP 2024 demo bildirisi dokuz algoritmayi iki ailede kapsiyor ve SynthID'yi HIC anmiyor; SynthID depoya yayimdan sonra eklendi. Cumle, bildirinin kapsadigi ile deponun sundugunu ayiracak sekilde yeniden yazildi."
+  }
 }

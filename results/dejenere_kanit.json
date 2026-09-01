@@ -1,13 +1,12 @@
 {
-  "_amac": "AUROC=1.000 hucrelerinde Clopper-Pearson yerine raporlanacak dogrudan kanit: sayilan tam ayrisma + marj + tam permutasyon p.",
-  "_cp_neden_geri_cekildi": "CP sinirir bir Bernoulli oraninin alt sinirir; AUROC ikili siralama U-istatistigidir. Kume-duzeyi bir olayin olasiligi ile populasyon AUROC'u arasinda genel bir esitsizlik yoktur, dolayisiyla 'zero failures in 24 clusters bounds AUROC at 0.883' turetimi gecersizdir. Ayrica 24 olay ortak negatif havuzunu paylastigi icin bagimsiz Bernoulli denemeleri de degildir.",
+  "_amac": "AUROC=1.000 hucrelerinde raporlanacak BETIMSEL kanit: sayilan tam ayrisma + marj. p-degeri ve guven siniri YOK.",
+  "_neden_p_yok": "Uc cikarimsal deneme de geri cekildi: (i) Clopper-Pearson alt siniri -- CP bir Bernoulli oraninin parametresini sinirlar, AUROC ise ikili siralama U-istatistigidir; (ii) istem-ici degistirilebilirlik permutasyonu -- EXP'in dort tohumu deterministik oldugu icin degistirilebilirlik savunulamaz; (iii) istem-duzeyi isaret testi -- 0,5 null'u tasarimdan turetilmiyor ve 24 sonuc ayni veri-bagimli karsilastiriciyi paylastigi icin carpilamaz. Gecerli bir test degistirilebilirligi savunulabilir bir birimde permute etmeli ve karsilastiriciyi her permutasyonda yeniden hesaplamalidir; kosulmadi.",
   "n_dejenere_hucre": 11,
   "hucreler": [
     {
       "scheme": "EXP",
       "condition": "clean",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -15,17 +14,12 @@
       "marj_negatif_sd": 53.23212725383173,
       "poz_min_stat": 21.95969479397924,
       "neg_maks_stat": 1.6382900523030854,
-      "neg_std": 0.38175075447907053,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 0.38175075447907053
     },
     {
       "scheme": "EXP",
       "condition": "dia50",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -33,17 +27,12 @@
       "marj_negatif_sd": 4.74349679580002,
       "poz_min_stat": 3.449123532968797,
       "neg_maks_stat": 1.6382900523030854,
-      "neg_std": 0.38175075447907053,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 0.38175075447907053
     },
     {
       "scheme": "EXP",
       "condition": "morph",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -51,17 +40,12 @@
       "marj_negatif_sd": 53.23212725383173,
       "poz_min_stat": 21.95969479397924,
       "neg_maks_stat": 1.6382900523030854,
-      "neg_std": 0.38175075447907053,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 0.38175075447907053
     },
     {
       "scheme": "EXP",
       "condition": "morph_v1",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -69,17 +53,12 @@
       "marj_negatif_sd": 51.302375047698895,
       "poz_min_stat": 21.22301043333038,
       "neg_maks_stat": 1.6382900523030854,
-      "neg_std": 0.38175075447907053,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 0.38175075447907053
     },
     {
       "scheme": "EXP",
       "condition": "para",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -87,17 +66,12 @@
       "marj_negatif_sd": 8.865639138836826,
       "poz_min_stat": 5.022754482493221,
       "neg_maks_stat": 1.6382900523030854,
-      "neg_std": 0.38175075447907053,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 0.38175075447907053
     },
     {
       "scheme": "KGW",
       "condition": "clean",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -105,17 +79,12 @@
       "marj_negatif_sd": 0.7377836740195802,
       "poz_min_stat": 4.76999046002862,
       "neg_maks_stat": 3.801527706491932,
-      "neg_std": 1.3126649282713527,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 1.3126649282713527
     },
     {
       "scheme": "KGW",
       "condition": "morph",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -123,17 +92,12 @@
       "marj_negatif_sd": 0.7377836740195802,
       "poz_min_stat": 4.76999046002862,
       "neg_maks_stat": 3.801527706491932,
-      "neg_std": 1.3126649282713527,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 1.3126649282713527
     },
     {
       "scheme": "KGW",
       "condition": "morph_v1",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -141,17 +105,12 @@
       "marj_negatif_sd": 0.7221769597457801,
       "poz_min_stat": 4.74950407355585,
       "neg_maks_stat": 3.801527706491932,
-      "neg_std": 1.3126649282713527,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 1.3126649282713527
     },
     {
       "scheme": "SynthID",
       "condition": "clean",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -159,17 +118,12 @@
       "marj_negatif_sd": 3.7948694215397247,
       "poz_min_stat": 0.5190659811482433,
       "neg_maks_stat": 0.5079328756674294,
-      "neg_std": 0.002933725576332687,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 0.002933725576332687
     },
     {
       "scheme": "SynthID",
       "condition": "morph",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -177,17 +131,12 @@
       "marj_negatif_sd": 3.7948694215397247,
       "poz_min_stat": 0.5190659811482433,
       "neg_maks_stat": 0.5079328756674294,
-      "neg_std": 0.002933725576332687,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 0.002933725576332687
     },
     {
       "scheme": "SynthID",
       "condition": "morph_v1",
       "auroc": 1.0,
-      "cp_geri_cekilen": 0.8826538438450512,
       "n_kume": 24,
       "kume_ayrisan": 24,
       "kume_toplam": 24,
@@ -195,11 +144,7 @@
       "marj_negatif_sd": 3.445571572038003,
       "poz_min_stat": 0.5180412371134021,
       "neg_maks_stat": 0.5079328756674294,
-      "neg_std": 0.002933725576332687,
-      "m_poz_per_istem": 4,
-      "k_neg_per_istem": 4,
-      "log10_p_tam_permutasyon": -44.282352960342166,
-      "log10_p_isaret_cevirme": -7.224719895935548
+      "neg_std": 0.002933725576332687
     }
   ],
   "marj_min": 0.7221769597457801,
