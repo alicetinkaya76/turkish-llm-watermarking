@@ -103,12 +103,21 @@ robustness suite; it prints the full 33-cell realized false-positive table rathe
 a summary, which the Introduction commits to explicitly because a truncated version of
 that table is what would hide the finding; and it states the scope limits of each
 claim individually rather than in a single blanket paragraph. I have already removed
-what could go without loss, moving the history of three withdrawn statistical
-treatments to a repository audit note and compressing the declarations. If the editors
-would prefer it shorter, the material I would move to supplementary first is the
-33-cell table with its accompanying paragraph, the eight-key sweep and length-control
-detail in Section 4.3, and the implementation-level caveats in Section 6; that would
-bring the article close to the typical range, and I am happy to do so on request.
+what could go without loss, condensing the history of three withdrawn statistical
+treatments to a single paragraph that points to a repository audit note carrying the
+full derivations, and compressing the declarations. If the editors
+would prefer it shorter, I would move material in this order: the 33-cell realized
+false-positive table with its accompanying paragraph, retaining in the article the
+maximum observed rate, the number of flagged cells and the clustering caveat; then
+the detail of the eight-key sweep, retaining its range and conclusion; then the
+version and timestamp discussion in the Data Availability statement and the
+long-form licensing narrative, retaining the access route and the warning that the
+licensing is not uniform; then the exploratory re-scoring and contamination
+observations. I would keep the length control of Section 4.3 in the article even
+under pressure, since it is what prevents the Turkish-English comparison from being
+read as a token-budget confound, and it changed a pre-registered conclusion. That
+sequence would bring the article close to the typical range, and I am happy to do it
+on request.
 
 I confirm that the manuscript has been prepared in accordance with the journal's
 instructions for authors, and I have no objection to single-blind review.

@@ -1,22 +1,22 @@
-# Üçüncü-göz paketi — tur 4 (ODAKLI), Language Resources and Evaluation
+# Üçüncü-göz paketi — tur 5 (ODAKLI), Language Resources and Evaluation
 
-**Sürüm damgası: `v1.4.0-paper / sha256 8033571d`, 2026-09-01.**
+**Sürüm damgası: `v1.5.0-paper / sha256 f6dd4313`, 2026-09-01.**
 
 Bu klasör kendi kendine yeter. Depoya, internete veya başka bir dosyaya ihtiyaç
 duymadan denetimi yaptırabilirsin.
 
 ## Bu tur neden farklı
 
-Önceki üç tur makaleyi baştan sona inceledi ve **doyum noktasına yaklaştı**: son
-turda önerilen yedi dil düzeltmesinin dördü zaten kapalıydı, bir kaynak önerisi de
-tamamen yanlış makaleye aitti (aşağıya bak). Dördüncü bir tam tur çoğunlukla aynı
-yanlış pozitifleri üretirdi.
+Tur 4 dört blocker buldu ve **dördü de gerçekti**. Bu tur o düzeltmeleri
+denetliyor, çünkü bir düzeltme yeni kusurun en olası yeridir:
 
-Bu tur bunun yerine **yalnızca son turda değişeni** denetliyor, çünkü risk orada:
-
-1. Bir **estimand değişti** ve manşet sonuç KGW'den EXP'e kaydı.
-2. **Altı yeni kaynak** ve onlarla gelen yeni nesir girdi.
-3. Makale **1.754 kelime kısaltıldı** (36 → 32 sayfa).
+1. Tablo 5'in güven aralığı **eşiği artık her bootstrap yinelemesinde yeniden
+   kalibre ediyor** (önceki sürüm bir kez hesaplayıp sabitliyordu).
+2. Null'un gerekçesi "tasarımdan gelir"den **koşullu** ifadeye çevrildi; test
+   metinde artık açıkça **çift yanlı**.
+3. Bir transkripsiyon hatası ve sıkıştırmada düşen **Qwen-özgü niteleyici**
+   onarıldı.
+4. **De-mark** nihai ICML/PMLR künyesine geçti; **Çöltekin vd. (2023)** eklendi.
 
 ## Nasıl kullanılır
 
@@ -26,14 +26,14 @@ Bu tur bunun yerine **yalnızca son turda değişeni** denetliyor, çünkü risk
    (Paketteki `UCUNCU_GOZ_PROMPT.md` Türkçe başlık da içerir; denetçiye onu değil,
    yapıştır sürümünü ver.)
 3. Bu klasördeki dosyaların hepsini, `kod/` dahil, oturuma yükle.
-   **`paper_ONCEKI_v1.3.0.md` şart** — Rol 3 sıkıştırmayı ancak karşılaştırarak
-   denetleyebilir.
+   **`paper_ONCEKI_v1.4.0.md` şart** — Rol 3 düzeltmelerin ne kırdığını ancak
+   karşılaştırarak görebilir.
 4. **Rol 4 web erişimi ister.** Erişimi olmayan bir modelde o rolü koşturma;
    koşturursan doğrulama yapmadan doğruladığını söyler.
 
 ## Rapor gelince ilk iş
 
-**Raporun başında `v1.4.0-paper / sha256 8033571d` damgasını ara.** Yoksa veya
+**Raporun başında `v1.5.0-paper / sha256 f6dd4313` damgasını ara.** Yoksa veya
 tutmuyorsa denetçi eski bir kopya okumuştur. Bir turda tam olarak bu oldu: beş
 bulgu zaten düzeltilmişti.
 
@@ -42,8 +42,8 @@ bulgu zaten düzeltilmişti.
 | dosya | ne |
 |---|---|
 | `UCUNCU_GOZ_PROMPT.md` | promptun kendisi (Türkçe başlıklı) |
-| `paper.md` | **v1.4.0** makale metni — `paper.docx`'in kaynağı, birebir aynı |
-| `paper_ONCEKI_v1.3.0.md` | **v1.3.0** metni — sıkıştırma denetimi için kıyas |
+| `paper.md` | **v1.5.0** makale metni — `paper.docx`'in kaynağı, birebir aynı |
+| `paper_ONCEKI_v1.4.0.md` | **v1.4.0** metni — düzeltme denetimi için kıyas |
 | `title_page.md` | LRE'ye ayrı yüklenen başlık sayfası |
 | `cover_letter.md` | kapak mektubu (yeni "On length" paragrafı içinde) |
 | `numbers.json` | makaledeki her sayının veriden üretilmiş hâli |
@@ -73,8 +73,8 @@ Bunları prompta koymadım; denetçi yine bulursa bilgin olsun diye buradalar.
 - **Sayılar `numbers.json` ile tutuyor** ve `kod/dev_tutarlilik_kapisi.py` bunu her
   koşuda kontrol ediyor (negatif kontrolle sınandı: gerçekten yakalıyor).
 
-Denetçinin asıl işi bunlar değil; **null'un savunulabilirliği** ve **sıkıştırmanın
-ne düşürdüğü**.
+Denetçinin asıl işi bunlar değil; **yeniden kalibre edilen aralığın bağımlılık
+yapısı** ve **düzeltmelerin bir şey kırıp kırmadığı**.
 
 ## Denetçiye söylenmeyen, sana ait bağlam
 
@@ -83,9 +83,9 @@ ne düşürdüğü**.
   editör rolünün kapsam değerlendirmesini okurken bu bilgiyle tartmalısın.
 - Üç paralel gönderim kapak mektubunda beyan edildi (TALLIP-26-0165,
   NLP-2026-0191, IPM).
-- Uzunluk kararı bilinçli: 32 sayfa, kılavuz 18-25 diyor. Daha fazla kesmek üç
-  denetim turunun **eklettiği** kapsam niteleyicilerini silmek olurdu. Kapak
-  mektubu bunu editöre açıyor ve taşınacak malzemeyi adıyla listeliyor.
+- Uzunluk kararı bilinçli: 33 sayfa, kılavuz 18-25 diyor. Tur 4 editörü "yalnızca
+  uzunluk için geri çevirmem" dedi ve taşıma sırasını düzeltti (Tablo 7 önce,
+  uzunluk kontrolü makalede kalsın); kapak mektubu bu sıraya göre yeniden yazıldı.
 
 ## Sonucu nasıl okumalı
 
@@ -95,15 +95,16 @@ ne düşürdüğü**.
    makalede iddialar bilerek dar yazıldı; geçen tur önerilen yedi dil
    düzeltmesinin **dördü zaten kapalıydı** — denetçi dar cümleleri geniş okumuştu.
 2. Denetçi bir istatistiksel önlemin **"eksik"** olduğunu söylerse `kod/` içinden
-   doğrula. Bu iddia iki ayrı turda geldi ve iki kere de yanlıştı
-   (`metrics.py`'deki `tpr_ci_kumeli` eşiği her bootstrap yinelemesinde yeniden
-   kalibre ediyor).
+   doğrula — ama **hangi fonksiyonun kullanıldığına** bak. Bu iddia iki turda
+   yanlıştı (`tpr_ci_kumeli` eşiği yeniden kalibre ediyor), **tur 4'te ise
+   DOĞRUYDU**: önlem vardı ama D3 onu kullanmıyordu. Ders: "önlem depoda var" ile
+   "önlem bu hesapta çalışıyor" ayrı sorulardır.
 3. Rol 4'te **uydurma referansa** dikkat. Geçen tur denetçi "UWBench"i yansız
    filigran değerlendirmesi diye önerdi; arXiv 2510.18262 UWBench **sualtı
    görme-dil kıyaslamasıdır**, filigranla hiçbir ilgisi yok. Önerilen her LRE
    makalesinin DOI'sini tıklayıp gerçekten var olduğunu ve söylenen şeyi
    söylediğini doğrulamadan hiçbirini ekleme.
 
-**Buna karşılık Rol 2 ve Rol 3'ü ciddiye al.** Rol 2 üç kez yanlış kurduğum bir
-akıl yürütmenin dördüncü hâlini sınıyor; Rol 3 ise bu sürümdeki en olası kusuru
-arıyor — sıkıştırma sırasında bir kapsam niteleyicisinin sessizce düşmüş olması.
+**Buna karşılık Rol 2 ve Rol 3'ü ciddiye al.** Rol 2 dört kez elden geçen bir akıl
+yürütmenin son hâlini sınıyor; Rol 3 ise düzeltmelerin kendi kırdığı şeyi arıyor —
+tur 4'te tam olarak bu oldu, bir sıkıştırma bir kapsam niteleyicisini düşürmüştü.

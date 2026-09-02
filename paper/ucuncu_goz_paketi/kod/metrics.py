@@ -806,15 +806,23 @@ def d3_istem_duzeyi(scores: pd.DataFrame, n_boot: int = 10000,
     yan yana Pratt yontemiyle verilir (sifirlari siralamaya KATAR, atmaz --
     varsayilan 'wilcox' onlari atar ve antikonservatif olabilir).
 
-    ETKI BUYUKLUGU. Ortalama oran farkinin istem-kumeli bootstrap GA'si;
-    p-degerinin tek basina soylemedigi buyuklugu verir.
+    ETKI BUYUKLUGU. Ortalama oran farkinin istem-kumeli bootstrap GA'si.
+    ESIK HER YINELEMEDE YENIDEN KALIBRE EDILIR: temiz negatifler de istem
+    kumeleridir, ve ayni kumeler hem negatiflerde hem iki saldiri kolunda
+    birlikte yeniden ornekleniyor. Onceki surum esigi BIR KEZ hesaplayip
+    yalniz hazir farklari yeniden ornekliyordu; o aralik kalibrasyon
+    orneklemi belirsizligini DISARIDA birakiyordu. (tpr_ci_kumeli bu onlemi
+    zaten tasiyordu ama D3 onu kullanmiyordu -- denetimde yakalandi.)
+    p-degeri gozlenen kalibrasyon orneklemine KOSULLU kalir; yeniden
+    kalibrasyon aralik icindir.
     """
     rng = np.random.default_rng(seed)
     from scipy.stats import wilcoxon as _wx
     satirlar = []
     for sm in sorted(scores.scheme.unique()):
         d = scores[scores.scheme == sm]
-        neg = d[(d.condition == "clean") & (d.wm == 0)]["stat"].to_numpy()
+        negd = d[(d.condition == "clean") & (d.wm == 0)]
+        neg = negd["stat"].to_numpy()
         esik = float(np.quantile(neg, 1 - C.TPR_AT_FPR))
         oran = {}
         for kosul in ("rtt", "launder_api"):
@@ -829,8 +837,21 @@ def d3_istem_duzeyi(scores: pd.DataFrame, n_boot: int = 10000,
             p_pratt = float(_wx(j["l"], j["r"], zero_method="pratt").pvalue)
         except ValueError:
             p_pratt = 1.0
-        bs = [fark[rng.integers(0, len(fark), len(fark))].mean()
-              for _ in range(n_boot)]
+        # ORTAK istem-kumeli bootstrap, esik her yinelemede yeniden
+        negg = {p: g["stat"].to_numpy() for p, g in negd.groupby("prompt_id")}
+        posg = {k: {p: g["stat"].to_numpy() for p, g in
+                    d[(d.condition == k) & (d.wm == 1)].groupby("prompt_id")}
+                for k in ("rtt", "launder_api")}
+        kumeler = np.array([p for p in j.index
+                            if p in negg and p in posg["rtt"]
+                            and p in posg["launder_api"]])
+        bs = []
+        for _ in range(n_boot):
+            sec = kumeler[rng.integers(0, len(kumeler), len(kumeler))]
+            e = float(np.quantile(np.concatenate([negg[p] for p in sec]),
+                                  1 - C.TPR_AT_FPR))
+            bs.append(np.mean([(posg["launder_api"][p] > e).mean()
+                               - (posg["rtt"][p] > e).mean() for p in sec]))
         lo, hi = np.percentile(bs, [2.5, 97.5])
         satirlar.append(dict(
             sema=sm, n_istem=int(len(j)),

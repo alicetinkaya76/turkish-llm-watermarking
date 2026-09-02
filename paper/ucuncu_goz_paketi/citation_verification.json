@@ -1,8 +1,8 @@
 {
   "_tarih": "2026-09-01",
   "_makale_dosyasi": "paper/paper.md",
-  "_makale_sha256": "8033571da404a76ec46ff8a160fecab3184f4301d1968ac1033546a9f7eb4aee",
-  "_surum": "v1.4.0-paper",
+  "_makale_sha256": "f6dd431396d1a4231794871312c88cd7b99c109c4213be148bdc5cd380530277",
+  "_surum": "v1.5.0-paper",
   "_UYARI": "Bu dosya bir IDDIA kaydidir, kanit degil. Denetleyen, kaydi sorgusuz kabul ederse denetim islememis demektir. Kapsam alanini once okuyun: 42 kaynagin hepsi AYNI turda AYNI yontemle denetlenmedi.",
   "_yontem_turlari": [
     {
@@ -82,5 +82,25 @@
     "NLLB Team 2024": "YANLIS ATIF (kucuk). Atif, makalenin KENDI yargic verisinden cikan akicilik bulgusuna ilistirilmisti; NLLB makalesi gidis-donus ceviriden hic soz etmiyor. Atif sonuca degil kullanilan ceviri sistemine baglandi.",
     "Pan 2024": "IDDIA UYUSMAZLIGI (kucuk). Yayimlanan EMNLP 2024 demo bildirisi dokuz algoritmayi iki ailede kapsiyor ve SynthID'yi HIC anmiyor; SynthID depoya yayimdan sonra eklendi. Cumle, bildirinin kapsadigi ile deponun sundugunu ayiracak sekilde yeniden yazildi."
   },
-  "_kondensasyon_notu": "v1.4.0'da makale 19.368 -> 17.607 kelimeye (36 -> 32 sayfa) kisaltildi. Kisaltma YALNIZCA surec anlatisi ve tekrardan yapildi: hicbir bulgu, tablo, sekil, sinirlilik veya beyan cikarilmadi. Kaynak sayisi ve atif eslemesi degismedi (42/42)."
+  "_kondensasyon_notu": "SAYIM YONTEMI: markdown isaretleyicileri (*_`#>) bosluga cevrilip beyaz-bosluk tokenizasyonu. Bu yontemle v1.3.0 19.369 -> v1.4.0 17.615 -> v1.5.0 17945 kelime. Baska bir tokenizasyon baska bir sayi verir; karsilastirmalarda bu yontem kullanildi. DUZELTILMIS IDDIA (tur 4 denetimi hakli cikardi): 'hicbir bulgu cikarilmadi' ifadesi fazla genisti. Dogrusu: hicbir manset sonuc, tablo, sekil, sinirlilik kategorisi, ifsa veya kapsam sonucu cikarilmadi; BAZI DESTEKLEYICI SAGLAMLIK TANILARI kisaltildi veya depo kaydina birakildi -- ozellikle §6'daki morph Theil-Sen egimi (0,051), morph_v1 OLS (0,026), GA [-0,005; 0,034], Theil-Sen (0,005), Spearman (rho=0,091; p=0,39) ve yuksek-kaldiracli nokta silme sonucu (-0,003; n=92). Bunlarin ozeti duruyor (morph_v1 egimi geri cekildi, morph egimi pratik olarak ihmal edilebilir) ama sayilar makalede degil.",
+  "_tur4_denetimi": {
+    "tarih": "2026-09-01",
+    "damga_dogrulandi": "8033571d (tam hash eslesti)",
+    "kabul_edilen_blocker": [
+      "Tablo 5'in GA'si esigi SABIT tutuyordu; tpr_ci_kumeli'deki yeniden kalibrasyon onlemi D3'te baypas ediliyordu. ORTAK istem-kumeli bootstrap'a cevrildi, esik her yinelemede yeniden turetiliyor. Sonuclarin YONU DEGISMEDI (KGW ve EXP hala sifiri disliyor, SynthID hala icermiyor); aralik ucları degisti.",
+      "'null follows from the design' fazla gucluydu: eslesme tek basina degistirilebilirlik uretmez, iki kosul rastgele atanmis etiketler degil. 'kosullu' ifadesine cevrildi; geri cekilen isaret testinden farki (gercek eslesme + swap'a degismez karsilastirici) acikca yazildi.",
+      "§4.2 nesrinde KGW araligi -0,042 yaziyordu; numbers.json ve Tablo 5 -0,052 diyordu. Transkripsiyon hatasi; yeniden hesaplanan GA ile birlikte duzeltildi.",
+      "Sikistirmada Qwen-ozgu etkin-gama niteleyicisi dusmustu (Rol 3'un aradigi tam sinif kusur). Geri kondu.",
+      "Permutasyon testinin CIFT YANLI oldugu metinde yazmiyordu; §3.3, §4.2 ve Tablo 5 basligina eklendi.",
+      "Aile secimi: {rtt, launder_api} Tablo 4 siralamasi GORULDUKTEN sonra secildi. 'iki en guclu saldiri' ifadesi on-belirleme gibi okunuyordu; provenans acikca yazildi.",
+      "De-mark artik ICML 2025'te yayimlanmis (PMLR 267:9316-9333); on-baski kunyesi nihai kunyeyle degistirildi.",
+      "Coltekin, Dogruoz & Cetinoglu (2023) LRE 57(1) 449-488 eklendi -- derginin kendi korpusundan, Turkce kaynak manzarasi icin dogrudan ilgili."
+    ],
+    "paket_kusuru": [
+      "PROMPT HATASI: karsilastirma dosyasi olarak v1.3.0 verilmisti ama D3 duzeltmesi ve alti kaynak ZATEN v1.3.0'da yapilmisti (commit 08efcd0); v1.3.0->v1.4.0 arasinda yalnizca SIKISTIRMA var. Dogru kiyas dosyasi v1.2.0 olmaliydi. Denetci bunu dogru yakaladi. Rol 3 yine de gecerli calisti (sikistirma gercekten o araliktaydi); bozuk olan promptun degisiklik anlatisiydi."
+    ],
+    "reddedilmeyen_ama_uygulanmayan": [
+      "Uzunluk: denetci Tablo 7'yi ilk tasinacak malzeme yapmayi ve uzunluk kontrolunu makalede tutmayi onerdi. Kapak mektubundaki tasima SIRASI bu oneriye gore yeniden yazildi, ancak malzeme simdilik makalede birakildi (editor karari)."
+    ]
+  }
 }

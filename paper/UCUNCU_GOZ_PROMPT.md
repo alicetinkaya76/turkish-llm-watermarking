@@ -1,49 +1,56 @@
-# Üçüncü-göz promptu — tur 4 (ODAKLI), Language Resources and Evaluation
+# Üçüncü-göz promptu — tur 5 (ODAKLI), Language Resources and Evaluation
 
-**Sürüm damgası:** `v1.4.0-paper / sha256 8033571d`, 2026-09-01. Rapor geldiğinde
+**Sürüm damgası:** `v1.5.0-paper / sha256 f6dd4313`, 2026-09-01. Rapor geldiğinde
 ilk iş bu damgayı aramak.
 
-**Bu tur öncekilerden FARKLI.** Önceki üç tur makalenin iddialarını baştan sona
-inceledi ve doyum noktasına yaklaştı: son turda önerilen yedi dil düzeltmesinin
-dördü zaten kapalıydı, bir kaynak önerisi de yanlış makaleye aitti. Bu tur onun
-yerine **yalnızca son turda DEĞİŞENİ** denetliyor, çünkü risk orada: bir estimand
-değişti ve manşet sonuç yer değiştirdi, altı yeni kaynak girdi, ve makale 1.754
-kelime kısaltıldı.
+**Bu tur dördüncü turun düzeltmelerini denetliyor.** Tur 4 dört blocker buldu ve
+dördü de gerçekti; hepsi uygulandı. Risk şimdi o düzeltmelerde: Tablo 5'in güven
+aralığı yeniden hesaplandı (eşik artık her bootstrap yinelemesinde yeniden kalibre
+ediliyor), null'un gerekçesi "tasarımdan gelir"den "koşullu"ya çevrildi, bir kaynak
+nihai künyesine geçti ve dergiden bir kaynak eklendi.
 
 Aşağıdaki `---` ayracından sonraki İngilizce metni aynen kopyalayıp denetim
 oturumuna yapıştır. Türkçe başlık kısmını verme.
 
 ---
 
-# Focused pre-submission audit — round 4
+# Focused pre-submission audit — round 5
 
 You are auditing a manuscript prepared for *Language Resources and Evaluation*
-(Springer). Three full audit rounds have already run against it and their
-confirmed findings are applied. **This round is deliberately narrow.** A fourth
-full re-review would mostly re-litigate settled questions; what needs checking is
-what changed since the last audited version, because that is where new defects
-would be.
+(Springer). Four audit rounds have already run against it and their confirmed
+findings are applied. **This round is deliberately narrow.** A full re-review
+would mostly re-litigate settled questions; what needs checking is what changed
+in response to the last round, because a fix is where a new defect is most
+likely.
 
-**Manuscript version under review: `v1.4.0-paper`, `paper.md` SHA-256 prefix
-`8033571d`.** State this identifier at the top of your report. If the file you
+**Manuscript version under review: `v1.5.0-paper`, `paper.md` SHA-256 prefix
+`f6dd4313`.** State this identifier at the top of your report. If the file you
 were given does not carry this content, say so and stop.
 
-## What changed since the last audited version (v1.3.0-paper)
+## What changed since the last audited version (v1.4.0-paper)
 
-You have both versions: `paper.md` (current) and `paper_ONCEKI_v1.3.0.md`
-(previous). Three kinds of change:
+You have both versions: `paper.md` (current, v1.5.0) and `paper_ONCEKI_v1.4.0.md`.
+The previous round raised four blocking issues and all four were accepted:
 
-1. **A statistical estimand was corrected and a headline result moved.** The
-   within-scheme comparison of external laundering (`launder_api`) against
-   round-trip translation (`rtt`) had been running on the per-prompt *mean raw
-   detector statistic*, while the manuscript described the per-prompt *detection
-   rate at the operating threshold*. Corrected to detection rates, the scheme
-   surviving Bonferroni correction changed from KGW to EXP.
-2. **Six references were added** with accompanying prose, narrowing the novelty
-   claim.
-3. **The manuscript was condensed from 19,369 to 17,615 words (36 to 32 pages).**
-   The author's stated rule was to remove only duplication and process narration,
-   never a finding, table, figure, limitation, disclosure or scope qualifier.
+1. **The Table 5 interval now recalibrates the threshold.** The effect-size
+   bootstrap previously fixed the clean-calibrated threshold once and resampled
+   only the derived per-prompt differences, so the interval omitted calibration
+   uncertainty. It now resamples prompt clusters jointly across the clean
+   negatives and both attack arms and re-derives the threshold inside every
+   replicate. The intervals moved; no conclusion changed sign.
+2. **The null's justification was weakened to what it can carry.** "Its null
+   follows from the design" became an explicit conditional-on-exchangeability
+   statement, and the permutation test is now labelled two-sided throughout.
+3. **A transcription error and a dropped qualifier were fixed.** A KGW interval
+   endpoint disagreed with the generated source, and a Qwen-tokenizer-specific
+   scope qualifier lost during an earlier condensation was restored.
+4. **Two reference changes.** De-mark moved from its arXiv preprint to its final
+   ICML/PMLR record, and Çöltekin et al. (2023), a *Language Resources and
+   Evaluation* survey of Turkish resources, was added and cited.
+
+Also newly disclosed: the two attack conditions carried into the focused
+comparison were selected after the aggregate attack ranking was seen, and the
+manuscript now says so rather than implying pre-specification.
 
 ## Ground rules
 
@@ -75,7 +82,7 @@ language technology, including less-resourced languages), whether the released
 resource is a genuine contribution, and whether the disclosed limitations are
 disqualifying or creditable.
 
-Then address length specifically. The article runs 32 pages against the
+Then address length specifically. The article runs 33 pages against the
 guideline's "typically 18–25". The cover letter contains an "On length"
 paragraph that explains why and names, in order, the material the author would
 move to supplementary if asked. Assess: is that an acceptable way to handle the
@@ -115,12 +122,18 @@ Answer these, each explicitly:
   Wilcoxon column uses Pratt's convention. Is dropping zeros in the permutation
   test correct here, or does it bias the result? Should the primary test have
   been something else?
-- **Two-sidedness.** The permutation test is two-sided while the surrounding
-  claim is directional. Conservative, or a mismatch that should be stated?
-- **The KGW cell.** Its bootstrap interval excludes zero, [−0.292, −0.042], while
-  its permutation p of 0.024 does not clear Bonferroni α = 0.0167. The manuscript
-  reports both and says they answer different questions. Is that the right call,
-  or is presenting both a way of having it both ways?
+- **Two-sidedness and conditionality.** The test is now labelled two-sided, and
+  the p-value is described as conditional on the observed calibration sample
+  while the interval carries calibration uncertainty. Is that split coherent, or
+  should both be conditional, or neither?
+- **The recalibrated interval.** Verify that `d3_istem_duzeyi` now resamples the
+  clean negatives, the rtt arm and the launder_api arm on the *same* prompt
+  clusters and re-derives the threshold per replicate, and that Table 5's numbers
+  match `numbers.json`. Is joint cluster resampling the right dependence
+  structure here? The KGW interval still excludes zero, [−0.271, −0.052], while
+  its permutation p of 0.024 does not clear Bonferroni α = 0.0167; the manuscript
+  labels the interval marginal and uncorrected and reports both. Is that
+  defensible, or is presenting both a way of having it both ways?
 - **Multiplicity.** Bonferroni over three schemes. Is the family right? The
   cross-scheme family (Table 6) is a separate set of six Holm-corrected tests. Is
   the division into two families defensible or is it a garden of forking paths?
@@ -132,39 +145,26 @@ Answer these, each explicitly:
   one, state the exchangeability unit and how the comparator is recomputed inside
   each permutation.
 
-## Role 3 — Reviewer B: what the condensation removed
+## Role 3 — Reviewer B: did the fixes break anything?
 
-You have both versions. The author's claim is that the 1,754 removed words were
-**only** duplication and process narration, and that no finding, table, figure,
-limitation, disclosure or scope qualifier was lost. Test that claim; it is the
-kind of claim that is easy to make and easy to violate accidentally.
+The previous round found that a condensation had silently dropped a scope
+qualifier. Fixes are the same kind of risk. Compare the two versions and check:
 
-Per-section word deltas: Introduction −301, Section 4.2 −86, Section 4.3 −72,
-Section 5.1 −124, Section 5.2 −152, Section 5.3 −226, Section 6 −488, Section 7
-−127, declarations −186.
-
-Concentrate on the largest cuts, Section 6 (−488) and Section 5 (−502 combined).
-For each, answer:
-
-- Did any **scope qualifier** disappear? Earlier audit rounds specifically
-  *added* qualifiers to this manuscript — that a claim holds only for the KGW
-  arm, only at the evaluated token budgets, only for surface-context-seeded
-  schemes, only on this sample. If one of those was dropped while compressing the
-  paragraph around it, the manuscript has silently re-broadened a claim that a
-  previous round narrowed. This is the single most likely defect in this version.
-- Did any **limitation** lose its substance while keeping its heading? Section 6
-  went from paragraph-per-limitation to statement-per-limitation. Check that each
-  of the ten still says what it needs to.
-- Did any **disclosure** in Statements and Declarations lose required content?
-  Springer requires funding, competing interests, ethics, consent, data
-  availability, author contributions, and AI-use declarations to be complete, not
-  merely present.
-- Did the condensation **break a dependency** — a sentence that now refers to
-  something no longer stated, a number that lost the caveat that qualified it, a
-  claim whose supporting detail moved to the repository audit note without a
-  pointer?
-- Conversely: **is anything still redundant?** If the article still says the same
-  thing three times anywhere, name it, since the length question is live.
+- Does the weakened null statement in Section 3.3 now **under**-claim? It must
+  still justify why this test is not the withdrawn prompt-level sign test in a
+  new costume. The distinguishing argument is a genuine matched unit and a
+  comparator invariant to the swap. Is that argument still present and correct?
+- Do Section 3.3, Section 4.2, Table 5's caption and Section 5 agree with each
+  other and with `numbers.json` on every D3 number, on two-sidedness, and on what
+  the interval covers?
+- The restored Qwen qualifier and the new attack-selection disclosure were
+  inserted into existing paragraphs. Do they sit correctly, and does the
+  attack-selection disclosure now contradict any surviving sentence that still
+  implies the family was fully pre-specified?
+- Does anything in the manuscript still claim the condensation removed nothing?
+  The verification record was corrected to say that some supporting robustness
+  diagnostics were shortened; the article should not contradict that.
+- Is anything still redundant, given that length remains live?
 
 ## Role 4 — Citation audit
 
@@ -225,7 +225,7 @@ do not manufacture relevance.
 
 ## Output format
 
-1. The version stamp `v1.4.0-paper / sha256 8033571d`.
+1. The version stamp `v1.5.0-paper / sha256 f6dd4313`.
 2. Role 1 verdict, with the length assessment stated separately.
 3. Role 2: one answer per bullet, each marked CONFIRMED or PLAUSIBLE.
 4. Role 3: what the condensation lost, or an explicit statement that you checked
