@@ -18,10 +18,10 @@ This manuscript has a single author.
 
 ## Corresponding author
 
-Ali Çetinkaya
-Department of Computer Engineering, Faculty of Technology, Selçuk University,
-Alaeddin Keykubat Campus, 42075 Selçuklu, Konya, Türkiye
-E-mail: ali.cetinkaya@selcuk.edu.tr
+Ali Çetinkaya  
+Department of Computer Engineering, Faculty of Technology, Selçuk University,  
+Alaeddin Keykubat Campus, 42075 Selçuklu, Konya, Türkiye  
+E-mail: ali.cetinkaya@selcuk.edu.tr  
 Telephone: +90 332 241 11 02
 
 ## Keywords

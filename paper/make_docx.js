@@ -7,6 +7,7 @@ const path = require("path");
 const {
   Document, Packer, Paragraph, TextRun, ImageRun, Table, TableRow, TableCell,
   HeadingLevel, AlignmentType, WidthType, BorderStyle, ShadingType, PageOrientation,
+  Footer, PageNumber,
 } = require("docx");
 
 const ROOT = path.resolve(__dirname, "..");
@@ -212,13 +213,30 @@ while (i < satirlar.length) {
 const doc = new Document({
   creator: "Ali Çetinkaya",
   title: "Watermarking Turkish LLM Output",
-  styles: { default: { document: { run: { font: "Calibri", size: 21 } } } },
+  // LRE "Text Formatting": duz bir font, ornek olarak 10-punto Times Roman.
+  // size docx'te YARIM PUNTO -> 20 = 10 pt.
+  styles: { default: { document: { run: { font: "Times New Roman", size: 20 } } } },
   sections: [{
     properties: {
       page: {
         size: { width: SAYFA_GENIS, height: 15840, orientation: PageOrientation.PORTRAIT },
         margin: { top: KENAR, right: KENAR, bottom: KENAR, left: KENAR },
       },
+    },
+    // LRE: "Use the automatic page numbering function to number the pages."
+    // PageNumber.CURRENT bir Word ALAN KODU uretir (elle yazilmis sayi degil),
+    // yani sayfa eklenince kendini gunceller.
+    footers: {
+      default: new Footer({
+        children: [new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [new TextRun({
+            children: [PageNumber.CURRENT],
+            font: "Times New Roman",
+            size: 20,
+          })],
+        })],
+      }),
     },
     children: cocuklar,
   }],

@@ -7,10 +7,22 @@ Dear Editors,
 
 I submit for your consideration the manuscript **"Watermarking Turkish LLM Output:
 Detector Calibration, Scheme Fragility, and a Released Evaluation Benchmark"** as a
-single-authored Original Paper. I suggest it be handled under the journal's scope for
-**less-resourced languages and the evaluation of language technology**, since its
-principal contributions for this journal are an evaluation protocol for a language
-technology measured outside English and a released, documented language resource.
+single-authored Original Paper, and I would like it to be considered for the **special
+focus section on Less-resourced Languages**. Its principal contributions for this journal
+are an evaluation protocol for a language technology measured outside English and a
+released, documented language resource for Turkish, whose resource landscape Çöltekin
+et al. (2023) survey critically and find uneven in accessibility, licensing and register
+coverage.
+
+I should be precise about one thing, because the special focus section invites papers that
+apply an established method to a less-resourced language for the first time and this is
+not such a paper. Watermarking has already been measured on Turkish: Nemecek et al. (2026)
+include it among eleven languages in a cross-lingual fairness audit, and Mohamed and Gubri
+(2025) scale watermark robustness to over a hundred languages. What that literature does
+not yet supply, and what this paper contributes, is a null distribution measured on human
+text rather than on model output, together with register, token-length and watermark-key
+controls on that distribution, in an agglutinative language other than Korean. The
+manuscript states this boundary in Section 2 rather than leaving a novelty claim implicit.
 
 **What the paper does.** Statistical watermarks for LLM output are designed and
 validated almost entirely on English, and their detectors ship with thresholds whose
@@ -61,6 +73,13 @@ submission is the one tagged `v1.6.0-paper`.
 | Affiliation | Department of Computer Engineering, Faculty of Technology, Selçuk University, Konya, Türkiye |
 | E-mail | ali.cetinkaya@selcuk.edu.tr |
 | ORCID | <https://orcid.org/0000-0002-7747-6854> |
+
+As the sole author I offer, per the journal's cover-letter requirement, a verified ORCID
+profile that is kept current with my publications and linked to my institution:
+<https://orcid.org/0000-0002-7747-6854>. My work is in Turkish natural language
+processing and digital humanities, and the present manuscript sits in that line: it
+measures an English-developed language technology on Turkish and releases the evaluation
+material as a documented resource.
 
 **Declaration on parallel and related submissions.** The manuscript is original, has
 not been published, and is not under consideration by any other journal. Three other
