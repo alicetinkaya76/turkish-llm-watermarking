@@ -9,6 +9,8 @@
 from __future__ import annotations
 
 import json
+import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -26,8 +28,43 @@ OUT = C.REPO_ROOT / "paper" / "numbers.json"
 
 
 def main() -> None:
+    # PROVENANS DAMGASI. Tur 5 denetimi: numbers.json'da hicbir surum/commit
+    # alani yoktu, oysa makale onu "butun sayilarin cikarildigi tek dosya"
+    # diye tanitiyor. Hakem elindeki dosyanin hangi surume ait oldugunu
+    # soyleyemiyordu. Damga KODDAN uretilir, elle yazilmaz.
+    def _damga() -> dict:
+        d: dict = {}
+        try:
+            cff = (_ROOT / "CITATION.cff").read_text(encoding="utf-8")
+            m = re.search(r"^version:\s*(\S+)", cff, re.M)
+            if m:
+                d["surum"] = m.group(1)
+        except OSError:
+            pass
+        try:
+            d["commit"] = subprocess.run(
+                ["git", "-C", str(_ROOT), "rev-parse", "--short", "HEAD"],
+                capture_output=True, text=True, timeout=10).stdout.strip() or None
+            d["temiz_calisma_agaci"] = not subprocess.run(
+                ["git", "-C", str(_ROOT), "status", "--porcelain"],
+                capture_output=True, text=True, timeout=10).stdout.strip()
+        except (OSError, subprocess.SubprocessError):
+            pass
+        return d
+
     n: dict = {"_kaynak": "pilot/make_paper_numbers.py — elle sayı YOK",
-               "_uretim": "python -m pilot.make_paper_numbers"}
+               "_uretim": "python -m pilot.make_paper_numbers",
+               "_damga": _damga(),
+               "_secim_uyarisi": (
+                   "Tablo 5 ve Tablo 6'nin dayandigi {rtt, launder_api} KOSUL "
+                   "ikilisi, toplu saldiri siralamasi GORULDUKTEN sonra "
+                   "secildi. Bu dosyadaki 'ANLAMLI' etiketleri GOSTERILEN aile "
+                   "icindedir ve onceki secim adimini KAPSAMAZ. Tablo 5 icin "
+                   "secim ekseni ile kontrast ekseni AYNIDIR (siralama zaten "
+                   "launder_api'yi rtt'nin ustune koymustu), dolayisiyla Tablo "
+                   "5 kesifsel/secim-sonrasidir; Tablo 6 icin secim kosul "
+                   "ekseninde, kontrast sema eksenindedir. Ayrinti: makale "
+                   "Bolum 3.3.")}
 
     env = json.loads((C.RESULTS / "env.json").read_text())
     n["corpus"] = {

@@ -111,7 +111,68 @@ not exist and a single pooled comparator was shared; here each pair is a genuine
 matched comparison. A Wilcoxon signed-rank test under Pratt's convention, which
 ranks zero differences rather than discarding them, is reported alongside it.
 
-## 3. Where these appeared
+## 3. Tables 5 and 6: inferential status narrowed, asymmetrically
+
+Through `v1.5.0-paper` the article described both focused comparisons as
+error-controlled tests: EXP "survives Bonferroni correction", four contrasts
+were "Holm-significant", SynthID was "significantly more fragile". Section 3.3
+of the same drafts already disclosed that the two conditions carried into those
+comparisons, `rtt` and `launder_api`, were chosen after the aggregate attack
+ranking of Table 4 had been inspected. Those two statements do not sit together:
+an adjustment applied to the contrasts that survive a selection does not control
+error across the selection itself.
+
+The correction is a narrowing of claimed status, not a change to any number. It
+is deliberately **asymmetric**, because the two tables are not equally exposed.
+
+**Table 5 is exposed.** The ranking that selected the pair also ordered it,
+placing `launder_api` above `rtt`. Table 5 then asks, within each scheme,
+whether `launder_api` is the more destructive of exactly that pair. The
+selection functional and the test functional are the same quantity, so the
+p-values are selection-conditional. Table 5 is now labelled an exploratory
+post-selection contrast; its decision column no longer reads "significant" and
+"n.s." but records only whether the p-value lies below or above the displayed
+family's α; and the effect sizes with their clustered intervals, which do not
+depend on the ordering that drove the selection, are stated to be the primary
+quantity. The p-values are retained rather than deleted.
+
+**Table 6 is largely protected.** The ranking that selected the conditions
+averages over schemes; Table 6 contrasts schemes within a condition. The
+quantity that drove the selection is therefore not the quantity being tested,
+and the two axes are different. The Holm adjustment over the six displayed
+tests keeps its ordinary interpretation within them, and the table says so while
+also stating that it carries no guarantee about the choice of the two conditions
+it is computed in. Relabelling Table 6 "exploratory" was considered and
+rejected: it would understate what was in fact controlled, since the six-test
+family was fixed before any per-scheme result was seen.
+
+An open question is recorded rather than resolved. An earlier, independent pilot
+cohort (`results_pilot_gecersiz_20260821/`, not published) already ranks
+`launder_api` (AUROC 0.847) below `rtt` (0.889) below `launder` (0.932). If the
+pair was in fact chosen there, the selection and the analysis would rest on
+different data and the objection to Table 5 would largely dissolve. That is a
+claim about the order in which the author did things; it does not follow from
+the timestamps, and it is not asserted here. The article states the conservative
+reading, which is the one against its own interest.
+
+## 4. A number that reached the manuscript without the pipeline
+
+Table 6's first row was printed as p = 0.001 through `v1.5.0-paper`. The value
+is 0.000322. Two mechanisms combined: `_md_table` formatted with a hardcoded
+`{:.3f}` that silently overrode the `.round(4)` applied to the frame, so the
+generator itself could not distinguish 0.0003 from 0.0012; and the value in the
+manuscript had been copied from `results/summary.md`, a report nine days stale,
+rather than from `paper/numbers.json`. The consequence was not only a wrong
+digit but a collapsed ordering, two rows differing by a factor of about four
+printed as the same number.
+
+Both mechanisms are now closed. The scheme-comparison table renders at four
+decimals, and `pilot/dev_tutarlilik_kapisi.py` compares every cell of Tables 5
+and 6 against `numbers.json` positionally rather than searching the manuscript
+for a bare substring. The gate's earlier p-check would pass whenever a
+three-digit string occurred anywhere in a 116 KB document.
+
+## 5. Where these appeared
 
 | Quantity | Last release containing it | Status |
 |---|---|---|
@@ -119,6 +180,8 @@ ranks zero differences rather than discarding them, is reported alongside it.
 | `log10_p_tam_permutasyon` = −44.28 | `v1.2.0-paper` | removed |
 | `log10_p_isaret_cevirme` = −7.22 | `v1.2.0-paper` | removed |
 | D3 p from raw statistics | `v1.2.0-paper` | replaced by detection-rate estimand |
+| Confirmatory reading of Tables 5–6 | `v1.5.0-paper` | narrowed; Table 5 exploratory, Table 6 scope-stated |
+| Table 6 row 1 printed as p = 0.001 | `v1.5.0-paper` | corrected to 0.0003 |
 
 The `v1.1.0-paper` and `v1.2.0-paper` Zenodo archives retain their DOIs and are
 not deleted; a DOI should not silently change what it points to. Neither should

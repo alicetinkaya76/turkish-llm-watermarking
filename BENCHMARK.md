@@ -7,9 +7,14 @@ that paper: the score files let you check our numbers, and the texts let you
 evaluate a different detector or a different attack on the same material.
 
 Everything here was produced by the code in this repository. The project rule is
-that no reported number is written by hand; every figure in the paper is
+that no reported number originates by hand: every number in the paper is
 regenerated from these files by `pilot/make_paper_numbers.py` into
-`paper/numbers.json`.
+`paper/numbers.json` (figures come from `pilot/make_figures.py`). Transcription
+from `numbers.json` into the manuscript's tables is manual, so
+`pilot/dev_tutarlilik_kapisi.py` compares the two inferential tables against
+`numbers.json` cell by cell and fails the release on any divergence. That check
+exists because the gap once produced a real error, described in the paper's
+Section 7.
 
 ## What is in it
 

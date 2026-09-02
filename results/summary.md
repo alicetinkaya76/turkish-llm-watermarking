@@ -12,43 +12,43 @@
 
 > **Güven aralıkları İSTEM-KÜMELİ bootstrap ile** (kümeleme birimi `prompt_id`). Satır düzeyi bootstrap satırların bağımsız olduğunu varsayar; D1 bunun EXP için YANLIŞ olduğunu gösterdi -- dört tohum deterministik koşullarda aynı sonucu veriyor. Ölçülen genişleme: EXP'de 1,40-1,71x, KGW/SynthID'de 0,94-1,29x (o iki şemada tohumlar gerçekten bağımsız). Kümeleme üç şemaya da uygulanır çünkü çıkarım hedefi **yeni istemlere genelleme**dir, aynı istemlerden yeni üretimler değil.
 
-> `ci_lo_cp`: AUROC=1.000 ve GA=[1,1] çıkan hücreler için tek yanlı Clopper-Pearson alt sınırı. Dejenere aralık *belirsizlik yok* demek DEĞİL, *örneklemde karşı örnek gözlenmedi* demektir; 24 kümede sıfır başarısızlık %95 güvenle AUROC >= 0,883 verir.
+> `dejenere`: AUROC=1.000 ve GA=[1,1] çıkan hücreler. Dejenere aralık *belirsizlik yok* demek DEĞİL, *örneklemde karşı örnek gözlenmedi* demektir. Bu hücrelere sayısal alt sınır BAĞLANMAZ (Clopper-Pearson sürümü geri çekildi); kanıt Tablo 3'te sayılan ayrışma ve marjdır.
 
-| scheme | condition | n_pos | auroc | ci_lo | ci_hi | n_kume | ci_lo_cp | tpr_temiz_esikte | tpr_ci_lo | tpr_ci_hi | pos_stat_mean | attneg_stat_mean |
+| scheme | condition | n_pos | auroc | ci_lo | ci_hi | n_kume | dejenere | tpr_temiz_esikte | tpr_ci_lo | tpr_ci_hi | pos_stat_mean | attneg_stat_mean |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| EXP | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 55.883 | 0.446 |
-| EXP | dia100 | 96 | 0.983 | 0.946 | 1.000 | 24 | nan | 0.917 | 0.832 | 1.000 | 6.138 | 0.475 |
-| EXP | dia50 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 16.088 | 0.419 |
-| EXP | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 53.870 | 0.451 |
-| EXP | morph+dia | 96 | 0.982 | 0.944 | 1.000 | 24 | nan | 0.875 | 0.750 | 1.000 | 5.943 | 0.481 |
-| EXP | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 52.301 | 0.432 |
-| EXP | morph_v1+dia | 96 | 0.982 | 0.945 | 1.000 | 24 | nan | 0.917 | 0.792 | 1.000 | 5.669 | 0.450 |
-| EXP | rtt | 96 | 0.956 | 0.896 | 0.998 | 24 | nan | 0.792 | 0.667 | 0.958 | 4.522 | 0.430 |
-| EXP | para | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 40.425 | 0.446 |
-| EXP | launder | 96 | 0.997 | 0.990 | 1.000 | 24 | nan | 0.990 | 0.969 | 1.000 | 26.837 | 0.468 |
-| EXP | launder_api | 96 | 0.863 | 0.790 | 0.924 | 24 | nan | 0.490 | 0.344 | 0.698 | 3.624 | 0.543 |
-| KGW | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 10.550 | 0.012 |
-| KGW | dia100 | 96 | 0.994 | 0.986 | 0.999 | 24 | nan | 0.865 | 0.708 | 1.000 | 6.194 | 0.275 |
-| KGW | dia50 | 96 | 0.999 | 0.996 | 1.000 | 24 | nan | 0.979 | 0.927 | 1.000 | 7.597 | 0.011 |
-| KGW | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 10.498 | 0.015 |
-| KGW | morph+dia | 96 | 0.994 | 0.986 | 0.999 | 24 | nan | 0.865 | 0.708 | 1.000 | 6.137 | 0.247 |
-| KGW | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 10.392 | -0.003 |
-| KGW | morph_v1+dia | 96 | 0.993 | 0.984 | 0.999 | 24 | nan | 0.844 | 0.656 | 0.990 | 5.992 | 0.123 |
-| KGW | rtt | 96 | 0.954 | 0.926 | 0.979 | 24 | nan | 0.594 | 0.385 | 0.844 | 3.738 | 0.092 |
-| KGW | para | 96 | 0.998 | 0.995 | 1.000 | 24 | nan | 0.990 | 0.927 | 1.000 | 8.516 | -0.064 |
-| KGW | launder | 96 | 0.999 | 0.996 | 1.000 | 24 | nan | 0.938 | 0.885 | 1.000 | 7.016 | 0.016 |
-| KGW | launder_api | 96 | 0.917 | 0.865 | 0.956 | 24 | nan | 0.427 | 0.198 | 0.729 | 3.171 | -0.141 |
-| SynthID | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 0.535 | 0.501 |
-| SynthID | dia100 | 96 | 0.929 | 0.887 | 0.963 | 24 | nan | 0.677 | 0.458 | 0.792 | 0.509 | 0.501 |
-| SynthID | dia50 | 96 | 0.996 | 0.989 | 0.999 | 24 | nan | 0.948 | 0.854 | 0.990 | 0.516 | 0.501 |
-| SynthID | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 0.535 | 0.501 |
-| SynthID | morph+dia | 96 | 0.926 | 0.884 | 0.960 | 24 | nan | 0.656 | 0.438 | 0.760 | 0.509 | 0.501 |
-| SynthID | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | 0.883 | 1.000 | 1.000 | 1.000 | 0.534 | 0.501 |
-| SynthID | morph_v1+dia | 96 | 0.923 | 0.882 | 0.958 | 24 | nan | 0.656 | 0.406 | 0.750 | 0.509 | 0.501 |
-| SynthID | rtt | 96 | 0.816 | 0.758 | 0.870 | 24 | nan | 0.312 | 0.146 | 0.438 | 0.505 | 0.501 |
-| SynthID | para | 96 | 0.998 | 0.994 | 1.000 | 24 | nan | 0.990 | 0.969 | 1.000 | 0.527 | 0.501 |
-| SynthID | launder | 96 | 0.981 | 0.955 | 0.997 | 24 | nan | 0.948 | 0.885 | 0.979 | 0.519 | 0.501 |
-| SynthID | launder_api | 96 | 0.747 | 0.650 | 0.834 | 24 | nan | 0.250 | 0.073 | 0.385 | 0.504 | 0.500 |
+| EXP | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 55.883 | 0.446 |
+| EXP | dia100 | 96 | 0.983 | 0.946 | 1.000 | 24 | False | 0.917 | 0.832 | 1.000 | 6.138 | 0.475 |
+| EXP | dia50 | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 16.088 | 0.419 |
+| EXP | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 53.870 | 0.451 |
+| EXP | morph+dia | 96 | 0.982 | 0.944 | 1.000 | 24 | False | 0.875 | 0.750 | 1.000 | 5.943 | 0.481 |
+| EXP | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 52.301 | 0.432 |
+| EXP | morph_v1+dia | 96 | 0.982 | 0.945 | 1.000 | 24 | False | 0.917 | 0.792 | 1.000 | 5.669 | 0.450 |
+| EXP | rtt | 96 | 0.956 | 0.896 | 0.998 | 24 | False | 0.792 | 0.667 | 0.958 | 4.522 | 0.430 |
+| EXP | para | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 40.425 | 0.446 |
+| EXP | launder | 96 | 0.997 | 0.990 | 1.000 | 24 | False | 0.990 | 0.969 | 1.000 | 26.837 | 0.468 |
+| EXP | launder_api | 96 | 0.863 | 0.790 | 0.924 | 24 | False | 0.490 | 0.344 | 0.698 | 3.624 | 0.543 |
+| KGW | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 10.550 | 0.012 |
+| KGW | dia100 | 96 | 0.994 | 0.986 | 0.999 | 24 | False | 0.865 | 0.708 | 1.000 | 6.194 | 0.275 |
+| KGW | dia50 | 96 | 0.999 | 0.996 | 1.000 | 24 | False | 0.979 | 0.927 | 1.000 | 7.597 | 0.011 |
+| KGW | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 10.498 | 0.015 |
+| KGW | morph+dia | 96 | 0.994 | 0.986 | 0.999 | 24 | False | 0.865 | 0.708 | 1.000 | 6.137 | 0.247 |
+| KGW | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 10.392 | -0.003 |
+| KGW | morph_v1+dia | 96 | 0.993 | 0.984 | 0.999 | 24 | False | 0.844 | 0.656 | 0.990 | 5.992 | 0.123 |
+| KGW | rtt | 96 | 0.954 | 0.926 | 0.979 | 24 | False | 0.594 | 0.385 | 0.844 | 3.738 | 0.092 |
+| KGW | para | 96 | 0.998 | 0.995 | 1.000 | 24 | False | 0.990 | 0.927 | 1.000 | 8.516 | -0.064 |
+| KGW | launder | 96 | 0.999 | 0.996 | 1.000 | 24 | False | 0.938 | 0.885 | 1.000 | 7.016 | 0.016 |
+| KGW | launder_api | 96 | 0.917 | 0.865 | 0.956 | 24 | False | 0.427 | 0.198 | 0.729 | 3.171 | -0.141 |
+| SynthID | clean | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 0.535 | 0.501 |
+| SynthID | dia100 | 96 | 0.929 | 0.887 | 0.963 | 24 | False | 0.677 | 0.458 | 0.792 | 0.509 | 0.501 |
+| SynthID | dia50 | 96 | 0.996 | 0.989 | 0.999 | 24 | False | 0.948 | 0.854 | 0.990 | 0.516 | 0.501 |
+| SynthID | morph | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 0.535 | 0.501 |
+| SynthID | morph+dia | 96 | 0.926 | 0.884 | 0.960 | 24 | False | 0.656 | 0.438 | 0.760 | 0.509 | 0.501 |
+| SynthID | morph_v1 | 96 | 1.000 | 1.000 | 1.000 | 24 | True | 1.000 | 1.000 | 1.000 | 0.534 | 0.501 |
+| SynthID | morph_v1+dia | 96 | 0.923 | 0.882 | 0.958 | 24 | False | 0.656 | 0.406 | 0.750 | 0.509 | 0.501 |
+| SynthID | rtt | 96 | 0.816 | 0.758 | 0.870 | 24 | False | 0.312 | 0.146 | 0.438 | 0.505 | 0.501 |
+| SynthID | para | 96 | 0.998 | 0.994 | 1.000 | 24 | False | 0.990 | 0.969 | 1.000 | 0.527 | 0.501 |
+| SynthID | launder | 96 | 0.981 | 0.955 | 0.997 | 24 | False | 0.948 | 0.885 | 0.979 | 0.519 | 0.501 |
+| SynthID | launder_api | 96 | 0.747 | 0.650 | 0.834 | 24 | False | 0.250 | 0.073 | 0.385 | 0.504 | 0.500 |
 
 ## Morfolojik-leksik ayrışma (pos_KGW alt-örneklemi)
 | attack | n | lemma_jaccard | char_ratio |
@@ -57,7 +57,7 @@
 | morph | 40 | 0.998 | 0.998 |
 | morph_v1 | 40 | 0.998 | 0.995 |
 | para | 40 | 0.881 | 0.941 |
-| rtt | 40 | 0.599 | 0.751 |
+| rtt | 40 | 0.600 | 0.751 |
 
 ## Kalite (e5 kosinüs)
 
@@ -125,16 +125,16 @@
 
 ## Şemalar arası eşlenmiş karşılaştırma
 
-> Birim: 24 istem, ölçüt her şemanın KENDİ temiz eşiğinde istem başına tespit oranı (ham stat ölçekleri şemalar arası karşılaştırılamaz). Aile önceden ilan: {rtt, launder_api} × 3 çift = 6 test, Holm düzeltmesi. Pozitif fark = ilk şema daha dayanıklı.
+> Birim: 24 istem, ölçüt her şemanın KENDİ temiz eşiğinde istem başına tespit oranı (ham stat ölçekleri şemalar arası karşılaştırılamaz). Şema-çifti ailesi önceden sabit: {rtt, launder_api} × 3 çift = 6 test, Holm düzeltmesi. Pozitif fark = ilk şema daha dayanıklı. SEÇİM UYARISI: iki KOŞUL toplu saldırı sıralamasından seçildi; seçim koşul ekseninde, kontrast şema ekseninde olduğu için Holm gösterilen 6 test içinde geçerli ama koşul seçimini kapsamaz. p 4 ONDALIK: 3 ondalıkta ilk iki satır ayırt edilemiyordu (0,0003 ile 0,0012 ikisi de '0,001' görünüyordu).
 
 | kosul | cift | ort_fark | n_istem | p | holm_esik | holm |
 |---|---|---|---|---|---|---|
-| rtt | EXP vs SynthID | 0.479 | 24 | 0.001 | 0.008 | ANLAMLI |
-| rtt | KGW vs SynthID | 0.281 | 24 | 0.001 | 0.010 | ANLAMLI |
-| launder_api | EXP vs SynthID | 0.240 | 24 | 0.003 | 0.013 | ANLAMLI |
-| launder_api | KGW vs SynthID | 0.177 | 24 | 0.013 | 0.017 | ANLAMLI |
-| rtt | KGW vs EXP | -0.198 | 24 | 0.104 | 0.025 | — |
-| launder_api | KGW vs EXP | -0.062 | 24 | 0.513 | 0.050 | — |
+| rtt | EXP vs SynthID | 0.4792 | 24 | 0.0006 | 0.0083 | ANLAMLI |
+| rtt | KGW vs SynthID | 0.2812 | 24 | 0.0012 | 0.0100 | ANLAMLI |
+| launder_api | EXP vs SynthID | 0.2396 | 24 | 0.0034 | 0.0125 | ANLAMLI |
+| launder_api | KGW vs SynthID | 0.1771 | 24 | 0.0126 | 0.0167 | ANLAMLI |
+| rtt | KGW vs EXP | -0.1979 | 24 | 0.1039 | 0.0250 | — |
+| launder_api | KGW vs EXP | -0.0625 | 24 | 0.5127 | 0.0500 | — |
 
 ## Görev uyumu
 
@@ -213,15 +213,15 @@ Eşik temiz negatiflerden kuruluyor; saldırılı negatiflerde o eşiğin gerçe
 
 `ayni_donusum_auroc`: her iki sınıf da dönüştürülmüşken ayrışma. dia/rtt için ekolojik olarak geçerli bir soru, launder/para için değil (kimse insan metnini filigran silmek için aklamaz); manşet temiz-negatif AUROC'ta kalır, bu sütun sağlamlık kontrolüdür.
 
-### D3 — launder_api, rtt'den daha yıkıcı (1/3 şemada ANLAMLI, istem düzeyi)
+### D3 — launder_api, rtt'den daha yıkıcı (1/3 şemada gösterilen aile içinde Bonferroni eşiğinin altında, istem düzeyi)
 
-| sema | tpr_rtt | tpr_launder_api | fark | mcnemar_p | bonferroni | wilcoxon_istem_p | n_istem | bonf_istem |
-|---|---|---|---|---|---|---|---|---|
-| EXP | 0.792 | 0.490 | -0.302 | 0.000 | ANLAMLI | 0.037 | 24 | — |
-| KGW | 0.594 | 0.427 | -0.167 | 0.002 | ANLAMLI | 0.005 | 24 | ANLAMLI |
-| SynthID | 0.312 | 0.250 | -0.062 | 0.392 | — | 0.019 | 24 | — |
+| sema | n_istem | tpr_rtt | tpr_launder_api | ort_oran_farki | fark_ga_lo | fark_ga_hi | n_sifir_olmayan | n_sifir | p_permutasyon | p_wilcoxon_pratt | bonferroni | mcnemar_p |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| EXP | 24 | 0.792 | 0.490 | -0.302 | -0.510 | -0.115 | 18 | 6 | 0.012 | 0.011 | ANLAMLI | 0.000 |
+| KGW | 24 | 0.594 | 0.427 | -0.167 | -0.271 | -0.052 | 13 | 11 | 0.024 | 0.029 | — | 0.002 |
+| SynthID | 24 | 0.312 | 0.250 | -0.062 | -0.188 | 0.042 | 16 | 8 | 0.415 | 0.189 | — | 0.392 |
 
-BİRİNCİL analiz istem düzeyi eşlenmiş Wilcoxon'dur (n=24 istem; satır düzeyi McNemar D1'i ihlal eder -- EXP'de 4 tohum deterministik koşullarda özdeş). Bonferroni-3 sonrası anlamlı: KGW. Ortalama TPR farkı -0.177 (negatif = launder_api daha yıkıcı). McNemar sütunları betimleyici olarak korundu.
+BİRİNCİL birim İSTEM, ölçüt her şemanın kendi temiz-kalibreli eşiğinde İSTEM BAŞINA TESPİT ORANI (ham stat değil -- önceki sürüm ham stat kullanıyordu ve metin 'tespit oranı' diyordu). Gösterilen 3 şemalık aile içinde Bonferroni eşiğinin altında: EXP. Ortalama oran farkı -0.177 (negatif = launder_api daha yıkıcı); yön üç şemada da aynı. p ÇİFT YANLI tam işaret-değiştirme permütasyonundan; dört tohumluk oranlar beş değer aldığı için sıfır farklar çok, Wilcoxon Pratt yöntemiyle yan yana verildi. SEÇİM UYARISI: {rtt, launder_api} ikilisi Tablo 4'ün toplu saldırı sıralaması GÖRÜLDÜKTEN sonra seçildi. Bu yüzden bu karşılaştırmalar KEŞİFSEL/seçim-sonrasıdır; Bonferroni yalnız gösterilen aile içinde geçerlidir ve ÖNCEKİ SEÇİM ADIMINI hesaba katmaz. 'Doğrulayıcı anlamlılık' diye okunmamalıdır.
 
 **Kapsam:** bu karşılaştırma yalnız rtt ile launder_api arasındadır; tüm saldırıların sıralaması için *Tespit* tablosuna bakınız.
 

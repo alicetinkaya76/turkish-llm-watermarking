@@ -1,6 +1,12 @@
 {
   "_kaynak": "pilot/make_paper_numbers.py — elle sayı YOK",
   "_uretim": "python -m pilot.make_paper_numbers",
+  "_damga": {
+    "surum": "1.6.0-paper",
+    "commit": "493612d",
+    "temiz_calisma_agaci": false
+  },
+  "_secim_uyarisi": "Tablo 5 ve Tablo 6'nin dayandigi {rtt, launder_api} KOSUL ikilisi, toplu saldiri siralamasi GORULDUKTEN sonra secildi. Bu dosyadaki 'ANLAMLI' etiketleri GOSTERILEN aile icindedir ve onceki secim adimini KAPSAMAZ. Tablo 5 icin secim ekseni ile kontrast ekseni AYNIDIR (siralama zaten launder_api'yi rtt'nin ustune koymustu), dolayisiyla Tablo 5 kesifsel/secim-sonrasidir; Tablo 6 icin secim kosul ekseninde, kontrast sema eksenindedir. Ayrinti: makale Bolum 3.3.",
   "corpus": {
     "model": "Qwen/Qwen3-14B",
     "device": "cuda",
@@ -627,7 +633,7 @@
     }
   },
   "sema_karsilastirma_md": [
-    "| kosul | cift | ort_fark | n_istem | p | holm_esik | holm |\n|---|---|---|---|---|---|---|\n| rtt | EXP vs SynthID | 0.479 | 24 | 0.000 | 0.008 | ANLAMLI |\n| rtt | KGW vs SynthID | 0.281 | 24 | 0.001 | 0.010 | ANLAMLI |\n| launder_api | EXP vs SynthID | 0.240 | 24 | 0.003 | 0.013 | ANLAMLI |\n| launder_api | KGW vs SynthID | 0.177 | 24 | 0.013 | 0.017 | ANLAMLI |\n| rtt | KGW vs EXP | -0.198 | 24 | 0.104 | 0.025 | — |\n| launder_api | KGW vs EXP | -0.062 | 24 | 0.513 | 0.050 | — |"
+    "| kosul | cift | ort_fark | n_istem | p | holm_esik | holm |\n|---|---|---|---|---|---|---|\n| rtt | EXP vs SynthID | 0.4792 | 24 | 0.0003 | 0.0083 | ANLAMLI |\n| rtt | KGW vs SynthID | 0.2812 | 24 | 0.0012 | 0.0100 | ANLAMLI |\n| launder_api | EXP vs SynthID | 0.2396 | 24 | 0.0034 | 0.0125 | ANLAMLI |\n| launder_api | KGW vs SynthID | 0.1771 | 24 | 0.0126 | 0.0167 | ANLAMLI |\n| rtt | KGW vs EXP | -0.1979 | 24 | 0.1039 | 0.0250 | — |\n| launder_api | KGW vs EXP | -0.0625 | 24 | 0.5127 | 0.0500 | — |"
   ],
   "kgw_model_negatif": {
     "n": 96,

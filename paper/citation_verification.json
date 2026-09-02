@@ -1,9 +1,9 @@
 {
-  "_tarih": "2026-09-01",
+  "_tarih": "2026-09-02",
   "_makale_dosyasi": "paper/paper.md",
-  "_makale_sha256": "f6dd431396d1a4231794871312c88cd7b99c109c4213be148bdc5cd380530277",
-  "_surum": "v1.5.0-paper",
-  "_UYARI": "Bu dosya bir IDDIA kaydidir, kanit degil. Denetleyen, kaydi sorgusuz kabul ederse denetim islememis demektir. Kapsam alanini once okuyun: 42 kaynagin hepsi AYNI turda AYNI yontemle denetlenmedi.",
+  "_makale_sha256": "95fbf83adcd46b4dca4f12d2f020c3d5c8494c5f9c19e83d943beddc97ae941d",
+  "_surum": "v1.6.0-paper",
+  "_UYARI": "Bu dosya bir IDDIA kaydidir, kanit degil. Denetleyen, kaydi sorgusuz kabul ederse denetim islememis demektir. Kapsam alanini once okuyun: 43 kaynagin hepsi AYNI turda AYNI yontemle denetlenmedi.",
   "_yontem_turlari": [
     {
       "tur": 1,
@@ -52,7 +52,7 @@
         {
           "kaynak": "Meral et al. 2009",
           "ilk_yazilan": "'sozcuk sirasi degisimi ve ek ikamesi gibi donusumler'",
-          "sorun": "Hicbir birincil kayitta ozet yok (Crossref, OpenAlex, Semantic Scholar); bu donusum listesi DOGRULANAMADI.",
+          "sorun": "O denetim turunda basvurulan bibliyografik servisler (Crossref, OpenAlex, Semantic Scholar) bir ozet SUNMADI; bu donusum listesi DOGRULANAMADI. DUZELTME (tur 5): 'hicbir birincil kayitta ozet yok' demek fazla genisti -- yayincinin kendi kaydi bir ozet sunuyor. Ozet, kaldirilan spesifik donusum listesini yine de desteklemiyor, dolayisiyla esas duzeltme gecerli kalir; yanlis olan, kaydin kapsamiydi.",
           "duzeltilmis": "Iddia, baslik + OpenAlex konu etiketi ('Agglutinative language') + yazarlarin kurumu (Bogazici) + ayni uc yazarin 'Watermarking Tools for Turkish Texts' (SIU 2006, 10.1109/siu.2006.1659827) bildirisiyle sinirlandirildi. Spesifik donusum listesi KALDIRILDI."
         }
       ],
@@ -62,11 +62,21 @@
           "gerekce": "Ucuncu-goz raporu yanlis tanimlamis: arXiv 2510.18262 UWBench SUALTI gorme-dil kiyaslamasidir, filigranla ilgisi yok. Yansiz filigran degerlendirme makalesi arXiv 2509.24048'dir. Bu makalede yansiz filigran sinanmadigi icin O da eklenmedi -- gorunus icin kaynak eklemek promptun yasakladigi seydir."
         }
       ]
+    },
+    {
+      "tur": 4,
+      "tarih": "2026-09-01",
+      "kapsam_kaynak": 1,
+      "eklenenler": [
+        "Coltekin, Dogruoz & Cetinoglu 2023 (Turkce DDI kaynaklari elestirel derlemesi)"
+      ],
+      "yontem": "Yayincinin kendi makale sayfasindan ve DOI'sinden dogrulandi: Language Resources and Evaluation 57(1) 449-488, 10.1007/s10579-022-09605-4. Makaledeki kullanim (Turkce korpus ve sozluksel kaynak manzarasi icin genel derleme) kaynagin kendi beyan ettigi kapsamina karsi kontrol edildi.",
+      "not": "Tur 1'in 33'luk, tur 2'nin 3'luk, tur 3'un 6'lik kapsamlarina DAHIL DEGIL. Bu kaynak tur 4'te eklendi ama o turda deftere ISLENMEDI; tur 5 denetimi 42/42 toplamini yakaladi ve 43/43'e duzeltti. Defterin kendisi de denetlenebilir bir iddia kaydidir -- bu, kaydin bir kez geride kaldiginin ornegidir."
     }
   ],
   "_kapsam_toplam": {
-    "makaledeki_kaynak": 42,
-    "denetlenen_kaynak": 42,
+    "makaledeki_kaynak": 43,
+    "denetlenen_kaynak": 43,
     "parantezli_atif_adayi": 105,
     "anlatimsal_atif": 23,
     "yetim_kaynak": 0,
@@ -83,6 +93,25 @@
     "Pan 2024": "IDDIA UYUSMAZLIGI (kucuk). Yayimlanan EMNLP 2024 demo bildirisi dokuz algoritmayi iki ailede kapsiyor ve SynthID'yi HIC anmiyor; SynthID depoya yayimdan sonra eklendi. Cumle, bildirinin kapsadigi ile deponun sundugunu ayiracak sekilde yeniden yazildi."
   },
   "_kondensasyon_notu": "SAYIM YONTEMI: markdown isaretleyicileri (*_`#>) bosluga cevrilip beyaz-bosluk tokenizasyonu. Bu yontemle v1.3.0 19.369 -> v1.4.0 17.615 -> v1.5.0 17945 kelime. Baska bir tokenizasyon baska bir sayi verir; karsilastirmalarda bu yontem kullanildi. DUZELTILMIS IDDIA (tur 4 denetimi hakli cikardi): 'hicbir bulgu cikarilmadi' ifadesi fazla genisti. Dogrusu: hicbir manset sonuc, tablo, sekil, sinirlilik kategorisi, ifsa veya kapsam sonucu cikarilmadi; BAZI DESTEKLEYICI SAGLAMLIK TANILARI kisaltildi veya depo kaydina birakildi -- ozellikle §6'daki morph Theil-Sen egimi (0,051), morph_v1 OLS (0,026), GA [-0,005; 0,034], Theil-Sen (0,005), Spearman (rho=0,091; p=0,39) ve yuksek-kaldiracli nokta silme sonucu (-0,003; n=92). Bunlarin ozeti duruyor (morph_v1 egimi geri cekildi, morph egimi pratik olarak ihmal edilebilir) ama sayilar makalede degil.",
+  "_tur5_denetimi": {
+    "tarih": "2026-09-02",
+    "damga_dogrulandi": "f6dd4313 (tam hash esletildi; denetci guncel metni okumus)",
+    "kabul_edilen_blocker": [
+      "SECIM-SONRASI CIKARIM. {rtt, launder_api} ikilisi Tablo 4'un toplu siralamasi gorulduKTEN sonra secilmisti; makale bunu §3.3'te ifsa ediyordu ama Tablo 5/6 cevresinde 'survives Bonferroni', 'Holm-significant', 'significantly more fragile' gibi DOGRULAYICI dil kullanmaya devam ediyordu. AMA duzeltme ASIMETRIK yapildi: Tablo 5'te secim ekseni ile kontrast ekseni AYNI (siralama zaten launder_api'yi rtt ustune koymustu) -> kesifsel/secim-sonrasi olarak yeniden etiketlendi, hukum sutunu 'below/above within-family alpha' oldu, birincil nicelik etki buyuklugu. Tablo 6'da secim KOSUL ekseninde, kontrast SEMA ekseninde -> dikey; Holm gosterilen 6 test icinde ordinary yorumunu korur. Denetcinin 'ikisini de kesifsel yap' onerisi Tablo 6 icin FAZLA GENISTI ve gercekten kontrol edilmis olani da kucumsuyordu; iki bagimsiz istatistik degerlendirmesi bu asimetriyi dogruladi.",
+      "SURUM KIMLIGI CELISKISI. paper.md v1.5.0, cover_letter.md v1.4.0, title_page.md v1.2.0 diyordu; CITATION.cff/.zenodo.json/bu dosya da 1.5.0'da kalmisti. Hepsi v1.6.0-paper'a esitlendi. Ayrica kapak mektubu kavram DOI'sinin 'o surume cozumlendigini' soyluyordu; kavram DOI'si EN SON surume cozumlenir, ifade duzeltildi.",
+      "TABLO 6'DA GERCEK SAYI HATASI (denetcinin bulmadigi, taramada cikan). Makale ilk iki satira da p=0.001 basiyordu. Gercek degerler 0.0003 ve 0.0012; veriden bagimsiz olarak yeniden hesaplandi (0.0003223419189453125). Kok neden: _md_table'in sabit '{:.3f}' bicimi .round(4)'u eziyordu, ve deger numbers.json yerine 9 gun bayat results/summary.md'den kopyalanmisti. Bicim 4 ondaliga cikarildi, tablo yeniden uretildi; boylece gercek bir siralama geri geldi.",
+      "YAYIMLANAN ARTEFAKT MAKALEYLE CELISIYORDU. results/summary.md (git'te izleniyor, surumle dagitiliyor) hala GERI CEKILEN ham-stat D3 sonucunu ve ci_lo_cp'yi tasiyordu: 'Bonferroni-3 sonrasi anlamli: KGW' -- makale ise EXP diyor. Dosya yeniden uretildi ve kapinin taradigi hedefler listesine eklendi.",
+      "MAKALE KAPI HAKKINDA YANLIS IDDIADA BULUNUYORDU. §7 'kapi, bildirilen bir p numbers.json'dan sapiyorsa surumu dusurur' diyordu; kapi yalnizca D3'u (Tablo 5) ve o da 116 KB'lik metinde CIPLAK ALT-DIZI araySIyla denetliyordu, Tablo 6'yi hic denetlemiyordu. Kapi genisletildi (Tablo 5 + Tablo 6 satir bazinda, konumsal; surum damgasi tutarliligi; summary.md taramasi) ve §7 artik kapinin fiilen yaptigini anlatiyor, elle transkripsiyon acigi da dahil."
+    ],
+    "asistan_hatasi": [
+      "Kapinin YENI Tablo 6 kontrolu ilk yazimda SESSIZCE bos kosuyordu: sema_karsilastirma_md alani satir listesi degil, tek bir cok-satirli metin. Kapinin var olma nedeni olan hata sinifini kapinin kendisi tekrarladi. Duzlestirme eklendi + 'hic satir ayiklanamadi' durumu artik HATA. Iki yeni kontrol de negatif kontrolle sinandi (bozulmus p ve bozulmus surum yakalandi).",
+      "Data Availability'ye 'Tablo 5 ve 6'nin secim-sonrasi yeniden etiketlenmesi' cumlesi, etiketleme HENUZ YAPILMADAN yazilmisti; ayni tur icinde etiketleme yapilarak cumle dogru hale getirildi."
+    ],
+    "acik_birakilan": [
+      "PILOT KOHORT SORUSU (yazar kararina birakildi, uydurulmadi). results_pilot_gecersiz_20260821/ (gitignore'lu, yayimlanmiyor) BAGIMSIZ bir kohortta ayni ilk-iki siralamasini zaten veriyor: launder_api AUROC 0.847 < rtt 0.889 < launder 0.932. Eger {rtt, launder_api} secimi FIILEN o pilottan yapildiysa bu bir kesif/dogrulama ayrimidir ve secim-sonrasi itirazi buyuk olcude duser. Bu, yazarin kendi sureci hakkinda bir olgu beyanidir; zaman damgalarindan CIKARILAMAZ ve asistan tarafindan iddia EDILMEDI. Su an makale muhafazakar (kendi aleyhine) okumayi yaziyor.",
+      "S2 KARAR KURALININ ZAMANLAMASI. cbcb988 (S2 on-kaydi, 23 Agu 23:21) results/scores.csv'nin depoya girisinden (703ee88, 22 Agu 22:12) SONRA. Kural yargilama icin gercekten on-kayit ama (i) sikki DeltaAUROC>0.05 esigi, tespit sonuclari gorulebilirken sabitlenmis oluyor. Karsi kanit: 0.05 kesimi PILOT kohortta dort saldiri geciriyor ve yargilanan kume de dort kosul -- yani esik nihai sayilardan degil pilottan gelmis gorunuyor. Yine yazar beyani gerektiriyor."
+    ]
+  },
   "_tur4_denetimi": {
     "tarih": "2026-09-01",
     "damga_dogrulandi": "8033571d (tam hash eslesti)",

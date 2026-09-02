@@ -732,20 +732,28 @@ def audit_corrections(scores: pd.DataFrame) -> list[str]:
         _yon = _d3["ort_oran_farki"].mean()
         if len(_anl):
             _basl = ("### D3 — launder_api, rtt'den daha yıkıcı "
-                     f"({len(_anl)}/{len(_d3)} şemada ANLAMLI, istem düzeyi)")
+                     f"({len(_anl)}/{len(_d3)} şemada gösterilen aile içinde "
+                     "Bonferroni eşiğinin altında, istem düzeyi)")
             _yorum = (
                 "BİRİNCİL birim İSTEM, ölçüt her şemanın kendi temiz-kalibreli "
                 "eşiğinde İSTEM BAŞINA TESPİT ORANI (ham stat değil -- önceki "
                 "sürüm ham stat kullanıyordu ve metin 'tespit oranı' diyordu). "
-                f"Bonferroni-3 sonrası anlamlı: {', '.join(_anl['sema'])}. "
+                f"Gösterilen 3 şemalık aile içinde Bonferroni eşiğinin altında: "
+                f"{', '.join(_anl['sema'])}. "
                 f"Ortalama oran farkı {_yon:+.3f} (negatif = launder_api daha "
-                "yıkıcı); yön üç şemada da aynı. p tam işaret-değiştirme "
+                "yıkıcı); yön üç şemada da aynı. p ÇİFT YANLI tam işaret-değiştirme "
                 "permütasyonundan; dört tohumluk oranlar beş değer aldığı için "
-                "sıfır farklar çok, Wilcoxon Pratt yöntemiyle yan yana verildi.")
+                "sıfır farklar çok, Wilcoxon Pratt yöntemiyle yan yana verildi. "
+                "SEÇİM UYARISI: {rtt, launder_api} ikilisi Tablo 4'ün toplu "
+                "saldırı sıralaması GÖRÜLDÜKTEN sonra seçildi. Bu yüzden bu "
+                "karşılaştırmalar KEŞİFSEL/seçim-sonrasıdır; Bonferroni yalnız "
+                "gösterilen aile içinde geçerlidir ve ÖNCEKİ SEÇİM ADIMINI "
+                "hesaba katmaz. 'Doğrulayıcı anlamlılık' diye okunmamalıdır.")
         else:
             _basl = "### D3 — 'launder_api en yıkıcı saldırı' iddiası: KANITLANAMADI"
             _yorum = ("İstem düzeyi tespit oranında (n=24) hiçbir şemada fark "
-                      f"Bonferroni-3'ü geçmiyor (ortalama oran farkı {_yon:+.3f}). "
+                      f"gösterilen ailenin Bonferroni eşiğini geçmiyor "
+                      f"(ortalama oran farkı {_yon:+.3f}). "
                       "Nokta tahmini sıralaması TEHDİT SIRALAMASI DEĞİLDİR.")
         out += ["", _basl, "", _md_table(_d3.round(4)), "", _yorum, "",
                 "**Kapsam:** bu karşılaştırma yalnız rtt ile launder_api arasındadır; "
@@ -757,12 +765,17 @@ def audit_corrections(scores: pd.DataFrame) -> list[str]:
 def _tam_isaret_permutasyon_p(farklar: np.ndarray) -> tuple[float, int]:
     """Eslenmis isaret-degistirme permutasyon testi, TAM (yaklasim yok).
 
-    NULL TASARIMDAN gelir: ayni istem icinde rtt ile launder_api
-    degistirilebilirse, istem basina farkin isareti +-1 uzerinde simetriktir.
-    Bu, dejenere hucrelerde GERI CEKILEN isaret testinden farklidir -- orada
-    eslesme yoktu ve 24 sonuc tek bir veri-bagimli karsilastiriciyi
+    NULL BIR MODEL VARSAYIMIDIR, TASARIM GARANTISI DEGIL. Ayni istem icinde
+    rtt ile launder_api degistirilebilir SAYILIRSA, istem basina farkin isareti
+    +-1 uzerinde simetriktir. Iki kosul rastgele atanmis etiketler degil,
+    niteliksel olarak farkli iki donusumdur; degistirilebilirligi randomizasyon
+    saglamaz, biz varsayariz. Test bu yuzden gozlenen kalibrasyon ornegine
+    KOSULLUDUR ve CIFT YANLIDIR.
+    Bu, dejenere hucrelerde GERI CEKILEN isaret testinden yine de farklidir --
+    orada eslesme hic yoktu ve 24 sonuc tek bir veri-bagimli karsilastiriciyi
     paylasiyordu. Burada eslesme gercek (ayni istem, iki kosul) ve her ciftin
-    karsilastiricisi kendi icinde.
+    karsilastiricisi kendi icinde; swap tam olarak isaret cevirmeye karsilik
+    gelir.
 
     Sifir farklar atilir (isaret tasimazlar). Oranlar 1/4'un katlari oldugu
     icin tam dagilim tamsayi DP ile numaralandiriliyor; 2^n sayimina gerek yok.
@@ -873,9 +886,17 @@ def scheme_pairwise(scores: pd.DataFrame) -> list[str]:
     Birim: 24 istem (D1 geregi). Olcut: istem basina ortalama stat degil --
     stat olcekleri semalar arasi KARSILASTIRILAMAZ (z-skoru vs -log10 p vs
     g-ortalamasi) -- her semanin KENDI temiz esiginde istem basina TESPIT
-    ORANI. Aile onceden ilan edilir: {rtt, launder_api} x 3 sema cifti = 6
-    test, Holm duzeltmesi. 6 kosulun tamamina genisletmek (30 test) post-hoc
-    olurdu; iki kosul manset saldirilardir (en yikici ikili).
+    ORANI. SEMA-CIFTI ailesi per-sema sonuclar gorulmeden sabitlendi:
+    {rtt, launder_api} x 3 sema cifti = 6 test, Holm duzeltmesi.
+    AMA IKI KOSULUN KENDISI VERIDEN SECILDI: {rtt, launder_api} ikilisi
+    Tablo 4'un toplu saldiri siralamasi GORULDUKTEN sonra alindi. Yani secim
+    KOSUL EKSENINDE olmustur; sema-cifti ekseni (asil kontrast) secime konu
+    olmadi. Holm burada gosterilen 6 testlik aile icinde gecerlidir ve
+    kosullarin secimini HESABA KATMAZ. Makale bunu Tablo 6 basliginda kapsam
+    ifadesi olarak yaziyor; Tablo 6'yi "kesifsel" diye ETIKETLEMIYOR, cunku
+    orada secim ekseni kontrast ekseninden farkli. Tablo 5 icin durum baska:
+    orada iki eksen ayni oldugu icin makale onu acikca kesifsel/secim-sonrasi
+    olarak etiketliyor (bkz. d3_istem_duzeyi).
     """
     from scipy.stats import wilcoxon as _wx
     from itertools import combinations
@@ -919,10 +940,15 @@ def scheme_pairwise(scores: pd.DataFrame) -> list[str]:
     return ["", "## Şemalar arası eşlenmiş karşılaştırma", "",
             "> Birim: 24 istem, ölçüt her şemanın KENDİ temiz eşiğinde istem "
             "başına tespit oranı (ham stat ölçekleri şemalar arası "
-            "karşılaştırılamaz). Aile önceden ilan: {rtt, launder_api} × 3 "
-            "çift = 6 test, Holm düzeltmesi. Pozitif fark = ilk şema daha "
-            "dayanıklı.", "",
-            _md_table(df.round(4))]
+            "karşılaştırılamaz). Şema-çifti ailesi önceden sabit: "
+            "{rtt, launder_api} × 3 çift = 6 test, Holm düzeltmesi. Pozitif "
+            "fark = ilk şema daha dayanıklı. SEÇİM UYARISI: iki KOŞUL toplu "
+            "saldırı sıralamasından seçildi; seçim koşul ekseninde, kontrast "
+            "şema ekseninde olduğu için Holm gösterilen 6 test içinde geçerli "
+            "ama koşul seçimini kapsamaz. p 4 ONDALIK: 3 ondalıkta ilk iki "
+            "satır ayırt edilemiyordu (0,0003 ile 0,0012 ikisi de '0,001' "
+            "görünüyordu).", "",
+            _md_table(df.round(4), floatfmt="{:.4f}")]
 
 
 def corpus_integrity(scores: pd.DataFrame) -> list[str]:

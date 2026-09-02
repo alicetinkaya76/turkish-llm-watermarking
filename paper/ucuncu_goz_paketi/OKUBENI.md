@@ -1,5 +1,21 @@
 # Üçüncü-göz paketi — tur 5 (ODAKLI), Language Resources and Evaluation
 
+> ## ⛔ BU PAKET KAPANDI — TARİHSEL ANLIK GÖRÜNTÜ
+>
+> **Tur 5 koşturuldu ve denetim dizisi burada bitti (aşağıdaki durma kuralı
+> gereği). Bu klasör, tur 5 denetçisinin FİİLEN GÖRDÜĞÜ hâldir ve bilerek
+> dondurulmuştur; tur 5 düzeltmeleri buraya İŞLENMEDİ.** Denetimin ne gördüğünü
+> sonradan değiştirmek kaydı bozar.
+>
+> **Gönderilen hâl bu değildir.** Güncel gönderim hâli `v1.6.0-paper`; depo
+> kökündeki `paper/paper.md`, `paper/cover_letter.md`, `paper/title_page.md` ve
+> `pilot/` dosyalarına bakın. Özellikle bu paketteki `kod/metrics.py` tur 5'ten
+> ÖNCEKİ hâldir ve seçim-sonrası uyarısını içermez.
+>
+> Tur 5'in ne bulduğu ve nasıl kapatıldığı iki yerde kayıtlı:
+> `paper/citation_verification.json` → `_tur5_denetimi`, ve
+> `DENETIM_NOTU_geri_cekilen_cikarimlar.md` → bölüm 3 ve 4.
+
 **Sürüm damgası: `v1.5.0-paper / sha256 f6dd4313`, 2026-09-01.**
 
 Bu klasör kendi kendine yeter. Depoya, internete veya başka bir dosyaya ihtiyaç

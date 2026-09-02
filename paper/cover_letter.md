@@ -8,9 +8,9 @@ Dear Editors,
 I submit for your consideration the manuscript **"Watermarking Turkish LLM Output:
 Detector Calibration, Scheme Fragility, and a Released Evaluation Benchmark"** as a
 single-authored Original Paper. I suggest it be handled under the journal's scope for
-**less-resourced languages and the evaluation of language technology**, since its two
-contributions are an evaluation protocol for a language technology measured outside
-English and a released, documented language resource.
+**less-resourced languages and the evaluation of language technology**, since its
+principal contributions for this journal are an evaluation protocol for a language
+technology measured outside English and a released, documented language resource.
 
 **What the paper does.** Statistical watermarks for LLM output are designed and
 validated almost entirely on English, and their detectors ship with thresholds whose
@@ -28,8 +28,9 @@ after pre-registration: at the matched token budgets we evaluated no Turkish–E
 difference is detectable, and Turkish contributes exposure through subword fertility
 rather than a distinct mechanism. Two further findings are a no-dominance pattern
 across the three tested configurations (SynthID flags the fewest human windows at its
-own shipped threshold yet is the most fragile under attack, though the pattern is not
-monotone across all three) and a laundering attack that degrades all three schemes
+own shipped threshold yet is the most fragile under attack in all four paired
+comparisons it enters, each with a Holm-adjusted p below .05 within that six-test
+family, though the pattern is not monotone across all three) and a laundering attack that degrades all three schemes
 while both judges rated meaning preserved on the sampled KGW-arm pairs, at a
 measured cost of USD 17.704. A planned morphological attack did not fire, and that
 negative result is reported with its coverage measurements rather than omitted.
@@ -47,8 +48,10 @@ top level, `DATA_LICENSE.md` gives per-component licensing (which is deliberatel
 three pre-registrations are commits made before the corresponding data was collected,
 so their content and ordering are cryptographically fixed. I note in the Data Availability statement that the wall-clock dates are not independently anchored, because the repository was first published after the data was collected. Repository:
 <https://github.com/alicetinkaya76/turkish-llm-watermarking>, release tag
-`v1.4.0-paper`; archived at Zenodo under the concept DOI 10.5281/zenodo.22168552
-(<https://doi.org/10.5281/zenodo.22168552>), which resolves to that release.
+`v1.6.0-paper`; archived at Zenodo under the concept DOI 10.5281/zenodo.22168552
+(<https://doi.org/10.5281/zenodo.22168552>). That concept DOI resolves to the most recent
+archived version and lists the version DOI of each; the version corresponding to this
+submission is the one tagged `v1.6.0-paper`.
 
 **Author identification.** As requested by the journal:
 
