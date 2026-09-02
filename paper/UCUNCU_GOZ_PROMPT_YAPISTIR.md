@@ -36,6 +36,29 @@ Also newly disclosed: the two attack conditions carried into the focused
 comparison were selected after the aggregate attack ranking was seen, and the
 manuscript now says so rather than implying pre-specification.
 
+## This is the final pre-submission check
+
+Four rounds have already run and every one of them found real defects, so this
+is not a formality. But it is the last round before submission, and that changes
+what a useful report looks like.
+
+**"Nothing blocking" is a permitted and valuable answer.** Do not manufacture
+findings to justify the exercise. The previous round produced four genuine
+blockers and also several suggestions that turned out to be either already
+handled or based on a misidentified source; the second kind costs real time to
+refute. If the fixes are sound, say so in a sentence per item and stop.
+
+Rank anything you do find into exactly three buckets, and say which bucket each
+finding is in:
+
+- **BLOCKS SUBMISSION** — it would make a reported number, a claim's scope, or a
+  conclusion wrong. These get fixed before submission.
+- **FIX IF CHEAP** — real but does not change any number or claim. These may be
+  fixed now or left to peer review.
+- **REVIEWER WILL RAISE IT** — a defensible position a reviewer might challenge,
+  where the manuscript's answer already exists or would be argued in response.
+  These are not fixed now; they are noted for the response letter.
+
 ## Ground rules
 
 1. **Verify before asserting.** If you claim a number is wrong, name the file and

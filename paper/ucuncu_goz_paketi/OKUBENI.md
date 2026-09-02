@@ -31,6 +31,22 @@ denetliyor, çünkü bir düzeltme yeni kusurun en olası yeridir:
 4. **Rol 4 web erişimi ister.** Erişimi olmayan bir modelde o rolü koşturma;
    koşturursan doğrulama yapmadan doğruladığını söyler.
 
+## DURMA KURALI (bu turu son yapan şey)
+
+Dört tur da gerçek kusur buldu, ama **ciddiyet düşüyor**: tur 3 bir sonucu
+değiştirdi (KGW→EXP), tur 4'ün dört blocker'ının hiçbiri bir sonucu çevirmedi.
+Her düzeltme turu yeni bir denetlenecek şey yaratıyor; bu geri çekilme sonsuza
+kadar sürebilir. Kural şu:
+
+- Rapor **BLOCKS SUBMISSION** kutusunda bir şey bulursa: düzelt, sonra gönder.
+- Yalnız **FIX IF CHEAP** ve **REVIEWER WILL RAISE IT** çıkarsa: ucuz olanları
+  düzelt, ötekileri cevap mektubu cephaneliğine yaz, **gönder**.
+- Yeni bir tur **yok**. Bundan sonrası hakemlerin işi.
+
+Gerekçe: bu turun denetlediği düzeltmelerin çoğu *zayıflatma* ve *geri koyma* —
+bir iddiayı zayıflatmak aşırı iddia üretemez. Tek esaslı hesap değişikliği
+(ortak kümeli bootstrap) hiçbir sonucun yönünü değiştirmedi.
+
 ## Rapor gelince ilk iş
 
 **Raporun başında `v1.5.0-paper / sha256 f6dd4313` damgasını ara.** Yoksa veya
