@@ -29,6 +29,7 @@ olduğu gibi yapıştır.
 | `02_CEPHANELIK.md` | **En değerli dosya.** Beş denetim turunda çürütülen hakem iddiaları ve bilinçli seçimlerin gerekçeleri. Bir hakem bunlardan birini yazarsa cevap hazır. |
 | `03_ACIK_ISLER.md` | Revizyonda yapılabilecekler: S2 uzantısı (~$12, kod hazır), uzunluk kısaltma sırası, Zenodo lisans düzeltmesi. |
 | `04_CEVAP_MEKTUBU_SABLONU.md` | Point-by-point cevap formatı + ton kuralları. |
+| `05_DERGI_VE_PORTAL.md` | Portal (SNAPP, Editorial Manager DEĞİL), gönderim durumu, dergi künyesi (JIF 2.0, SCIE/Q3), kılavuz kısıtları, editör iletişimi, SNAPP'in üç tuzağı. |
 | `gonderilen/` | Gönderilen setin **donmuş kopyası**. Depo ilerlese de bu değişmez. |
 | `araclar/` | `revizyon_baslat.sh`, `diff_uret.py`, `kapi_kos.sh` |
 
