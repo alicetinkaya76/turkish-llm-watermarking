@@ -4,7 +4,7 @@ Portal: **submission.springernature.com** (Springer Nature SNAPP).
 Editorial Manager DEĞİL — LRE SNAPP'e taşınmış.
 Sekmeler: **Files → Details → Authors → Declarations → Review**
 
-Kaynak: `paper/paper.md` (v1.8.0-paper, sha256 791af135). Gönderim paketi: `submission/SNAP-LRE/`.
+Kaynak: `paper/paper.md` (v1.8.0-paper, sha256 a4a7d26a). Gönderim paketi: `submission/SNAP-LRE/`.
 
 ---
 
@@ -13,7 +13,7 @@ Kaynak: `paper/paper.md` (v1.8.0-paper, sha256 791af135). Gönderim paketi: `sub
 **Upload manuscript → `submission/SNAP-LRE/paper.docx`**
 
 SNAPP "tek düzenlenebilir dosya, şekiller ve tablolar metnin içinde" istiyor.
-`paper.docx` tam olarak bu: 30 sayfa, 11 tablo gerçek Word tablosu, 3 şekil
+`paper.docx` tam olarak bu: 29 sayfa, 10 tablo gerçek Word tablosu, 3 şekil
 gövdeye gömülü. Ek işlem gerekmiyor.
 
 **Figures and tables (optional) → ATLA.**

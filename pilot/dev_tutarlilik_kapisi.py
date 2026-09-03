@@ -139,6 +139,27 @@ def main() -> int:
                         f"Tablo 6 [{kosul} | {cift}]: {ad}={deg} makale "
                         f"satirinda gecmiyor -> {r[:100]!r}")
 
+    # 3c) GONDERIM KITI: yukleme sirasinda okunan belge bayat sayi tasimasin.
+    # Kit, paper.md'nin sha256 onekini ve sayfa/tablo sayisini yaziyor; bunlar
+    # v1.7.2'de sessizce bayatladi (791af135 / "30 sayfa, 11 tablo" derken gercek
+    # a4a7d26a / 29 sayfa, 10 tabloydu). Ali yuklerken bu belgeye bakiyor.
+    kit = _ROOT / "paper" / "SNAPP_GONDERIM_KITI.md"
+    if kit.exists() and pm.exists():
+        import hashlib
+        kt = kit.read_text(encoding="utf-8")
+        gercek = hashlib.sha256(pm.read_bytes()).hexdigest()[:8]
+        m = re.search(r"sha256 ([0-9a-f]{8})\)", kt)
+        if not m:
+            hata.append("kit: sha256 damgasi bulunamadi")
+        elif m.group(1) != gercek:
+            hata.append(f"kit: sha256 {m.group(1)} != paper.md {gercek} (kit bayat)")
+        n_tbl = len(re.findall(r"^\*\*Table \d+\.\*\*", pm.read_text(encoding="utf-8"), re.M))
+        m2 = re.search(r"(\d+) tablo gercek Word tablosu|(\d+) tablo gerçek Word tablosu", kt)
+        if m2:
+            iddia = int(m2.group(1) or m2.group(2))
+            if iddia != n_tbl:
+                hata.append(f"kit: '{iddia} tablo' != makaledeki {n_tbl} tablo")
+
     # 4) SURUM DAMGASI: gonderim dosyalari ayni surumu mu gosteriyor?
     # Tur 5 denetiminin ikinci blocker'i tam olarak buydu: paper.md v1.5.0,
     # cover_letter.md v1.4.0, title_page.md v1.2.0 diyordu. Editor hangi
