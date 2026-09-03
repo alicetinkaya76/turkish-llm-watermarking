@@ -158,4 +158,4 @@ Gönderdikten sonra bir manuscript numarası gelmeli.
 - [ ] Funding = "no funding" (kurum kaynağı YAZILMADI)
 - [ ] Kapak mektubu yapıştırıldı, paralel gönderimler beyanı duruyor
 - [ ] **Zenodo access_token döndürüldü** (oturum dökümüne sızmıştı)
-- [ ] Depo herkese açık, `v1.7.1-paper` etiketi ve sürüm DOI'si 10.5281/zenodo.22271924 görünüyor
+- [ ] Depo herkese açık, `v1.7.1-paper` etiketi ve sürüm DOI'si 10.5281/zenodo.22273963 görünüyor
