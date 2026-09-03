@@ -77,7 +77,7 @@ gelecek-iş maddesi.]
 
 ```bash
 cd ~/Desktop/MarkLLM/MarkLLM
-bash "review gelince bana gel/araclar/kapi_kos.sh"
+bash "submission/review gelince bana gel/araclar/kapi_kos.sh"
 ```
 
 Kapı geçmeden sürüm alma. Sonra:

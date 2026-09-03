@@ -21,6 +21,6 @@ echo
 echo "Bitince:"
 echo "  python3 -m pilot.make_paper_numbers"
 echo "  (cd paper && NODE_PATH=/opt/homebrew/lib/node_modules node make_docx.js)"
-echo "  bash 'review gelince bana gel/araclar/kapi_kos.sh'"
+echo "  bash 'submission/review gelince bana gel/araclar/kapi_kos.sh'"
 echo "  git tag -a v$V-paper -m '...' && git push fork $BR && git push fork v$V-paper"
 echo "  gh release create v$V-paper --repo alicetinkaya76/turkish-llm-watermarking --title '...' --notes '...'"

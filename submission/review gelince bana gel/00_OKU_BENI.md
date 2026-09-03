@@ -12,7 +12,7 @@ and a Released Evaluation Benchmark
 
 Yeni bir oturum aç ve şunu yaz:
 
-> LRE'den karar geldi. `~/Desktop/MarkLLM/MarkLLM/review gelince bana gel/`
+> LRE'den karar geldi. `~/Desktop/MarkLLM/MarkLLM/submission/review gelince bana gel/`
 > klasörünü oku, sonra hakem raporunu vereceğim.
 
 Claude bu klasörü okuyunca ne gönderildiğini, hangi iddiaların nasıl savunulacağını
