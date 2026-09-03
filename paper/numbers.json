@@ -2,8 +2,8 @@
   "_kaynak": "pilot/make_paper_numbers.py — elle sayı YOK",
   "_uretim": "python -m pilot.make_paper_numbers",
   "_damga": {
-    "surum": "1.7.0-paper",
-    "commit": "ab0d2fd",
+    "surum": "1.7.1-paper",
+    "commit": "2a08d20",
     "temiz_calisma_agaci": false
   },
   "_secim_uyarisi": "Tablo 5 ve Tablo 6'nin dayandigi {rtt, launder_api} KOSUL ikilisi, toplu saldiri siralamasi GORULDUKTEN sonra secildi. Bu dosyadaki 'ANLAMLI' etiketleri GOSTERILEN aile icindedir ve onceki secim adimini KAPSAMAZ. Tablo 5 icin secim ekseni ile kontrast ekseni AYNIDIR (siralama zaten launder_api'yi rtt'nin ustune koymustu), dolayisiyla Tablo 5 kesifsel/secim-sonrasidir; Tablo 6 icin secim kosul ekseninde, kontrast sema eksenindedir. Ayrinti: makale Bolum 3.3.",

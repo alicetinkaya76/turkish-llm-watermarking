@@ -16,7 +16,7 @@ abstract: >-
   repository is a research fork of MarkLLM and therefore also carries upstream
   files the study does not use; DATA_LICENSE.md itemises them.
 type: software
-version: 1.7.0-paper
+version: 1.7.1-paper
 # Tek bir SPDX tanimlayicisi bu depoyu tanimlayamiyor (Apache-2.0 kod, CC BY-SA
 # Wikimedia metni, CC BY-NC ceviriler, CC0 skorlar). DATA_LICENSE.md yetkili kaynak.
 license-url: https://github.com/alicetinkaya76/turkish-llm-watermarking/blob/turkce-filigran-faz2/DATA_LICENSE.md
