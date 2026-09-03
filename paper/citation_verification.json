@@ -1,8 +1,8 @@
 {
   "_tarih": "2026-09-03",
   "_makale_dosyasi": "paper/paper.md",
-  "_makale_sha256": "5ac07365b9fa7fc333d8290870c79ccd54b7f9b58480d7733bdc33345c0807e1",
-  "_surum": "v1.7.2-paper",
+  "_makale_sha256": "a4a7d26a39382c8532e41b5177e9533ab51ea7ebcc7a7223af1f7fab03f874fa",
+  "_surum": "v1.8.0-paper",
   "_UYARI": "Bu dosya bir IDDIA kaydidir, kanit degil. Denetleyen, kaydi sorgusuz kabul ederse denetim islememis demektir. Kapsam alanini once okuyun: 43 kaynagin hepsi AYNI turda AYNI yontemle denetlenmedi.",
   "_yontem_turlari": [
     {
@@ -108,7 +108,7 @@
       "Data Availability'ye 'Tablo 5 ve 6'nin secim-sonrasi yeniden etiketlenmesi' cumlesi, etiketleme HENUZ YAPILMADAN yazilmisti; ayni tur icinde etiketleme yapilarak cumle dogru hale getirildi."
     ],
     "acik_birakilan": [
-      "PILOT KOHORT SORUSU (yazar kararina birakildi, uydurulmadi). results_pilot_gecersiz_20260821/ (gitignore'lu, yayimlanmiyor) BAGIMSIZ bir kohortta ayni ilk-iki siralamasini zaten veriyor: launder_api AUROC 0.847 < rtt 0.889 < launder 0.932. Eger {rtt, launder_api} secimi FIILEN o pilottan yapildiysa bu bir kesif/dogrulama ayrimidir ve secim-sonrasi itirazi buyuk olcude duser. Bu, yazarin kendi sureci hakkinda bir olgu beyanidir; zaman damgalarindan CIKARILAMAZ ve asistan tarafindan iddia EDILMEDI. Su an makale muhafazakar (kendi aleyhine) okumayi yaziyor.",
+      "PILOT KOHORT SORUSU -> KAYITTAN COZULDU (2026-09-03). Pilot raporu (18 Agu, Qwen2.5-3B, kapiyi gecemeyen korpus) rtt/launder_api'yi en yikici iki saldiri diye yazili kaydetmis; calisma korpusu 20-21 Agu; ikiliyi sabitleyen kod 23 Agu (4c597d0). Uc dosya audit/pilot_20260818/ olarak yayimlandi. Tablo 5 aile-ici Bonferroni kararina geri dondu; sinir: kayit Tablo 4'un onayda rol oynamadigini gosteremez, makale §3.3 bunu yazar. Yazar beyani hala guclendirebilir ama gerekmiyor.",
       "S2 KARAR KURALININ ZAMANLAMASI. cbcb988 (S2 on-kaydi, 23 Agu 23:21) results/scores.csv'nin depoya girisinden (703ee88, 22 Agu 22:12) SONRA. Kural yargilama icin gercekten on-kayit ama (i) sikki DeltaAUROC>0.05 esigi, tespit sonuclari gorulebilirken sabitlenmis oluyor. Karsi kanit: 0.05 kesimi PILOT kohortta dort saldiri geciriyor ve yargilanan kume de dort kosul -- yani esik nihai sayilardan degil pilottan gelmis gorunuyor. Yine yazar beyani gerektiriyor."
     ]
   },

@@ -1,7 +1,7 @@
 # submission/SNAP-LRE — Language Resources and Evaluation (Springer Nature SNAPP)
 
 Portal: https://submission.springernature.com  (Editorial Manager DEĞİL)
-Manuscript state: release tag `v1.7.2-paper`, `paper/paper.md` sha256 791af135…
+Manuscript state: release tag `v1.8.0-paper`, `paper/paper.md` sha256 791af135…
 
 | Dosya | SNAPP'te nereye |
 |---|---|
@@ -13,3 +13,5 @@ Manuscript state: release tag `v1.7.2-paper`, `paper/paper.md` sha256 791af135�
 
 Şekil eşlemesi (LRE "Fig" + numara kuralı): Fig1 = auroc_attacks, Fig2 = tradeoff, Fig3 = null_distributions.
 Bu klasör türetilmiş bir teslim paketidir; kaynak `paper/` altındadır ve oradan yeniden üretilir.
+
+| `ESM_1.pdf` | Online Resource 1 (Table S1: the 33-cell realized false-positive table moved out of the article); upload under Supplementary material |

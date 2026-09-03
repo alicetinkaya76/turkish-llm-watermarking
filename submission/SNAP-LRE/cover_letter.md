@@ -58,10 +58,10 @@ top level, `DATA_LICENSE.md` gives per-component licensing (which is
 three pre-registrations are commits made before the corresponding data was collected,
 so their content and ordering are cryptographically fixed. I note in the Data Availability statement that the wall-clock dates are not independently anchored, because the repository was first published after the data was collected. Repository:
 <https://github.com/alicetinkaya76/turkish-llm-watermarking>, release tag
-`v1.7.2-paper`, archived at Zenodo under the concept DOI 10.5281/zenodo.22168552
+`v1.8.0-paper`, archived at Zenodo under the concept DOI 10.5281/zenodo.22168552
 (<https://doi.org/10.5281/zenodo.22168552>). That concept DOI resolves to the most recent
 archived version and lists the version DOI of each. The version corresponding to this
-submission is the one tagged `v1.7.2-paper`.
+submission is the one tagged `v1.8.0-paper`.
 
 **Author identification.** As requested by the journal:
 
@@ -119,17 +119,14 @@ the repository unaided.
 typical, and I raise it here. Three things drive it. First, the paper reports two
 separately pre-registered studies (a false-positive study on 4,000 human windows and a
 two-judge meaning-preservation study) alongside a ten-attack robustness suite. Second, it
-prints the full 33-cell realized false-positive table instead of a summary, which the
-Introduction commits to explicitly because a truncated version of that table is what would
-hide the finding. Third, it states the scope limits of each claim individually instead of in
+provides the full 33-cell realized false-positive table as Online Resource 1 and keeps
+its summary in the article, because a truncated version of that table is what would hide
+the finding. Third, it states the scope limits of each claim individually instead of in
 a single blanket paragraph. I have already removed what could go without loss, condensing
 the history of three withdrawn statistical treatments to a single paragraph that points to a
 repository audit note carrying the full derivations, and compressing the declarations. If
-the editors would prefer it shorter, I would move material in the following order. The
-33-cell realized false-positive table with its accompanying paragraph would go first, with
-the maximum observed rate, the number of flagged cells and the clustering caveat retained in
-the article. The detail of the eight-key sweep would go next, with its range and conclusion
-retained. Then the version and timestamp discussion in the Data Availability statement and
+the editors would prefer it shorter, I would move material in the following order. The detail of
+the eight-key sweep would go first, with its range and conclusion retained. Then the version and timestamp discussion in the Data Availability statement and
 the long-form licensing narrative, with the access route and the warning that the licensing
 is not uniform retained. Last, the exploratory re-scoring and contamination
 observations. I would keep the length control of Section 4.3 in the article even

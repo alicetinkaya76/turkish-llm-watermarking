@@ -155,6 +155,20 @@ claim about the order in which the author did things; it does not follow from
 the timestamps, and it is not asserted here. The article states the conservative
 reading, which is the one against its own interest.
 
+**Provenance located (3 September 2026).** The open question above was answered from
+the record, not from an attestation. The pilot report of an earlier cohort (generator
+Qwen2.5-3B-Instruct, corpus failed the acceptance gate) states in its narrowed audit
+claim that `rtt` and `launder_api` were the most destructive attacks; its files are
+dated 15–18 August 2026 locally, the study corpus was generated on 20–21 August, and
+the analysis code that fixes the pair was written on 23 August (`pilot/metrics.py`,
+commit 4c597d0). The report, its detection table and its environment record are now
+released as `audit/pilot_20260818/`. Because the designation preceded the study data,
+Table 5's Bonferroni decision is again read as familywise within its three-scheme
+family, with one limit stated in the paper: the record cannot show that Table 4, which
+reproduced the pilot ordering, played no part in confirming the choice. The
+"exploratory post-selection" label of `v1.5.0`–`v1.7.2` is withdrawn in favour of this
+provenance statement; the asymmetry argument for Table 6 stands and is now moot.
+
 ## 4. A number that reached the manuscript without the pipeline
 
 Table 6's first row was printed as p = 0.001 through `v1.5.0-paper`. The value
@@ -180,7 +194,7 @@ three-digit string occurred anywhere in a 116 KB document.
 | `log10_p_tam_permutasyon` = −44.28 | `v1.2.0-paper` | removed |
 | `log10_p_isaret_cevirme` = −7.22 | `v1.2.0-paper` | removed |
 | D3 p from raw statistics | `v1.2.0-paper` | replaced by detection-rate estimand |
-| Confirmatory reading of Tables 5–6 | `v1.5.0-paper` | narrowed; Table 5 exploratory, Table 6 scope-stated |
+| Confirmatory reading of Tables 5–6 | `v1.5.0-paper` | narrowed in v1.5.0; Table 5 restored to within-family decision in v1.8.0 on pilot-cohort provenance (`audit/pilot_20260818/`) |
 | Table 6 row 1 printed as p = 0.001 | `v1.5.0-paper` | corrected to 0.0003 |
 
 The `v1.1.0-paper` and `v1.2.0-paper` Zenodo archives retain their DOIs and are

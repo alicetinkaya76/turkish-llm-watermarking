@@ -4,7 +4,7 @@ Portal: **submission.springernature.com** (Springer Nature SNAPP).
 Editorial Manager DEĞİL — LRE SNAPP'e taşınmış.
 Sekmeler: **Files → Details → Authors → Declarations → Review**
 
-Kaynak: `paper/paper.md` (v1.7.2-paper, sha256 791af135). Gönderim paketi: `submission/SNAP-LRE/`.
+Kaynak: `paper/paper.md` (v1.8.0-paper, sha256 791af135). Gönderim paketi: `submission/SNAP-LRE/`.
 
 ---
 
@@ -27,10 +27,12 @@ numaralarıyla eşleşmiyor, o yüzden **o aşamaya gelince** şu eşlemeyi kull
 | Figure 2 | `Fig2.png` | `paper/figs/fig3_tradeoff.png` |
 | Figure 3 | `Fig3.png` | `paper/figs/fig1_null_distributions.png` |
 
-**Supplementary material (optional) → ATLA.**
-Her şey zaten Zenodo'da ve makale onu adres gösteriyor. Aynı malzemeyi
-buraya da yüklemek iki ayrı "kayıt" yaratır ve hangisinin yetkili olduğu
-belirsizleşir — bu turda tam olarak bu hatayı temizledik.
+**Supplementary material → `submission/SNAP-LRE/ESM_1.pdf` YÜKLE.**
+Online Resource 1 = Tablo S1 (33 hücrelik gerçekleşen FPR tablosu; makaleden
+ek malzemeye taşındı, metin "Online Resource 1" diye anıyor). Başlık kutusuna:
+"Online Resource 1. Realized false-positive rate of the clean-calibrated threshold
+on attacked negatives, all 33 scheme-condition cells (Table S1)."
+Başka ek yükleme: veri/kod Zenodo'da, buraya kopyalama.
 
 **Title page ayrı slot YOK.** SNAPP yazar bilgisini *Authors* sekmesinden
 alıyor ve `paper.docx` zaten sorumlu yazar bloğunu taşıyor (LRE tek-kör, yazar
@@ -122,7 +124,7 @@ Not applicable.
 
 **Data availability**
 ```
-Openly available at https://github.com/alicetinkaya76/turkish-llm-watermarking, release tag v1.7.2-paper, archived at Zenodo under the concept DOI 10.5281/zenodo.22168552, which resolves to the most recent archived version. Licensing is not uniform across components; see DATA_LICENSE.md.
+Openly available at https://github.com/alicetinkaya76/turkish-llm-watermarking, release tag v1.8.0-paper, archived at Zenodo under the concept DOI 10.5281/zenodo.22168552, which resolves to the most recent archived version. Licensing is not uniform across components; see DATA_LICENSE.md.
 ```
 
 **Author contributions**
@@ -158,4 +160,4 @@ Gönderdikten sonra bir manuscript numarası gelmeli.
 - [ ] Funding = "no funding" (kurum kaynağı YAZILMADI)
 - [ ] Kapak mektubu yapıştırıldı, paralel gönderimler beyanı duruyor
 - [ ] **Zenodo access_token döndürüldü** (oturum dökümüne sızmıştı)
-- [ ] Depo herkese açık, `v1.7.2-paper` etiketi ve sürüm DOI'si 10.5281/zenodo.22275847 görünüyor
+- [ ] Depo herkese açık, `v1.8.0-paper` etiketi ve sürüm DOI'si 10.5281/zenodo.22275847 görünüyor

@@ -56,14 +56,12 @@ def main() -> None:
                "_uretim": "python -m pilot.make_paper_numbers",
                "_damga": _damga(),
                "_secim_uyarisi": (
-                   "Tablo 5 ve Tablo 6'nin dayandigi {rtt, launder_api} KOSUL "
-                   "ikilisi, toplu saldiri siralamasi GORULDUKTEN sonra "
-                   "secildi. Bu dosyadaki 'ANLAMLI' etiketleri GOSTERILEN aile "
-                   "icindedir ve onceki secim adimini KAPSAMAZ. Tablo 5 icin "
-                   "secim ekseni ile kontrast ekseni AYNIDIR (siralama zaten "
-                   "launder_api'yi rtt'nin ustune koymustu), dolayisiyla Tablo "
-                   "5 kesifsel/secim-sonrasidir; Tablo 6 icin secim kosul "
-                   "ekseninde, kontrast sema eksenindedir. Ayrinti: makale "
+                   "Tablo 5 ve Tablo 6'nin dayandigi {rtt, launder_api} KOSUL ikilisi calisma "
+                   "verisinde secilmedi: 18 Agu 2026 tarihli bagimsiz pilot kohortta en yikici "
+                   "iki saldiriydi ve pilot raporu bunu calisma korpusu uretilmeden once yazdi "
+                   "(audit/pilot_20260818/). Bu dosyadaki ANLAMLI etiketleri gosterilen aile "
+                   "icinde aile-genelidir. Kayit, tasarimin calisma verisinden once oldugunu "
+                   "gosterir; Tablo 4'un onayda rol oynamadigini gosteremez. Ayrinti: makale "
                    "Bolum 3.3.")}
 
     env = json.loads((C.RESULTS / "env.json").read_text())
@@ -174,6 +172,7 @@ def main() -> None:
 
     # S2
     n["s2"] = json.loads((C.REPO_ROOT / "results_insan" / "s2_rapor.json").read_text())
+    n["s2_uzanti_tahmin_usd"] = {"opus_yargic_kol_basi": 5.71, "_kaynak": "dev_s2_fayda --kaynak pos_EXP --trial 3 (2026-09-03): 6 Opus cagrisi olculen $0.107 -> betigin tam-kosu tahmini; kalibrasyon ciftleri haric"}
     n["s2_maliyet_usd"] = {"opus_yargic": 7.021, "launder_api_uretim": 17.704,
                            "_kaynak": "ölçülen API muhasebesi (loglar)"}
 

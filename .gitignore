@@ -191,3 +191,7 @@ paper/ucuncu_goz_DOSYALAR.zip
 
 # Word gecici kilit dosyalari
 ~$*
+
+# S2 uzantisi (EXP/SynthID kollari): tam kosu onaylanana kadar kismi ciktilar surume girmez
+results_insan/s2_fayda_pos_*.jsonl
+results_insan/s2_rapor_pos_*.json

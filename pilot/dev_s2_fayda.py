@@ -104,6 +104,10 @@ def cift_kur() -> list[dict]:
                                 prompt_id=k[0], seed=k[1],
                                 a=base[k], b=r["text"]))
     # kalibrasyon: ozdes (tavan) -- gen_neg'den, EXP'ten ASLA (tohumlar ozdes)
+    # UZANTI (2026-09-03): kalibrasyon ciftleri yargic guvenilirligini olcer ve
+    # KGW kolunda olculdu; EXP/SynthID uzantisinda tekrarlanmaz (kol-bagimsiz).
+    if KAYNAK != "pos_KGW":
+        return ciftler
     neg = read_jsonl(C.RESULTS / "gen_neg.jsonl")
     for r in rnd.sample(neg, N_KALIB):
         ciftler.append(dict(tur="kalib_ozdes", kosul="kalib",
@@ -261,7 +265,7 @@ def rapor() -> None:
               + "  ".join(parcalar)
               + "   (✓ = o şemada ön-kayıt kuralı sağlandı)")
 
-    yol = C.REPO_ROOT / "results_insan" / "s2_rapor.json"
+    yol = C.REPO_ROOT / "results_insan" / ("s2_rapor.json" if KAYNAK == "pos_KGW" else f"s2_rapor_{KAYNAK}.json")
     # numpy bool/float JSON'a çevrilemiyor; saf Python tiplerine indir.
     def _saf(v):
         return {kk: (bool(x) if isinstance(x, (bool, np.bool_)) else
@@ -277,7 +281,15 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="S2: fayda ekseni")
     ap.add_argument("--trial", type=int, default=0)
     ap.add_argument("--rapor", action="store_true")
+    ap.add_argument("--kaynak", default="pos_KGW",
+                    choices=["pos_KGW", "pos_EXP", "pos_SynthID"],
+                    help="Yargilanacak kaynak kol. On-kayit KGW; EXP/SynthID = kayit-sonrasi UZANTI, ayri dosyaya yazar.")
     a = ap.parse_args()
+    global KAYNAK, CIKTI
+    KAYNAK = a.kaynak
+    if KAYNAK != "pos_KGW":
+        CIKTI = C.REPO_ROOT / "results_insan" / f"s2_fayda_{KAYNAK}.jsonl"
+        CIKTI.touch()
     if a.rapor:
         rapor()
     else:

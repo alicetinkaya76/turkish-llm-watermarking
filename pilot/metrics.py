@@ -744,11 +744,13 @@ def audit_corrections(scores: pd.DataFrame) -> list[str]:
                 "yıkıcı); yön üç şemada da aynı. p ÇİFT YANLI tam işaret-değiştirme "
                 "permütasyonundan; dört tohumluk oranlar beş değer aldığı için "
                 "sıfır farklar çok, Wilcoxon Pratt yöntemiyle yan yana verildi. "
-                "SEÇİM UYARISI: {rtt, launder_api} ikilisi Tablo 4'ün toplu "
-                "saldırı sıralaması GÖRÜLDÜKTEN sonra seçildi. Bu yüzden bu "
-                "karşılaştırmalar KEŞİFSEL/seçim-sonrasıdır; Bonferroni yalnız "
-                "gösterilen aile içinde geçerlidir ve ÖNCEKİ SEÇİM ADIMINI "
-                "hesaba katmaz. 'Doğrulayıcı anlamlılık' diye okunmamalıdır.")
+                "SEÇİM PROVENANSI: {rtt, launder_api} ikilisi çalışma verisinde seçilmedi; "
+                "18 Ağustos 2026 tarihli BAĞIMSIZ pilot kohortta (Qwen2.5-3B, kapıyı "
+                "geçemeyen korpus) en yıkıcı iki saldırıydı ve pilot raporu bunu çalışma "
+                "korpusu üretilmeden önce yazılı olarak kaydetti (audit/pilot_20260818/). "
+                "Kayıt, tasarımın çalışma verisinden önce olduğunu gösterir; Tablo 4'ün "
+                "onayda rol oynamadığını GÖSTEREMEZ. Bonferroni gösterilen aile içinde "
+                "aile-genelidir; makale §3.3 provenans sınırını yazar.")
         else:
             _basl = "### D3 — 'launder_api en yıkıcı saldırı' iddiası: KANITLANAMADI"
             _yorum = ("İstem düzeyi tespit oranında (n=24) hiçbir şemada fark "
@@ -888,15 +890,12 @@ def scheme_pairwise(scores: pd.DataFrame) -> list[str]:
     g-ortalamasi) -- her semanin KENDI temiz esiginde istem basina TESPIT
     ORANI. SEMA-CIFTI ailesi per-sema sonuclar gorulmeden sabitlendi:
     {rtt, launder_api} x 3 sema cifti = 6 test, Holm duzeltmesi.
-    AMA IKI KOSULUN KENDISI VERIDEN SECILDI: {rtt, launder_api} ikilisi
-    Tablo 4'un toplu saldiri siralamasi GORULDUKTEN sonra alindi. Yani secim
-    KOSUL EKSENINDE olmustur; sema-cifti ekseni (asil kontrast) secime konu
-    olmadi. Holm burada gosterilen 6 testlik aile icinde gecerlidir ve
-    kosullarin secimini HESABA KATMAZ. Makale bunu Tablo 6 basliginda kapsam
-    ifadesi olarak yaziyor; Tablo 6'yi "kesifsel" diye ETIKETLEMIYOR, cunku
-    orada secim ekseni kontrast ekseninden farkli. Tablo 5 icin durum baska:
-    orada iki eksen ayni oldugu icin makale onu acikca kesifsel/secim-sonrasi
-    olarak etiketliyor (bkz. d3_istem_duzeyi).
+    KOSUL IKILISININ PROVENANSI: {rtt, launder_api} calisma verisinde secilmedi;
+    18 Agu 2026 tarihli BAGIMSIZ pilot kohortta en yikici iki saldiriydi ve pilot
+    raporu bunu calisma korpusu uretilmeden once yazdi (audit/pilot_20260818/).
+    Kayit tasarimin calisma verisinden ONCE oldugunu gosterir; Tablo 4'un onayda
+    rol oynamadigini gosteremez (bu kod 23 Agu'da, skorlardan sonra yazildi).
+    Sema-cifti ekseni zaten secimden bagimsiz. Makale §3.3 bunu aynen yazar.
     """
     from scipy.stats import wilcoxon as _wx
     from itertools import combinations
