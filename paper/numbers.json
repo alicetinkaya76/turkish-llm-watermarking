@@ -2,8 +2,8 @@
   "_kaynak": "pilot/make_paper_numbers.py — elle sayı YOK",
   "_uretim": "python -m pilot.make_paper_numbers",
   "_damga": {
-    "surum": "1.8.0-paper",
-    "commit": "87856f9",
+    "surum": "1.8.1-paper",
+    "commit": "5af9f58",
     "temiz_calisma_agaci": false
   },
   "_secim_uyarisi": "Tablo 5 ve Tablo 6'nin dayandigi {rtt, launder_api} KOSUL ikilisi calisma verisinde secilmedi: 18 Agu 2026 tarihli bagimsiz pilot kohortta en yikici iki saldiriydi ve pilot raporu bunu calisma korpusu uretilmeden once yazdi (audit/pilot_20260818/). Bu dosyadaki ANLAMLI etiketleri gosterilen aile icinde aile-genelidir. Kayit, tasarimin calisma verisinden once oldugunu gosterir; Tablo 4'un onayda rol oynamadigini gosteremez. Ayrinti: makale Bolum 3.3.",

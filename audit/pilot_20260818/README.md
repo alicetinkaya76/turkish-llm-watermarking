@@ -26,3 +26,24 @@ confirming it. File timestamps are local (`stat`): `scores.csv` 2026-08-15,
 | `summary.md` | pilot report, including the narrowed-claim audit paragraph |
 | `detection_metrics.csv` | per scheme x condition AUROC/TPR on the pilot cohort |
 | `env.json` | generator, device and sampling settings of the pilot |
+
+## What the report says about ordering (English gloss)
+
+`summary.md` is in Turkish. Two passages matter for the paper's use of this record.
+
+Section **D3**, headed "'launder_api en yıkıcı saldırı' iddiası GERİ ÇEKİLDİ"
+("the claim that launder_api is the most destructive attack is WITHDRAWN"), reports
+paired McNemar tests that separate `launder_api` from `rtt` in no scheme (EXP 0.000,
+p = 1.000; KGW −0.052, p = 0.522; SynthID −0.125, p = 0.050) and attributes the earlier
+headline to a selected minimum point estimate and a winner's-curse effect. Its narrowed
+claim is that API laundering produced more detector erosion than local laundering in all
+three schemes, while its advantage over round-trip translation is scheme-dependent and
+not established.
+
+The **audit paragraph** near the end gives the report's overall narrowed claim: "the major
+directions (rtt/launder_api most destructive, morph ineffective, clean at ceiling) hold,
+while some sub-orderings change."
+
+Together these fix *which two* conditions are the destructive pair without ordering them.
+That is the sense in which the paper (Section 3.3) treats the pair as designated by this
+record: the pilot selects the pair and does not anticipate the direction Table 5 estimates.

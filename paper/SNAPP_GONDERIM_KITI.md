@@ -4,7 +4,7 @@ Portal: **submission.springernature.com** (Springer Nature SNAPP).
 Editorial Manager DEĞİL — LRE SNAPP'e taşınmış.
 Sekmeler: **Files → Details → Authors → Declarations → Review**
 
-Kaynak: `paper/paper.md` (v1.8.0-paper, sha256 a4a7d26a). Gönderim paketi: `submission/SNAP-LRE/`.
+Kaynak: `paper/paper.md` (v1.8.1-paper, sha256 70f22535). Gönderim paketi: `submission/SNAP-LRE/`.
 
 ---
 
@@ -124,7 +124,7 @@ Not applicable.
 
 **Data availability**
 ```
-Openly available at https://github.com/alicetinkaya76/turkish-llm-watermarking, release tag v1.8.0-paper, archived at Zenodo under the concept DOI 10.5281/zenodo.22168552, which resolves to the most recent archived version. Licensing is not uniform across components; see DATA_LICENSE.md.
+Openly available at https://github.com/alicetinkaya76/turkish-llm-watermarking, release tag v1.8.1-paper, archived at Zenodo under the concept DOI 10.5281/zenodo.22168552, which resolves to the most recent archived version. Licensing is not uniform across components; see DATA_LICENSE.md.
 ```
 
 **Author contributions**
@@ -160,4 +160,4 @@ Gönderdikten sonra bir manuscript numarası gelmeli.
 - [ ] Funding = "no funding" (kurum kaynağı YAZILMADI)
 - [ ] Kapak mektubu yapıştırıldı, paralel gönderimler beyanı duruyor
 - [ ] **Zenodo access_token döndürüldü** (oturum dökümüne sızmıştı)
-- [ ] Depo herkese açık, `v1.8.0-paper` etiketi ve sürüm DOI'si 10.5281/zenodo.22283192 görünüyor
+- [ ] Depo herkese açık, `v1.8.1-paper` etiketi ve sürüm DOI'si 10.5281/zenodo.22283192 görünüyor
