@@ -1,7 +1,7 @@
 # submission/SNAP-LRE — Language Resources and Evaluation (Springer Nature SNAPP)
 
 Portal: https://submission.springernature.com  (Editorial Manager DEĞİL)
-Manuscript state: release tag `v1.7.1-paper`, `paper/paper.md` sha256 791af135…
+Manuscript state: release tag `v1.7.2-paper`, `paper/paper.md` sha256 791af135…
 
 | Dosya | SNAPP'te nereye |
 |---|---|
